@@ -1,0 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amugisha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/01 22:23:51 by amugisha          #+#    #+#             */
+/*   Updated: 2025/01/11 01:12:55 by amugisha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "header.h"
+#include <unistd.h>
+
+void	errors(int error, t_vars *vars)
+{
+	(void)vars;
+	if (error == -1)
+	{
+		write(1, "./fractol Mandelbrot\n", 21);
+		write(1, "./fractol Julia x[double]", 25);
+		write(1, " y[double] limite[-1.5;1.5]\n", 28);
+		write(1, "./fractol JuliaMove \n", 21);
+	}
+	else if (error == -2)
+		write(1, "Probleme de malloc\n", 19);
+}
+
+int	ckeck(char *s, int l)
+{
+	if (l == 1)
+	{
+		if (len(s) != 10)
+			return (-1);
+	}
+	else if (l == 2)
+	{
+		if (len(s) != 5)
+			return (-1);
+	}
+	else
+	{
+		if (len(s) != 9)
+			return (-1);
+	}
+	return (0);
+}
