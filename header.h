@@ -14,6 +14,8 @@
 # define HEADER_H
 
 # include <stddef.h>
+# include <math.h>
+# include <stdlib.h>
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 typedef struct s_data {
@@ -50,14 +52,17 @@ typedef struct s_vars {
 int		closey(t_vars *vars);
 int		zoom(int button, int x, int y, t_vars *vars);
 int		key(int keycode, t_vars *vars);
+void	calcule_dragon(t_vars *vars);
+void	calcule_b(t_vars *vars, int x, int y);
 void	calcule_m(t_vars *vars, int x, int y);
 void	calcule_j(t_vars *vars, int x, int y);
-void	calcule_t(t_vars *vars, int x, int y);
 void	fractal(t_vars *vars, void (*calcule)(t_vars *, int, int));
 int		check_arg(int arg, char **argv, t_vars *vars);
 int		check_arg_julia(char *src, int c, t_vars *vars);
 void	errors(int error, t_vars *vars);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int		vars_set_dragon(t_vars *vars);
+int		vars_set_burning_ship(t_vars *vars);
 int		vars_set_mandelbrot(t_vars *vars);
 int		vars_set_julia(t_vars *vars);
 void	function_asymptote(int button, double x, double y, t_vars *vars);

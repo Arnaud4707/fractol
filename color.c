@@ -78,7 +78,7 @@ int	precalculate_colors_r(t_vars *vars)
 		return (-2);
 	while (i < (int)vars->max_iteration)
 	{
-		vars->palette[i] = (i * 15) % 256 << 16
+		vars->palette[i] = (i * 5) % 256 << 16
 			| 0 << 8
 			| 0;
 		i++;

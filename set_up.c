@@ -46,8 +46,13 @@ void	set_color(int keycode, t_vars *vars)
 	mlx_clear_window(vars->mlx, vars->win);
 	if (vars->f == 1)
 		fractal(vars, calcule_m);
-	else
+	else if (vars->f == 2 || vars->f == 3)
 		fractal(vars, calcule_j);
+	else if (vars->f == 4)
+		fractal(vars, calcule_b);
+	else
+		calcule_dragon(vars);
+
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 }
 
@@ -72,6 +77,51 @@ int	vars_set_julia_move(t_vars *vars)
 	vars->zi = 0;
 	return (precalculate_colors(vars));
 }
+
+int	vars_set_burning_ship(t_vars *vars)
+{
+	vars->name = "Fractal Burning ship";
+	vars->max_iteration = 50;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -2;
+	vars->xmax = 0.5;
+	vars->ymin = -1.25;
+	vars->ymax = 1.25;
+	vars->f = 4;
+	vars->color = 1;
+	vars->play = 1;
+	vars->zoom_i = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (precalculate_colors(vars));
+}
+
+int	vars_set_dragon(t_vars *vars)
+{
+	vars->name = "Fractal Dragon Curse";
+	vars->max_iteration = 50;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -2;
+	vars->xmax = 0.5;
+	vars->ymin = -1.25;
+	vars->ymax = 1.25;
+	vars->f = 5;
+	vars->color = 1;
+	vars->play = 1;
+	vars->zoom_i = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (precalculate_colors(vars));
+}
+
 
 int	vars_set_mandelbrot(t_vars *vars)
 {

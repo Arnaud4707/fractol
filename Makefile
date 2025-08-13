@@ -42,7 +42,7 @@ MAIN = main.c
 
 $(NAME): $(MLX) $(LIB) $(OBJM)
 	@echo $(BRUN) "Compiling fractol..."
-	@$(CC) $(CFLAGS) $(OBJM) -L. -l fractol -Lmlx -lmlx -L/usr/lib/x86-64-linux-gnu -lXext -lX11 -lm -lz -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJM) $(LIB) -Lmlx -lmlx -L/usr/lib/x86-64-linux-gnu -lXext -lX11 -lm -lz -o $(NAME)
 	@echo $(GREEN) "OK : Compile fractol"
 
 $(LIB): $(OBJ)

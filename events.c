@@ -43,8 +43,12 @@ int	zoom(int button, int x, int y, t_vars *vars)
 	set_color(vars->color, vars);
 	if (vars->f == 1)
 		fractal(vars, calcule_m);
-	else
+	else if (vars->f == 2 || vars->f == 3)
 		fractal(vars, calcule_j);
+	else if (vars->f == 4)
+		fractal(vars, calcule_b);
+	else
+		calcule_dragon(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	return (0);
 }
@@ -62,8 +66,12 @@ int	arrow(int keycode, t_vars *vars)
 		vertical(keycode, vars);
 	if (vars->f == 1)
 		fractal(vars, calcule_m);
-	else
+	else if (vars->f == 2 || vars->f == 3)
 		fractal(vars, calcule_j);
+	else if (vars->f == 4)
+		fractal(vars, calcule_b);
+	else
+		calcule_dragon(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	return (0);
 }

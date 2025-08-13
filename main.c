@@ -60,8 +60,12 @@ int	main(int arg, char **argv)
 		return (0);
 	if (vars.f == 1)
 		fractal(&vars, calcule_m);
-	else
+	else if (vars.f == 2 || vars.f == 3)
 		fractal(&vars, calcule_j);
+	else if (vars.f == 4)
+		fractal(&vars, calcule_b);
+	else
+		calcule_dragon(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 0, 0);
 	event(&vars);
 	mlx_loop(vars.mlx);
