@@ -26,9 +26,11 @@ CC = cc
 HEADERM = mlx/mlx.h
 HEADER =  header.h
 LIB = libfractol.a
-SRC = ft_strncmp.c fractal.c events.c set_up.c\
-       verification.c utils.c color.c zoom.c\
-       error.c color_d.c
+SRC = ft_strncmp.c fractal.c events.c set_up.c \
+       verification.c utils.c color.c zoom.c \
+       error.c color_d.c dragon.c fractal_bis.c \
+	   animation.c
+	   
 OBJ = $(SRC:.c=.o)
 OBJM = $(MAIN:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -I $(HEADERM) -I $(HEADER) -g3 -O3
@@ -40,7 +42,7 @@ MAIN = main.c
 %.o: %.c
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
-$(NAME): $(MLX) $(LIB) $(OBJM)
+$(NAME): $(MLX) $(LIB) $(OBJM) $(HEADER)
 	@echo $(BRUN) "Compiling fractol..."
 	@$(CC) $(CFLAGS) $(OBJM) $(LIB) -Lmlx -lmlx -L/usr/lib/x86-64-linux-gnu -lXext -lX11 -lm -lz -o $(NAME)
 	@echo $(GREEN) "OK : Compile fractol"

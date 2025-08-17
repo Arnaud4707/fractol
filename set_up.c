@@ -50,6 +50,10 @@ void	set_color(int keycode, t_vars *vars)
 		fractal(vars, calcule_j);
 	else if (vars->f == 4)
 		fractal(vars, calcule_b);
+	else if (vars->f == 6)
+		fractal(vars, calcule_m6);
+	else if (vars->f == 8)
+		fractal(vars, calcule_m4);
 	else
 		calcule_dragon(vars);
 
@@ -103,13 +107,13 @@ int	vars_set_burning_ship(t_vars *vars)
 int	vars_set_dragon(t_vars *vars)
 {
 	vars->name = "Fractal Dragon Curse";
-	vars->max_iteration = 50;
+	vars->max_iteration = 15;
 	vars->largeur = 800;
 	vars->hauteur = 800;
-	vars->xmin = -2;
-	vars->xmax = 0.5;
-	vars->ymin = -1.25;
-	vars->ymax = 1.25;
+	vars->xmin = 200;
+	vars->xmax = 400;
+	vars->ymin = 600;
+	vars->ymax = 400;
 	vars->f = 5;
 	vars->color = 1;
 	vars->play = 1;
@@ -122,7 +126,6 @@ int	vars_set_dragon(t_vars *vars)
 	return (precalculate_colors(vars));
 }
 
-
 int	vars_set_mandelbrot(t_vars *vars)
 {
 	vars->name = "Fractal Mandelbrot";
@@ -134,6 +137,138 @@ int	vars_set_mandelbrot(t_vars *vars)
 	vars->ymin = -1.25;
 	vars->ymax = 1.25;
 	vars->f = 1;
+	vars->color = 1;
+	vars->play = 1;
+	vars->zoom_i = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (precalculate_colors(vars));
+}
+
+int	vars_set_mandelbrot4(t_vars *vars)
+{
+	vars->name = "Fractal Mandelbrot Z pussance 4";
+	vars->max_iteration = 50;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -1.25;
+	vars->xmax = 1.25;
+	vars->ymin = -1.25;
+	vars->ymax = 1.25;
+	vars->f = 8;
+	vars->color = 1;
+	vars->play = 1;
+	vars->zoom_i = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (precalculate_colors(vars));
+}
+
+int	vars_set_mandelbrot6(t_vars *vars)
+{
+	vars->name = "Fractal Mandelbrot Z pussance 6";
+	vars->max_iteration = 50;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -1.25;
+	vars->xmax = 1.25;
+	vars->ymin = -1.25;
+	vars->ymax = 1.25;
+	vars->f = 6;
+	vars->color = 1;
+	vars->play = 1;
+	vars->zoom_i = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (precalculate_colors(vars));
+}
+
+int	vars_set_Buddhabrot(t_vars *vars)
+{
+	vars->name = "Fractal Buddhabrot";
+	vars->max_iteration = 100;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -2;
+	vars->xmax = 2;
+	vars->ymin = -2;
+	vars->ymax = 2;
+	vars->f = 7;
+	vars->color = 1;
+	vars->play = 1;
+	vars->zoom_i = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (precalculate_colors(vars));
+}
+
+int	vars_set_BuddhabrotA(t_vars *vars)
+{
+	vars->name = "Fractal Buddhabrot Animed";
+	vars->max_iteration = 100;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -2;
+	vars->xmax = 2;
+	vars->ymin = -2;
+	vars->ymax = 2;
+	vars->f = 11;
+	vars->color = 1;
+	vars->play = 1;
+	vars->zoom_i = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (precalculate_colors(vars));
+}
+
+int	vars_set_Buddhabrot2(t_vars *vars)
+{
+	vars->name = "Fractal Buddhabrot Colored";
+	vars->max_iteration = 100;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -2;
+	vars->xmax = 2;
+	vars->ymin = -2;
+	vars->ymax = 2;
+	vars->f = 9;
+	vars->color = 1;
+	vars->play = 1;
+	vars->zoom_i = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (precalculate_colors(vars));
+}
+
+int	vars_set_Buddhabrot3(t_vars *vars)
+{
+	vars->name = "Fractal Buddhabrot Psyke";
+	vars->max_iteration = 100;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -2;
+	vars->xmax = 2;
+	vars->ymin = -2;
+	vars->ymax = 2;
+	vars->f = 10;
 	vars->color = 1;
 	vars->play = 1;
 	vars->zoom_i = 0;

@@ -27,6 +27,11 @@ int	init(int arg, char **argv, t_vars *vars)
 {
 	int	error;
 
+	vars->zoomm = 1.0;
+	vars->offsetX = 0.0;
+	vars->offsetY = 0.0;
+	vars->hue_shift = 0.00;
+
 	error = check_arg(arg, argv, vars);
 	if (error != 0)
 	{
@@ -64,10 +69,22 @@ int	main(int arg, char **argv)
 		fractal(&vars, calcule_j);
 	else if (vars.f == 4)
 		fractal(&vars, calcule_b);
-	else
+	else if (vars.f == 6)
+		fractal(&vars, calcule_m6);
+	else if (vars.f == 7)
+		buddhabrot_thread(&vars);
+	else if (vars.f == 9)
+		buddhabrot_colored_thread(&vars);
+	else if (vars.f == 10)
+		buddhabrot_colored_p_thread(&vars);
+	else if (vars.f == 8)
+		fractal(&vars, calcule_m4);
+	else if (vars.f == 5)
 		calcule_dragon(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 0, 0);
 	event(&vars);
+	if (vars.f == 11)
+		mlx_loop_hook(vars.mlx, loop_hook, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }

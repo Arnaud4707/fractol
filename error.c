@@ -19,7 +19,12 @@ void	errors(int error, t_vars *vars)
 	if (error == -1)
 	{
 		write(1, "./fractol Dragon\n", 17);
+		write(1, "./fractol Buddhabrot\n", 21);
+		write(1, "./fractol Buddhabrot2\n", 22);
+		write(1, "./fractol Buddhabrot3\n", 22);
 		write(1, "./fractol BurningShip\n", 22);
+		write(1, "./fractol Mandelbrot4\n", 22);
+		write(1, "./fractol Mandelbrot6\n", 22);
 		write(1, "./fractol Mandelbrot\n", 21);
 		write(1, "./fractol Julia x[double]", 25);
 		write(1, " y[double] limite[-1.5;1.5]\n", 28);
@@ -54,6 +59,31 @@ int	ckeck(char *s, int l)
 	else if (l == 5)
 	{
 		if (len(s) != 6)
+			return (-1);
+	}
+	else if (l == 6)
+	{
+		if (len(s) != 11)
+			return (-1);
+	}
+	else if (l == 7)
+	{
+		if (len(s) != 10)
+			return (-1);
+	}
+	else if (l == 8)
+	{
+		if (len(s) != 11)
+			return (-1);
+	}
+	else if (l == 9)
+	{
+		if (len(s) != 11)
+			return (-1);
+	}
+	else if (l == 10)
+	{
+		if (len(s) != 11)
 			return (-1);
 	}
 	return (0);
