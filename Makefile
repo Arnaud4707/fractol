@@ -28,8 +28,10 @@ HEADER =  header.h
 LIB = libfractol.a
 SRC = ft_strncmp.c fractal.c events.c set_up.c \
        verification.c utils.c color.c zoom.c \
-       error.c color_d.c dragon.c fractal_bis.c \
-	   animation.c
+       error.c color_b.c dragon.c fractal_bis.c \
+	   animation_buddhabrot.c color_c.c color_d.c \
+	   animation_mandelbrot.c animation_zoom_mandelbrot.c \
+	   animation_buddhabrot_2.c
 	   
 OBJ = $(SRC:.c=.o)
 OBJM = $(MAIN:.c=.o)

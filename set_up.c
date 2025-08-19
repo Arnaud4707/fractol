@@ -41,9 +41,9 @@ void	palette_color(int keycode, t_vars *vars)
 
 void	set_color(int keycode, t_vars *vars)
 {
-	palette_color(keycode, vars);
+	if (vars->f != 7 && vars->f != 9 && vars->f != 11)
+		palette_color(keycode, vars);
 	vars->color = keycode;
-	mlx_clear_window(vars->mlx, vars->win);
 	if (vars->f == 1)
 		fractal(vars, calcule_m);
 	else if (vars->f == 2 || vars->f == 3)
@@ -52,12 +52,14 @@ void	set_color(int keycode, t_vars *vars)
 		fractal(vars, calcule_b);
 	else if (vars->f == 6)
 		fractal(vars, calcule_m6);
-	else if (vars->f == 8)
-		fractal(vars, calcule_m4);
-	else
+	else if (vars->f == 7)
+		buddhabrot_thread(vars);
+	else if (vars->f == 9)
+		buddhabrot_colored_thread(vars);
+	else if (vars->f == 5)
 		calcule_dragon(vars);
-
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	if (vars->f != 8 && vars->f != 10)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 }
 
 int	vars_set_julia_move(t_vars *vars)
@@ -151,11 +153,11 @@ int	vars_set_mandelbrot(t_vars *vars)
 int	vars_set_mandelbrot4(t_vars *vars)
 {
 	vars->name = "Fractal Mandelbrot Z pussance 4";
-	vars->max_iteration = 50;
-	vars->largeur = 800;
-	vars->hauteur = 800;
-	vars->xmin = -1.25;
-	vars->xmax = 1.25;
+	vars->max_iteration = 100;
+	vars->largeur = 400;
+	vars->hauteur = 400;
+	vars->xmin = -2.0;
+	vars->xmax = 0.5;
 	vars->ymin = -1.25;
 	vars->ymax = 1.25;
 	vars->f = 8;
@@ -167,7 +169,7 @@ int	vars_set_mandelbrot4(t_vars *vars)
 	vars->ci = 0;
 	vars->zr = 0;
 	vars->zi = 0;
-	return (precalculate_colors(vars));
+	return (precalculate_colors_5(vars));
 }
 
 int	vars_set_mandelbrot6(t_vars *vars)
@@ -195,9 +197,9 @@ int	vars_set_mandelbrot6(t_vars *vars)
 int	vars_set_Buddhabrot(t_vars *vars)
 {
 	vars->name = "Fractal Buddhabrot";
-	vars->max_iteration = 100;
-	vars->largeur = 800;
-	vars->hauteur = 800;
+	vars->max_iteration = 50;
+	vars->largeur = WIDTH;
+	vars->hauteur = HEIGHT;
 	vars->xmin = -2;
 	vars->xmax = 2;
 	vars->ymin = -2;
@@ -205,21 +207,23 @@ int	vars_set_Buddhabrot(t_vars *vars)
 	vars->f = 7;
 	vars->color = 1;
 	vars->play = 1;
+	vars->key = 32;
+	vars->current_key = 0;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
 	vars->zi = 0;
-	return (precalculate_colors(vars));
+	return (0);
 }
 
 int	vars_set_BuddhabrotA(t_vars *vars)
 {
 	vars->name = "Fractal Buddhabrot Animed";
 	vars->max_iteration = 100;
-	vars->largeur = 800;
-	vars->hauteur = 800;
+	vars->largeur = WIDTH;
+	vars->hauteur = HEIGHT;
 	vars->xmin = -2;
 	vars->xmax = 2;
 	vars->ymin = -2;
@@ -233,21 +237,22 @@ int	vars_set_BuddhabrotA(t_vars *vars)
 	vars->ci = 0;
 	vars->zr = 0;
 	vars->zi = 0;
-	return (precalculate_colors(vars));
+	return (0);
 }
 
 int	vars_set_Buddhabrot2(t_vars *vars)
 {
 	vars->name = "Fractal Buddhabrot Colored";
 	vars->max_iteration = 100;
-	vars->largeur = 800;
-	vars->hauteur = 800;
+	vars->largeur = WIDTH;
+	vars->hauteur = HEIGHT;
 	vars->xmin = -2;
 	vars->xmax = 2;
 	vars->ymin = -2;
 	vars->ymax = 2;
 	vars->f = 9;
 	vars->color = 1;
+	vars->key = 65433;
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
@@ -255,15 +260,15 @@ int	vars_set_Buddhabrot2(t_vars *vars)
 	vars->ci = 0;
 	vars->zr = 0;
 	vars->zi = 0;
-	return (precalculate_colors(vars));
+	return (0);
 }
 
-int	vars_set_Buddhabrot3(t_vars *vars)
+int	vars_set_MandelbrotA(t_vars *vars)
 {
-	vars->name = "Fractal Buddhabrot Psyke";
-	vars->max_iteration = 100;
-	vars->largeur = 800;
-	vars->hauteur = 800;
+	vars->name = "Fractal Mandelbrot Animation";
+	vars->max_iteration = 50;
+	vars->largeur = WIDTH_ANIMATION;
+	vars->hauteur = HEIGHT_ANIMATION;
 	vars->xmin = -2;
 	vars->xmax = 2;
 	vars->ymin = -2;
@@ -283,9 +288,9 @@ int	vars_set_Buddhabrot3(t_vars *vars)
 int	vars_set_julia(t_vars *vars)
 {
 	vars->name = "Fractal Julia";
-	vars->max_iteration = 50;
-	vars->largeur = 700;
-	vars->hauteur = 700;
+	vars->max_iteration = 250;
+	vars->largeur = 800;
+	vars->hauteur = 800;
 	vars->xmin = -1.5;
 	vars->xmax = 1.5;
 	vars->ymin = -1.5;

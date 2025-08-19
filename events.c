@@ -26,6 +26,11 @@ int	closey(t_vars *vars)
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	free(vars->img);
+	if (vars->f == 10)
+	{
+		free(vars->img_animation_mandelbrot[0]);
+		free(vars->img_animation_mandelbrot[1]);
+	}
 	free(vars->palette);
 	exit(0);
 	return (0);
@@ -36,6 +41,7 @@ int	zoom(int button, int x, int y, t_vars *vars)
 	double	tmpx;
 	double	tmpy;
 
+	// printf("x : %d | y : %d\n", x, y);
 	if (vars->f == 5 && button == 4)
 		zoom_dragon(vars, 0.8);
 	else if (vars->f == 5 && button == 5)
@@ -47,7 +53,8 @@ int	zoom(int button, int x, int y, t_vars *vars)
 		action_zoom(button, tmpx, tmpy, vars);
 	}
 	mlx_clear_window(vars->mlx, vars->win);
-	set_color(vars->color, vars);
+	if (vars->f == 1 || vars->f == 2 || vars->f == 3 || vars->f == 4)
+		set_color(vars->color, vars);
 	if (vars->f == 1)
 		fractal(vars, calcule_m);
 	else if (vars->f == 2 || vars->f == 3)
@@ -57,16 +64,13 @@ int	zoom(int button, int x, int y, t_vars *vars)
 	else if (vars->f == 6)
 		fractal(vars, calcule_m6);
 	else if (vars->f == 7)
-		buddhabrot(vars);
+		buddhabrot_thread(vars);
 	else if (vars->f == 9)
-		buddhabrot_colored(vars);
-	else if (vars->f == 10)
-		buddhabrot_colored_p(vars);
-	else if (vars->f == 8)
-		fractal(vars, calcule_m4);
-	else
+		buddhabrot_colored_thread(vars);
+	else if (vars->f == 5)
 		calcule_dragon(vars);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	if (vars->f != 10 && vars->f != 8)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	return (0);
 }
 void	zoom_dragon(t_vars* vars, double i)
@@ -109,14 +113,14 @@ int	arrow(int keycode, t_vars *vars)
 	else if (vars->f == 6)
 		fractal(vars, calcule_m6);
 	else if (vars->f == 7)
-		buddhabrot(vars);
+		buddhabrot_thread(vars);
 	else if (vars->f == 9)
-		buddhabrot_colored(vars);
+		buddhabrot_colored_thread(vars);
 	else if (vars->f == 10)
-		buddhabrot_colored_p(vars);
+		buddhabrot_colored_thread(vars);
 	else if (vars->f == 8)
 		fractal(vars, calcule_m4);
-	else
+	else if (vars->f == 5)
 		calcule_dragon(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	return (0);
@@ -140,7 +144,8 @@ int	key(int keycode, t_vars *vars)
 	(void)vars;
 	if (keycode == 65307)
 		closey(vars);
-	if (vars->f != 7 && vars->f != 9 && vars->f != 10 && vars->f != 11)
+	vars->key = keycode;
+	if (vars->f == 1 || vars->f == 2 || vars->f == 3 || vars->f == 4 || vars->f == 5)
 	{
 		if (keycode == 65361 || keycode == 65363
 			|| keycode == 65362 || keycode == 65364)
@@ -156,5 +161,21 @@ int	key(int keycode, t_vars *vars)
 			|| keycode == 65437)
 			set_color(keycode, vars);
 	}
+	else
+	{
+		if (vars->current_key != keycode && (keycode == 114 || keycode == 99 || keycode == 103
+			|| keycode == 98 || keycode == 112 || keycode == 121 || keycode == 32
+			|| keycode == 65436 || keycode == 65433 || keycode == 65435) && vars->f == 7)
+			set_color(keycode, vars);
+		else if (vars->current_key != keycode && (keycode == 32 || keycode == 65436 || keycode == 65433) && vars->f == 9)
+			set_color(keycode, vars);
+		else if ((keycode == 114 || keycode == 121 || keycode == 103
+			|| keycode == 98 || keycode == 65436
+			|| keycode == 65433 || keycode == 65435
+			|| keycode == 32 || keycode == 65430
+			|| keycode == 65437) && (vars->f == 10 || vars->f == 8))
+			palette_color(keycode, vars);
+	}
+	// printf("%d\n", keycode);
 	return (0);
 }

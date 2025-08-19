@@ -26,7 +26,7 @@ void	event(t_vars *vars)
 int	init(int arg, char **argv, t_vars *vars)
 {
 	int	error;
-
+	// usleep(10000000);
 	vars->zoomm = 1.0;
 	vars->offsetX = 0.0;
 	vars->offsetY = 0.0;
@@ -54,6 +54,20 @@ int	init(int arg, char **argv, t_vars *vars)
 	vars->img->addr = mlx_get_data_addr(vars->img->img,
 			&vars->img->bits_per_pixel, &vars->img->line_length,
 			&vars->img->endian);
+
+	if (vars->f == 10)
+	{
+		vars->img_animation_mandelbrot[0] = malloc(sizeof(t_data));
+		vars->img_animation_mandelbrot[1] = malloc(sizeof(t_data));
+		vars->current = 0;
+
+		vars->img_animation_mandelbrot[0]->img = mlx_new_image(vars->mlx, vars->largeur, vars->hauteur);
+		vars->img_animation_mandelbrot[1]->img = mlx_new_image(vars->mlx, vars->largeur, vars->hauteur);
+		vars->img_animation_mandelbrot[0]->addr = mlx_get_data_addr(vars->img_animation_mandelbrot[0]->img, &vars->img_animation_mandelbrot[0]->bits_per_pixel,
+											&vars->img_animation_mandelbrot[0]->line_length, &vars->img_animation_mandelbrot[0]->endian);
+		vars->img_animation_mandelbrot[1]->addr = mlx_get_data_addr(vars->img_animation_mandelbrot[1]->img, &vars->img_animation_mandelbrot[1]->bits_per_pixel,
+											&vars->img_animation_mandelbrot[1]->line_length, &vars->img_animation_mandelbrot[1]->endian);
+	}
 	return (0);
 }
 
@@ -61,6 +75,7 @@ int	main(int arg, char **argv)
 {
 	t_vars	vars;
 
+	// usleep(10000000);
 	if (init(arg, argv, &vars) != 0)
 		return (0);
 	if (vars.f == 1)
@@ -75,16 +90,16 @@ int	main(int arg, char **argv)
 		buddhabrot_thread(&vars);
 	else if (vars.f == 9)
 		buddhabrot_colored_thread(&vars);
-	else if (vars.f == 10)
-		buddhabrot_colored_p_thread(&vars);
-	else if (vars.f == 8)
-		fractal(&vars, calcule_m4);
 	else if (vars.f == 5)
 		calcule_dragon(&vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 0, 0);
-	event(&vars);
 	if (vars.f == 11)
-		mlx_loop_hook(vars.mlx, loop_hook, &vars);
+		mlx_loop_hook(vars.mlx, loop_hook_buddhabrot_thread, &vars);
+	else if (vars.f == 10)
+		mlx_loop_hook(vars.mlx, loop_hook_mandelbrot_pussance_n, &vars);
+	else if (vars.f == 8)
+		mlx_loop_hook(vars.mlx, loop_hook_zoom_mandelbrot, &vars);
+	event(&vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }

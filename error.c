@@ -86,5 +86,10 @@ int	ckeck(char *s, int l)
 		if (len(s) != 11)
 			return (-1);
 	}
+	else if (l == 11)
+	{
+		if (len(s) != 11)
+			return (-1);
+	}
 	return (0);
 }

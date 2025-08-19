@@ -90,7 +90,7 @@ int	check_arg(int arg, char **argv, t_vars *vars)
 	if (ft_strncmp(argv[1], "Buddhabrot", 10) != 0
 			|| ckeck(argv[1], 7) == -1)
 	{
-		if (ft_strncmp(argv[1], "Buddhabrot3", 11) != 0
+		if (ft_strncmp(argv[1], "MandelbrotA", 11) != 0
 			|| ckeck(argv[1], 10) == -1)
 		{
 			if (ft_strncmp(argv[1], "Buddhabrot2", 11) != 0
@@ -150,7 +150,7 @@ int	check_arg(int arg, char **argv, t_vars *vars)
 				error = vars_set_Buddhabrot2(vars);
 		}
 		else
-			error = vars_set_Buddhabrot3(vars);
+			error = vars_set_MandelbrotA(vars);
 	}
 	else
 		error = vars_set_Buddhabrot(vars);

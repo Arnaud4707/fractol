@@ -14,8 +14,10 @@
 # define HEADER_H
 
 # define HEIGHT 800
-# define SAMPLES 500000
+# define HEIGHT_ANIMATION 500
 # define WIDTH 800
+# define WIDTH_ANIMATION 500
+# define SAMPLES 500000
 # define MAX_ITER 1000
 
 # include <stddef.h>
@@ -26,7 +28,7 @@
 # include <string.h>
 # include <unistd.h>
 
-#define THREADS 20   // nombre de threads, adapte à ton CPU
+#define THREADS 20
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 typedef struct s_data {
@@ -41,6 +43,8 @@ typedef struct s_vars {
 	void	*mlx;
 	void	*win;
 	t_data	*img;
+    t_data  *img_animation_mandelbrot[2];
+	int     current;
 	double	max_iteration;
 	double	largeur;
 	double	hauteur;
@@ -56,33 +60,43 @@ typedef struct s_vars {
 	double	iy;
 	int		f;
 	int		color;
+	int		key;
+	int		current_key;
 	int		play;
 	int		*palette;
 	int		zoom_i;
-	double zoomm;
-	double offsetX;
-	double offsetY;
-	double hue_shift;
+	int		step;
+	double 	zoomm;
+	double	offsetX;
+	double 	offsetY;
+	double 	hue_shift;
 }				t_vars;
 
 typedef struct {
-    t_vars *vars;
-    int *accum_local;
-    int samples;
+    t_vars 	*vars;
+    int 	*accum_local;
+    int 	samples;
     unsigned int seed;
 } ThreadData;
 
 typedef struct {
-    t_vars *vars;
-    int *accumR;
-    int *accumG;
-    int *accumB;
-    int samples;
+    t_vars 	*vars;
+    int 	*accumR;
+    int 	*accumG;
+    int 	*accumB;
+    int 	samples;
     unsigned int seed;
 } ThreadDataColor;
 
+typedef struct {
+    t_vars 	*vars;
+    double	power;
+    int 	y_start;
+    int 	y_end;
+} ThreadDataMandelbrot;
+
+void	action_zoom(int button, double tmpx, double tmpy, t_vars *vars);
 int		closey(t_vars *vars);
-int		loop_hook(void *arg);
 int		zoom(int button, int x, int y, t_vars *vars);
 int		key(int keycode, t_vars *vars);
 void	buddhabrot(t_vars *vars);
@@ -90,40 +104,44 @@ void	buddhabrot_thread(t_vars *vars);
 void	buddhabrot_colored(t_vars *vars);
 void	buddhabrot_colored_thread(t_vars *vars);
 void	buddhabrot_colored_thread_animation(t_vars *vars);
+void	buddhabrot_colored_thread_animation_2(t_vars *vars);
 void	buddhabrot_colored_p(t_vars *vars);
-void	buddhabrot_colored_p_thread(t_vars *vars);
+void	*buddhabrot_colored_worker_animation(void *arg);
 void	calcule_dragon(t_vars *vars);
 void	calcule_b(t_vars *vars, int x, int y);
 void	calcule_m(t_vars *vars, int x, int y);
 void	calcule_m4(t_vars *vars, int x, int y);
 void	calcule_m6(t_vars *vars, int x, int y);
 void	calcule_j(t_vars *vars, int x, int y);
-void	zoom_dragon(t_vars* vars, double i);
-void	fractal(t_vars *vars, void (*calcule)(t_vars *, int, int));
 int		check_arg(int arg, char **argv, t_vars *vars);
 int		check_arg_julia(char *src, int c, t_vars *vars);
+int		ckeck(char *s, int l);
+void	colord_Buddhabrot(t_vars* vars, int x, int y);
+void	colord_Buddhabrot_r(t_vars* vars, int x, int y);
+void	colord_Buddhabrot_g(t_vars* vars, int x, int y);
+void	colord_Buddhabrot_b(t_vars* vars, int x, int y);
+void	colord_Buddhabrot_y(t_vars* vars, int x, int y);
+void	colord_Buddhabrot_c(t_vars* vars, int x, int y);
+void	colord_Buddhabrot_p(t_vars* vars, int x, int y);
+void	color_buddhabrot_colored_p(t_vars* vars, int *accumR_global, int *accumG_global, int *accumB_global);
 void	errors(int error, t_vars *vars);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int		vars_set_dragon(t_vars *vars);
-int		vars_set_mandelbrot4(t_vars *vars);
-int		vars_set_burning_ship(t_vars *vars);
-int		vars_set_mandelbrot(t_vars *vars);
-int		vars_set_Buddhabrot(t_vars *vars);
-int		vars_set_BuddhabrotA(t_vars *vars);
-int		vars_set_Buddhabrot3(t_vars *vars);
-int		vars_set_Buddhabrot2(t_vars *vars);
-int		vars_set_mandelbrot6(t_vars *vars);
-void	rotate_image_90_clockwise(t_vars *vars);
-int		vars_set_julia(t_vars *vars);
+void	fractal(t_vars *vars, void (*calcule)(t_vars *, int, int));
 void	function_asymptote(int button, double x, double y, t_vars *vars);
-void	horizontal(int keycode, t_vars *vars);
-void	vertical(int keycode, t_vars *vars);
-int		vars_set_julia_move(t_vars *vars);
-void	set_color(int keycode, t_vars *vars);
 void	function_asymptote_click(int button, double x, double y, t_vars *vars);
-void	action_zoom(int button, double tmpx, double tmpy, t_vars *vars);
-int		len(char *str);
+double	gamma_correct(double value);
+void	horizontal(int keycode, t_vars *vars);
+void    hsv_to_rgb(double h, double s, double v, int *r, int *g, int *b);
 int		julia_move(int x, int y, t_vars *vars);
+int		len(char *str);
+int		loop_hook_buddhabrot_thread(void *arg);
+int 	loop_hook_mandelbrot_pussance_n(t_vars *vars);
+int 	loop_hook_mandelbrot_pussance_n_thread(t_vars *vars);
+int		loop_hook_zoom_mandelbrot(t_vars* vars);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	palette_color(int keycode, t_vars *vars);
+int		palette_test(double norm);
+int 	palette_fire(double t);
+int 	palette_linear(double norm);
 int		precalculate_colors(t_vars *vars);
 int		precalculate_colors_1(t_vars *vars);
 int		precalculate_colors_2(t_vars *vars);
@@ -134,8 +152,22 @@ int		precalculate_colors_b(t_vars *vars);
 int		precalculate_colors_y(t_vars *vars);
 int		precalculate_colors_4(t_vars *vars);
 int		precalculate_colors_5(t_vars *vars);
-int		len(char *str);
-int		ckeck(char *s, int l);
-double	gamma_correct(double value);
+void	prepare_color_buddhabrot_thread(t_vars* vars, int *accumR_global, int *accumG_global, int *accumB_global);
+void	prepare_color_buddhabrot(t_vars* vars, int x, int y, double norm);
+void	rotate_image_90_clockwise(t_vars *vars);
+void	set_color(int keycode, t_vars *vars);
+int		vars_set_burning_ship(t_vars *vars);
+int		vars_set_Buddhabrot(t_vars *vars);
+int		vars_set_BuddhabrotA(t_vars *vars);
+int		vars_set_Buddhabrot2(t_vars *vars);
+int		vars_set_dragon(t_vars *vars);
+int		vars_set_julia(t_vars *vars);
+int		vars_set_julia_move(t_vars *vars);
+int		vars_set_mandelbrot4(t_vars *vars);
+int		vars_set_mandelbrot(t_vars *vars);
+int		vars_set_mandelbrot6(t_vars *vars);
+int		vars_set_MandelbrotA(t_vars *vars);
+void	vertical(int keycode, t_vars *vars);
+void	zoom_dragon(t_vars* vars, double i);
 
 #endif
