@@ -13,18 +13,18 @@
 #include "mlx/mlx.h"
 #include "header.h"
 
-// int	loop_hook_buddhabrot_thread(void *arg)
-// {
-//     t_vars *vars = (t_vars *)arg;
+int	loop_hook_buddhabrot_thread_2(void *arg)
+{
+    t_vars *vars = (t_vars *)arg;
 
-//     buddhabrot_colored_thread_animation(vars);
-//     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-//     // limiter la vitesse (optionnel) : ~30 FPS -> 33ms = 33000us
-//     usleep(33000);
-//     // usleep(330);
+    buddhabrot_colored_thread_animation_2(vars);
+    mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+    // limiter la vitesse (optionnel) : ~30 FPS -> 33ms = 33000us
+    usleep(1000);
+    // usleep(330);
 
-//     return 0;
-// }
+    return 0;
+}
 
 void    hsv_to_rgb(double h, double s, double v, int *r, int *g, int *b)
 {
@@ -114,8 +114,12 @@ void	buddhabrot_colored_thread_animation_2(t_vars *vars)
     rotate_image_90_clockwise(vars);
 
     hue_shift += 0.5;
-    if (hue_shift >= 360.0) hue_shift -= 360.0;
-
+    if (hue_shift >= 360.0)
+    {
+        hue_shift -= 360.0;
+        vars->zoomm = 1;
+    }
+	vars->zoomm *= -1.01;
 }
 
 

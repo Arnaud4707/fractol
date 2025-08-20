@@ -26,15 +26,15 @@ void zoom_towards_point(t_vars *vars, double target_x, double target_y, double f
 
 int	loop_hook_zoom_mandelbrot(t_vars* vars)
 {
-    double tx = -1.8001;
-    double ty = -0.00000000000000000000000000000000000000001;
-	if (vars->step == 10)
+    double tx = -1.62912294416127;
+    double ty = -0.02065545758185;
+	if (vars->step == 20)
 	{
-		if (vars->max_iteration < 1000.0)
+		if (vars->max_iteration < 100000.0)
 			vars->max_iteration *= 1.2;
 		vars->step = 0;
 	}
-	if (vars->ymax > 0.0000000000001)
+	if (vars->ymax > -0.02065557)
 		zoom_towards_point(vars, tx, ty, 1.02);
     fractal(vars, calcule_m);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);

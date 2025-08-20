@@ -50,8 +50,6 @@ void	set_color(int keycode, t_vars *vars)
 		fractal(vars, calcule_j);
 	else if (vars->f == 4)
 		fractal(vars, calcule_b);
-	else if (vars->f == 6)
-		fractal(vars, calcule_m6);
 	else if (vars->f == 7)
 		buddhabrot_thread(vars);
 	else if (vars->f == 9)
@@ -150,13 +148,13 @@ int	vars_set_mandelbrot(t_vars *vars)
 	return (precalculate_colors(vars));
 }
 
-int	vars_set_mandelbrot4(t_vars *vars)
+int	vars_set_mandelbrot_zoom(t_vars *vars)
 {
 	vars->name = "Fractal Mandelbrot Z pussance 4";
 	vars->max_iteration = 100;
 	vars->largeur = 400;
 	vars->hauteur = 400;
-	vars->xmin = -2.0;
+	vars->xmin = -2;
 	vars->xmax = 0.5;
 	vars->ymin = -1.25;
 	vars->ymax = 1.25;
@@ -172,16 +170,16 @@ int	vars_set_mandelbrot4(t_vars *vars)
 	return (precalculate_colors_5(vars));
 }
 
-int	vars_set_mandelbrot6(t_vars *vars)
+int	vars_set_buddhabrot_animation_2(t_vars *vars)
 {
-	vars->name = "Fractal Mandelbrot Z pussance 6";
+	vars->name = "Fractal Buddhabrot animation 2";
 	vars->max_iteration = 50;
-	vars->largeur = 800;
-	vars->hauteur = 800;
-	vars->xmin = -1.25;
-	vars->xmax = 1.25;
-	vars->ymin = -1.25;
-	vars->ymax = 1.25;
+	vars->largeur = WIDTH;
+	vars->hauteur = HEIGHT;
+	vars->xmin = -2;
+	vars->xmax = 2;
+	vars->ymin = -2;
+	vars->ymax = 2;
 	vars->f = 6;
 	vars->color = 1;
 	vars->play = 1;
@@ -191,7 +189,7 @@ int	vars_set_mandelbrot6(t_vars *vars)
 	vars->ci = 0;
 	vars->zr = 0;
 	vars->zi = 0;
-	return (precalculate_colors(vars));
+	return (0);
 }
 
 int	vars_set_Buddhabrot(t_vars *vars)
@@ -207,7 +205,7 @@ int	vars_set_Buddhabrot(t_vars *vars)
 	vars->f = 7;
 	vars->color = 1;
 	vars->play = 1;
-	vars->key = 32;
+	vars->key = 65430;
 	vars->current_key = 0;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
@@ -252,7 +250,7 @@ int	vars_set_Buddhabrot2(t_vars *vars)
 	vars->ymax = 2;
 	vars->f = 9;
 	vars->color = 1;
-	vars->key = 65433;
+	vars->key = 32;
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
@@ -260,7 +258,7 @@ int	vars_set_Buddhabrot2(t_vars *vars)
 	vars->ci = 0;
 	vars->zr = 0;
 	vars->zi = 0;
-	return (0);
+	return (precalculate_color_buddhabrot(vars), 0);
 }
 
 int	vars_set_MandelbrotA(t_vars *vars)

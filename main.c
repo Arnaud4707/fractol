@@ -12,8 +12,6 @@
 
 #include "mlx/mlx.h"
 #include "header.h"
-#include <stdlib.h>
-#include <unistd.h>
 
 void	event(t_vars *vars)
 {
@@ -54,20 +52,6 @@ int	init(int arg, char **argv, t_vars *vars)
 	vars->img->addr = mlx_get_data_addr(vars->img->img,
 			&vars->img->bits_per_pixel, &vars->img->line_length,
 			&vars->img->endian);
-
-	if (vars->f == 10)
-	{
-		vars->img_animation_mandelbrot[0] = malloc(sizeof(t_data));
-		vars->img_animation_mandelbrot[1] = malloc(sizeof(t_data));
-		vars->current = 0;
-
-		vars->img_animation_mandelbrot[0]->img = mlx_new_image(vars->mlx, vars->largeur, vars->hauteur);
-		vars->img_animation_mandelbrot[1]->img = mlx_new_image(vars->mlx, vars->largeur, vars->hauteur);
-		vars->img_animation_mandelbrot[0]->addr = mlx_get_data_addr(vars->img_animation_mandelbrot[0]->img, &vars->img_animation_mandelbrot[0]->bits_per_pixel,
-											&vars->img_animation_mandelbrot[0]->line_length, &vars->img_animation_mandelbrot[0]->endian);
-		vars->img_animation_mandelbrot[1]->addr = mlx_get_data_addr(vars->img_animation_mandelbrot[1]->img, &vars->img_animation_mandelbrot[1]->bits_per_pixel,
-											&vars->img_animation_mandelbrot[1]->line_length, &vars->img_animation_mandelbrot[1]->endian);
-	}
 	return (0);
 }
 
@@ -79,13 +63,11 @@ int	main(int arg, char **argv)
 	if (init(arg, argv, &vars) != 0)
 		return (0);
 	if (vars.f == 1)
-		fractal(&vars, calcule_m);
+		drawMenger2D(&vars, 5);
 	else if (vars.f == 2 || vars.f == 3)
 		fractal(&vars, calcule_j);
 	else if (vars.f == 4)
 		fractal(&vars, calcule_b);
-	else if (vars.f == 6)
-		fractal(&vars, calcule_m6);
 	else if (vars.f == 7)
 		buddhabrot_thread(&vars);
 	else if (vars.f == 9)
@@ -99,6 +81,8 @@ int	main(int arg, char **argv)
 		mlx_loop_hook(vars.mlx, loop_hook_mandelbrot_pussance_n, &vars);
 	else if (vars.f == 8)
 		mlx_loop_hook(vars.mlx, loop_hook_zoom_mandelbrot, &vars);
+	else if (vars.f == 6)
+		mlx_loop_hook(vars.mlx, loop_hook_buddhabrot_thread_2, &vars);
 	event(&vars);
 	mlx_loop(vars.mlx);
 	return (0);

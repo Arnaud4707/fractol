@@ -17,11 +17,9 @@ int	loop_hook_buddhabrot_thread(void *arg)
 {
     t_vars *vars = (t_vars *)arg;
 
-    buddhabrot_colored_thread_animation_2(vars);
+    buddhabrot_colored_thread_animation(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-    // limiter la vitesse (optionnel) : ~30 FPS -> 33ms = 33000us
     usleep(1000);
-    // usleep(330);
 
     return 0;
 }
@@ -31,7 +29,6 @@ void	*buddhabrot_colored_worker_animation(void *arg)
     ThreadDataColor *data = (ThreadDataColor *)arg;
 
     for (int s = 0; s < data->samples; s++) {
-        // Coordonnées aléatoires dépendant du data->vars->zoomm/offset
         double cr = ((double)rand_r(&data->seed) / RAND_MAX) * 4.0 / data->vars->zoomm - 2.0/data->vars->zoomm + data->vars->offsetX;
         double ci = ((double)rand_r(&data->seed) / RAND_MAX) * 4.0 / data->vars->zoomm - 2.0/data->vars->zoomm + data->vars->offsetY;
 
@@ -131,7 +128,6 @@ void	buddhabrot_colored_thread_animation(t_vars *vars)
             int g = (maxG > 0) ? (int)(255.0 * sqrt((double)accumG_global[idx] / maxG)) : 0;
             int b = (maxB > 0) ? (int)(255.0 * sqrt((double)accumB_global[idx] / maxB)) : 0;
 
-            // // décalage de teinte simple
             int red   = (r * cos(vars->hue_shift) + g * sin(vars->hue_shift));
             int green = (g * cos(vars->hue_shift) + b * sin(vars->hue_shift));
             int blue  = (b * cos(vars->hue_shift) + r * sin(vars->hue_shift));
@@ -145,11 +141,7 @@ void	buddhabrot_colored_thread_animation(t_vars *vars)
         }
     }
 
-    // if (vars->zoomm < 15.0)
-	//     vars->zoomm *= 1.1;
-	// vars->hue_shift += 0.03;
 	static int dir;
-    // static int dir_h;
 
     if (dir == 0)
 	{

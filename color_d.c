@@ -44,7 +44,7 @@ int palette_linear(double norm)
     return (r << 16) | (g << 8) | b;
 }
 
-int palette_test(double norm)
+int palette_or(double norm)
 {
     int r, g, b;
     if (norm < 0.5) {
@@ -60,6 +60,19 @@ int palette_test(double norm)
     }
     return (r << 16) | (g << 8) | b;
 }
+
+int palette_test(double norm)
+{
+    int r;
+    int g;
+    int b;
+
+	r = (int)(255 * fmin(1.0, norm * 2.0));
+	g = (int)(255 * fmin(1.0, fmax(0.0, norm * 2.0 - 1.0)));
+	b = (int)(255 * fmax(0.0, norm * 2.0 - 2.0));
+    return (r << 16) | (g << 8) | b;
+}
+
 
 void	color_buddhabrot_colored_p(t_vars* vars, int *accumR_global, int *accumG_global, int *accumB_global)
 {
@@ -88,7 +101,8 @@ void	color_buddhabrot_colored_p(t_vars* vars, int *accumR_global, int *accumG_gl
             if (blue > 255) blue = 255;
 
             int color = (red << 16) | (green << 8) | blue;
-            my_mlx_pixel_put(vars->img, x, y, color);
+            char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+            *(unsigned int*)dst = color;
         }
 	}
 }
@@ -104,44 +118,29 @@ void	color_buddhabrot_colored(t_vars* vars, int *accumR_global, int *accumG_glob
 
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
-            int idx = y * (int)WIDTH + x;
-            int r = (maxR > 0) ? (int)(255.0 * sqrt((double)accumR_global[idx] / maxR)) : 0;
-            int g = (maxG > 0) ? (int)(255.0 * sqrt((double)accumG_global[idx] / maxG)) : 0;
-            int b = (maxB > 0) ? (int)(255.0 * sqrt((double)accumB_global[idx] / maxB)) : 0;
-
-            int color = (r << 16) | (g << 8) | b;
-            my_mlx_pixel_put(vars->img, x, y, color);
-        }
-    }
-}
-
-void	color_buddhabrot_colored_3(t_vars* vars, int *accumR_global, int *accumG_global, int *accumB_global)
-{
-	int maxR = 0, maxG = 0, maxB = 0;
-    for (int i = 0; i < WIDTH * HEIGHT; i++) {
-        if (accumR_global[i] > maxR) maxR = accumR_global[i];
-        if (accumG_global[i] > maxG) maxG = accumG_global[i];
-        if (accumB_global[i] > maxB) maxB = accumB_global[i];
-    }
-
-    for (int y = 0; y < HEIGHT; y++) {
-        for (int x = 0; x < WIDTH; x++) {
             int idx = y * WIDTH + x;
-
-            int r = (maxR > 0) ? (int)(255.0 * sqrt((double)accumR_global[idx] / maxR)) : 0;
-            int g = (maxG > 0) ? (int)(255.0 * sqrt((double)accumG_global[idx] / maxG)) : 0;
-            int b = (maxB > 0) ? (int)(255.0 * sqrt((double)accumB_global[idx] / maxB)) : 0;
-
-            int red   = (r * cos(vars->hue_shift) + g * sin(vars->hue_shift));
-            int green = (g * cos(vars->hue_shift) + b * sin(vars->hue_shift));
-            int blue  = (b * cos(vars->hue_shift) + r * sin(vars->hue_shift));
-
-            if (red > 255) red = 255; if (red < 0) red = 0;
-            if (green > 255) green = 255; if (green < 0) green = 0;
-            if (blue > 255) blue = 255; if (blue < 0) blue = 0;
-
-            int color = (red << 16) | (green << 8) | blue;
-            my_mlx_pixel_put(vars->img, x, y, color);
+            int r = 0, g = 0, b = 0;
+            if (maxR > 0) {
+                double norm = (double)accumR_global[idx] / maxR;
+                if (norm > 1.0) norm = 1.0;
+                int lut_idx = (int)(norm * (LUT_SIZE - 1));
+                r = (int)(255.0 * vars->sqrtLUT[lut_idx]);
+            }
+            if (maxG > 0) {
+                double norm = (double)accumG_global[idx] / maxG;
+                if (norm > 1.0) norm = 1.0;
+                int lut_idx = (int)(norm * (LUT_SIZE - 1));
+                g = (int)(255.0 * vars->sqrtLUT[lut_idx]);
+            }
+            if (maxB > 0) {
+                double norm = (double)accumB_global[idx] / maxB;
+                if (norm > 1.0) norm = 1.0;
+                int lut_idx = (int)(norm * (LUT_SIZE - 1));
+                b = (int)(255.0 * vars->sqrtLUT[lut_idx]);
+            }
+            int color = (r << 16) | (g << 8) | b;
+            char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+            *(unsigned int*)dst = color;
         }
     }
 }
@@ -174,7 +173,8 @@ void	color_buddhabrot_animation_2(t_vars* vars, int *accumR_global, int *accumG_
             hsv_to_rgb(h, s, v, &r, &g, &b);
 
             int color = (r << 16) | (g << 8) | b;
-            my_mlx_pixel_put(vars->img, x, y, color);
+            char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+            *(unsigned int*)dst = color;
         }
     }
     hue_shift += 0.5;
@@ -187,6 +187,4 @@ void	prepare_color_buddhabrot_thread(t_vars* vars, int *accumR_global, int *accu
 		color_buddhabrot_colored(vars, accumR_global, accumG_global, accumB_global);
     else if (vars->key == 65436)
         color_buddhabrot_colored_p(vars, accumR_global, accumG_global, accumB_global);
-    else if (vars->key == 65433)
-        color_buddhabrot_colored_3(vars, accumR_global, accumG_global, accumB_global);
 }

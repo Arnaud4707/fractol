@@ -16,48 +16,63 @@
 
 void	colord_Buddhabrot(t_vars* vars, int x, int y)
 {
-	my_mlx_pixel_put(vars->img, x, y, (vars->color << 16) | (vars->color << 8) | vars->color);
+	char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+	*(unsigned int*)dst = (vars->color << 16 | vars->color << 8 | vars->color);
 }
 
 void	colord_Buddhabrot_r(t_vars* vars, int x, int y)
 {
-	my_mlx_pixel_put(vars->img, x, y, (vars->color << 16));
+	char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+	*(unsigned int*)dst = vars->color << 16;
 }
 
 void	colord_Buddhabrot_g(t_vars* vars, int x, int y)
 {
-	my_mlx_pixel_put(vars->img, x, y, (vars->color << 8));
+	char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+	*(unsigned int*)dst = vars->color << 8;
 }
 
 void	colord_Buddhabrot_b(t_vars* vars, int x, int y)
 {
-	my_mlx_pixel_put(vars->img, x, y, vars->color);
+	char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+	*(unsigned int*)dst = vars->color;
 }
 
 void	colord_Buddhabrot_y(t_vars* vars, int x, int y)
 {
-	my_mlx_pixel_put(vars->img, x, y, (vars->color << 16) | (vars->color << 8));
+	char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+	*(unsigned int*)dst = (vars->color << 8 | vars->color << 8);
 }
 
 void	colord_Buddhabrot_c(t_vars* vars, int x, int y)
 {
-	my_mlx_pixel_put(vars->img, x, y, (vars->color << 8) | vars->color);
+	char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+	*(unsigned int*)dst = (vars->color << 8 | vars->color);
 }
 
 void	colord_Buddhabrot_p(t_vars* vars, int x, int y)
 {
-	my_mlx_pixel_put(vars->img, x, y, (vars->color << 16) | vars->color);
+	char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+	*(unsigned int*)dst = (vars->color << 16 | vars->color);
 }
 
 void	colord_Buddhabrot_fire(t_vars* vars, int x, int y, double norm)
 {
 	int color = palette_fire(norm);
-	my_mlx_pixel_put(vars->img, x, y, color);
+	char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
 }
 
 void	colord_Buddhabrot_linear(t_vars* vars, int x, int y, double norm)
 {
 	int color = palette_linear(norm);
+	char *dst = vars->img->addr + (y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
+void	colord_Buddhabrot_or(t_vars* vars, int x, int y, double norm)
+{
+	int color = palette_or(norm);
 	my_mlx_pixel_put(vars->img, x, y, color);
 }
 
@@ -65,6 +80,20 @@ void	colord_Buddhabrot_test(t_vars* vars, int x, int y, double norm)
 {
 	int color = palette_test(norm);
 	my_mlx_pixel_put(vars->img, x, y, color);
+}
+
+void    precalculate_color_buddhabrot(t_vars* vars)
+{
+    for (int i = 0; i < LUT_SIZE; i++)
+        vars->sqrtLUT[i] = sqrt((double)i / LUT_SIZE);
+}
+
+void	init_sqrtLUT(t_vars* vars)
+{
+    for (int i = 0; i < LUT_SIZE; i++) {
+        double norm = (double)i / (LUT_SIZE - 1);
+        vars->sqrtLUT[i] = sqrt(norm);
+    }
 }
 
 void	prepare_color_buddhabrot(t_vars* vars, int x, int y, double norm)
@@ -89,5 +118,7 @@ void	prepare_color_buddhabrot(t_vars* vars, int x, int y, double norm)
 	else if (vars->key == 65435)
 		colord_Buddhabrot_linear(vars, x, y, norm);
 	else if (vars->key == 65433)
+		colord_Buddhabrot_or(vars, x, y, norm);
+	else if (vars->key == 65430)
 		colord_Buddhabrot_test(vars, x, y, norm);
 }

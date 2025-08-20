@@ -63,7 +63,7 @@ int	ckeck(char *s, int l)
 	}
 	else if (l == 6)
 	{
-		if (len(s) != 11)
+		if (len(s) != 12)
 			return (-1);
 	}
 	else if (l == 7)
@@ -73,7 +73,7 @@ int	ckeck(char *s, int l)
 	}
 	else if (l == 8)
 	{
-		if (len(s) != 11)
+		if (len(s) != 15)
 			return (-1);
 	}
 	else if (l == 9)

@@ -12,7 +12,6 @@
 
 #include "header.h"
 #include <math.h>
-#include <stdlib.h>
 
 int	precalculate_colors_1(t_vars *vars)
 {

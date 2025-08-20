@@ -31,11 +31,11 @@ SRC = ft_strncmp.c fractal.c events.c set_up.c \
        error.c color_b.c dragon.c fractal_bis.c \
 	   animation_buddhabrot.c color_c.c color_d.c \
 	   animation_mandelbrot.c animation_zoom_mandelbrot.c \
-	   animation_buddhabrot_2.c
+	   animation_buddhabrot_2.c spong_menger.c
 	   
 OBJ = $(SRC:.c=.o)
 OBJM = $(MAIN:.c=.o)
-CFLAGS = -Wall -Wextra -Werror -I $(HEADERM) -I $(HEADER) -g3 -O3
+CFLAGS = -Wall -Wextra -Werror -I $(HEADERM) -I $(HEADER) -g3 -O3 -ffast-math -march=native -funroll-loops 
 MLX_PATH = mlx/
 MLX_NAME = libmlx.a
 MLX = $(MLX_PATH)$(MLX_NAME)

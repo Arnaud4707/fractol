@@ -10,12 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "mlx/mlx.h"
 #include "header.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <math.h>
 
 void	function_asymptote_click(int button, double x, double y, t_vars *vars)
 {

@@ -26,11 +26,6 @@ int	closey(t_vars *vars)
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	free(vars->img);
-	if (vars->f == 10)
-	{
-		free(vars->img_animation_mandelbrot[0]);
-		free(vars->img_animation_mandelbrot[1]);
-	}
 	free(vars->palette);
 	exit(0);
 	return (0);
@@ -61,8 +56,6 @@ int	zoom(int button, int x, int y, t_vars *vars)
 		fractal(vars, calcule_j);
 	else if (vars->f == 4)
 		fractal(vars, calcule_b);
-	else if (vars->f == 6)
-		fractal(vars, calcule_m6);
 	else if (vars->f == 7)
 		buddhabrot_thread(vars);
 	else if (vars->f == 9)
@@ -110,16 +103,12 @@ int	arrow(int keycode, t_vars *vars)
 		fractal(vars, calcule_j);
 	else if (vars->f == 4)
 		fractal(vars, calcule_b);
-	else if (vars->f == 6)
-		fractal(vars, calcule_m6);
 	else if (vars->f == 7)
 		buddhabrot_thread(vars);
 	else if (vars->f == 9)
 		buddhabrot_colored_thread(vars);
 	else if (vars->f == 10)
 		buddhabrot_colored_thread(vars);
-	else if (vars->f == 8)
-		fractal(vars, calcule_m4);
 	else if (vars->f == 5)
 		calcule_dragon(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
@@ -165,9 +154,9 @@ int	key(int keycode, t_vars *vars)
 	{
 		if (vars->current_key != keycode && (keycode == 114 || keycode == 99 || keycode == 103
 			|| keycode == 98 || keycode == 112 || keycode == 121 || keycode == 32
-			|| keycode == 65436 || keycode == 65433 || keycode == 65435) && vars->f == 7)
+			|| keycode == 65436 || keycode == 65433 || keycode == 65435 || keycode == 65430) && vars->f == 7)
 			set_color(keycode, vars);
-		else if (vars->current_key != keycode && (keycode == 32 || keycode == 65436 || keycode == 65433) && vars->f == 9)
+		else if (vars->current_key != keycode && (keycode == 32 || keycode == 65436) && vars->f == 9)
 			set_color(keycode, vars);
 		else if ((keycode == 114 || keycode == 121 || keycode == 103
 			|| keycode == 98 || keycode == 65436
@@ -176,6 +165,6 @@ int	key(int keycode, t_vars *vars)
 			|| keycode == 65437) && (vars->f == 10 || vars->f == 8))
 			palette_color(keycode, vars);
 	}
-	// printf("%d\n", keycode);
+	printf("%d\n", keycode);
 	return (0);
 }

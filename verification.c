@@ -108,10 +108,10 @@ int	check_arg(int arg, char **argv, t_vars *vars)
 							if (ft_strncmp(argv[1], "Mandelbrot", 10) != 0
 								|| ckeck(argv[1], 1) == -1)
 							{
-								if (ft_strncmp(argv[1], "Mandelbrot4", 11) != 0
+								if (ft_strncmp(argv[1], "Mandelbrot_zoom", 15) != 0
 									|| ckeck(argv[1], 8) == -1)
 								{
-									if (ft_strncmp(argv[1], "Mandelbrot6", 11) != 0
+									if (ft_strncmp(argv[1], "BuddhabrotA2", 12) != 0
 									|| ckeck(argv[1], 6) == -1)
 									{
 										if (ft_strncmp(argv[1], "JuliaMove", 9) != 0 || ckeck(argv[1], 3) == -1)
@@ -129,10 +129,10 @@ int	check_arg(int arg, char **argv, t_vars *vars)
 											error = vars_set_julia_move(vars);
 									}
 									else
-										error = vars_set_mandelbrot6(vars);
+										error = vars_set_buddhabrot_animation_2(vars);
 								}
 								else
-									error = vars_set_mandelbrot4(vars);
+									error = vars_set_mandelbrot_zoom(vars);
 							}
 							else
 								error = vars_set_mandelbrot(vars);
