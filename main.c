@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "mlx/mlx.h"
-#include "header.h"
+#include "include/header.h"
 
 void	event(t_vars *vars)
 {
@@ -63,7 +63,7 @@ int	main(int arg, char **argv)
 	if (init(arg, argv, &vars) != 0)
 		return (0);
 	if (vars.f == 1)
-		drawMenger2D(&vars, 5);
+		fractal(&vars, calcule_m);
 	else if (vars.f == 2 || vars.f == 3)
 		fractal(&vars, calcule_j);
 	else if (vars.f == 4)
@@ -74,6 +74,8 @@ int	main(int arg, char **argv)
 		buddhabrot_colored_thread(&vars);
 	else if (vars.f == 5)
 		calcule_dragon(&vars);
+	else if (vars.f == 12)
+		drawMenger2D(&vars, vars.max_iteration);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 0, 0);
 	if (vars.f == 11)
 		mlx_loop_hook(vars.mlx, loop_hook_buddhabrot_thread, &vars);
