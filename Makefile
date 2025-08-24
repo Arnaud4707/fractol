@@ -10,7 +10,7 @@ RESET  = '\033[0m'
 
 # -------------- Programme Name --------
 
-NAME = fractol
+NAME = prog
 
 # -------------- LIBS ------------------
 
@@ -54,7 +54,8 @@ SRC_PATH = $(addprefix $(SRC_DIR), $(SRC))
 
 OBJ_DIR = $(SRC_DIR)obj/
 OBJ      = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
-OBJ_MAIN = $(OBJ_DIR)main.o
+OBJ_MAIN = $(OBJ_DIR)main.o 
+OBJ_MENU = $(OBJ_DIR)menu.o
 
 # -------------- Rules ------------------
 
@@ -62,15 +63,15 @@ all: $(NAME)
 
 # ----- Compiling Programme ----
 
-$(NAME): $(MLX) $(LIBFT) $(LIB_FRACTAL)  $(OBJ_MAIN)
+$(NAME): $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
 	@echo $(BRUN) "Compiling fractol..."
 	@$(CC) $(CFLAGS) $(OBJ_MAIN) $(LIB_FRACTAL) $(LIBFT) -Lmlx -lmlx -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm -lz -o $(NAME)
 	@echo $(GREEN) "OK : Compile fractol" $(RESET)
 
 # ----- Linking libs -----------
 
-$(LIB_FRACTAL): $(OBJ)
-	@ar rcs -o $(LIB_FRACTAL) $(OBJ)
+$(LIB_FRACTAL): $(OBJ) $(OBJ_MENU)
+	@ar rcs -o $(LIB_FRACTAL) $(OBJ) $(OBJ_MENU)
 
 $(LIBFT):
 	@echo $(BRUN) "Making Libft..." $(RESET)
@@ -92,6 +93,11 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 $(OBJ_MAIN): main.c
 	@mkdir -p $(dir $@)
 	@printf "$(GREEN)Compiling main 🏹: $(WHITE)$< $(RESET)\n"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_MENU): menu/menu.c
+	@mkdir -p $(dir $@)
+	@printf "$(GREEN)Compiling menu 🏹: $(WHITE)$< $(RESET)\n"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # ----- Bonus ------------------

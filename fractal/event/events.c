@@ -124,6 +124,21 @@ int	julia_move(int x, int y, t_vars *vars)
 	return (0);
 }
 
+int	event_button(int x, int y, t_vars *vars)
+{
+	if (vars->f == -1 && x > 279 && x < 521 && y > 369 && y < 431)
+	{
+		vars->color = 0x00FF00FF;
+		button_start(vars);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+		mlx_string_put(vars->mlx, vars->win, 351, 401, 0x000000, "START");
+		mlx_string_put(vars->mlx, vars->win, 350, 400, vars->color, "START");
+	}
+	else
+		vars->color = 0xFFFFFFFF;
+	return (0);
+}
+
 int	key(int keycode, t_vars *vars)
 {
 	(void)vars;

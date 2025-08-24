@@ -19,6 +19,7 @@ void	event(t_vars *vars)
 	mlx_hook(vars->win, 2, 1L << 0, key, vars);
 	mlx_mouse_hook(vars->win, zoom, vars);
 	mlx_hook(vars->win, 6, 1L << 6, julia_move, vars);
+	mlx_hook(vars->win,  6, 1L << 6, event_button, vars);
 }
 
 int	init(int arg, char **argv, t_vars *vars)
@@ -29,7 +30,9 @@ int	init(int arg, char **argv, t_vars *vars)
 	vars->offsetX = 0.0;
 	vars->offsetY = 0.0;
 	vars->hue_shift = 0.00;
-
+ 	(void)error;
+ 	(void)arg;
+ 	(void)argv;
 	error = check_arg(arg, argv, vars);
 	if (error != 0)
 	{
@@ -62,6 +65,8 @@ int	main(int arg, char **argv)
 	// usleep(10000000);
 	if (init(arg, argv, &vars) != 0)
 		return (0);
+	if (vars.f == -1)
+		menu(&vars);
 	if (vars.f == 1)
 		fractal(&vars, calcule_m);
 	else if (vars.f == 2 || vars.f == 3)

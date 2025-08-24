@@ -241,6 +241,30 @@ int	vars_set_Buddhabrot(t_vars *vars)
 	return (0);
 }
 
+int	vars_set_Menu(t_vars *vars)
+{
+	vars->name = "Fractal Menu";
+	vars->max_iteration = 100;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -2;
+	vars->xmax = 2;
+	vars->ymin = -2;
+	vars->ymax = 2;
+	vars->f = -1;
+	vars->color = 0xFFFFFFFF;
+	vars->play = 1;
+	vars->key = 32;
+	vars->current_key = 0;
+	vars->zoom_i = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (0);
+}
+
 int	vars_set_BuddhabrotA(t_vars *vars)
 {
 	vars->name = "Fractal Buddhabrot Animed";
@@ -293,7 +317,7 @@ int	vars_set_MandelbrotA(t_vars *vars, char *pmin, char* pmax)
 
 	p_min = ft_atoi(pmin);
 	p_max = ft_atoi(pmax);
-	if (p_min < 2 || p_max > 10)
+	if (p_min < 2 || p_max > 10 || p_min > p_max)
 		return (-1);
 	vars->name = "Fractal Mandelbrot Animation";
 	vars->max_iteration = 50;

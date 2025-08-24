@@ -83,7 +83,10 @@ int	check_arg(int arg, char **argv, t_vars *vars)
 	int	error;
 
 	if (arg < 2)
-		return (-1);
+	{
+		vars_set_Menu(vars);
+		return (0);
+	}
 	if (ft_strncmp(argv[1], "Buddhabrot", 10) != 0
 			|| ckeck(argv[1], 7) == -1)
 	{
