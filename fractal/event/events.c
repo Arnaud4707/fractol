@@ -111,6 +111,13 @@ int	arrow(int keycode, t_vars *vars)
 	return (0);
 }
 
+int	move(int x, int y, t_vars *vars)
+{
+	julia_move(x, y, vars);
+	event_button(x, y, vars);
+	return(0);
+}
+
 int	julia_move(int x, int y, t_vars *vars)
 {
 	if (vars->play == 1 && vars->f == 3)
@@ -131,8 +138,6 @@ int	event_button(int x, int y, t_vars *vars)
 		vars->color = 0x00FF00FF;
 		button_start(vars);
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-		mlx_string_put(vars->mlx, vars->win, 351, 401, 0x000000, "START");
-		mlx_string_put(vars->mlx, vars->win, 350, 400, vars->color, "START");
 	}
 	else
 		vars->color = 0xFFFFFFFF;

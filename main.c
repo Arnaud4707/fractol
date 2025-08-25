@@ -18,14 +18,12 @@ void	event(t_vars *vars)
 	mlx_hook(vars->win, 17, 0, closey, vars);
 	mlx_hook(vars->win, 2, 1L << 0, key, vars);
 	mlx_mouse_hook(vars->win, zoom, vars);
-	mlx_hook(vars->win, 6, 1L << 6, julia_move, vars);
-	mlx_hook(vars->win,  6, 1L << 6, event_button, vars);
+	mlx_hook(vars->win, 6, 1L << 6, move, vars);
 }
 
 int	init(int arg, char **argv, t_vars *vars)
 {
 	int	error;
-	// usleep(10000000);
 	vars->zoomm = 1.0;
 	vars->offsetX = 0.0;
 	vars->offsetY = 0.0;

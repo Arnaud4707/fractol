@@ -18,8 +18,8 @@
 # define HEIGHT_ANIMATION 500
 # define WIDTH 800
 # define WIDTH_ANIMATION 500
-# define SAMPLES 5000000
-# define MAX_ITER 10000
+# define SAMPLES 500000
+# define MAX_ITER 1000
 
 # include <stddef.h>
 # include <pthread.h>
@@ -100,9 +100,21 @@ typedef struct {
     int 	y_end;
 } ThreadDataMandelbrot;
 
+typedef struct {
+	double x;
+	double y;
+	double z;
+} t_point3D;
+
+typedef struct {
+	int x;
+	int y;
+} t_point2D;
+
 void	action_zoom(int button, double tmpx, double tmpy, t_vars *vars);
 void	background(t_vars* vars);
 int		closey(t_vars *vars);
+void	cube(t_vars* vars);
 void	buddhabrot(t_vars *vars);
 void	buddhabrot_thread(t_vars *vars);
 void	buddhabrot_colored(t_vars *vars);
@@ -140,12 +152,14 @@ void	init_sqrtLUT(t_vars* vars);
 int		julia_move(int x, int y, t_vars *vars);
 int		key(int keycode, t_vars *vars);
 int		len(char *str);
+void    letter_s(t_vars* vars);
 int		loop_hook_buddhabrot_thread(void *arg);
 int		loop_hook_buddhabrot_thread_2(void *arg);
 int		loop_hook_display_menu(void* arg);
 int 	loop_hook_mandelbrot_pussance_n(t_vars *vars);
 int		loop_hook_zoom_mandelbrot(t_vars* vars);
 void	menu(t_vars* vars);
+int		move(int x, int y, t_vars *vars);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	palette_color(int keycode, t_vars *vars);
 int 	palette_fire(double t);

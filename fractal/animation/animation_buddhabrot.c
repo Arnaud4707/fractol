@@ -132,9 +132,12 @@ void	buddhabrot_colored_thread_animation(t_vars *vars)
             int green = (g * cos(vars->hue_shift) + b * sin(vars->hue_shift));
             int blue  = (b * cos(vars->hue_shift) + r * sin(vars->hue_shift));
 
-            if (red > 255) red = 255; if (red < 0) red = 0;
-            if (green > 255) green = 255; if (green < 0) green = 0;
-            if (blue > 255) blue = 255; if (blue < 0) blue = 0;
+            if (red > 255) red = 255;
+            if (red < 0) red = 0;
+            if (green > 255) green = 255;
+            if (green < 0) green = 0;
+            if (blue > 255) blue = 255;
+            if (blue < 0) blue = 0;
 
             int color = (red << 16) | (green << 8) | blue;
             my_mlx_pixel_put(vars->img, x, y, color);

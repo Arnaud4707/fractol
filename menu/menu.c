@@ -17,7 +17,9 @@ int	loop_hook_display_menu(void* arg)
 {
 	t_vars *vars = (t_vars *)arg;
 	background(vars);
+	cube(vars);
 	button_start(vars);
+	letter_s(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	// mlx_string_put(vars->mlx, vars->win, 351, 401, 0x000000, "START");
 	// mlx_string_put(vars->mlx, vars->win, 350, 400, vars->color, "START");
@@ -57,6 +59,35 @@ void	background(t_vars* vars)
     }
 	t += 0.1;
 	return ;
+}
+
+void	cube(t_vars* vars)
+{
+	int i;
+
+	for (int y = 0; y < vars->hauteur; y++)
+	{
+		for (int x = 0; x < vars->largeur; x++)
+		{
+			if ((y == 90 || y == 190) && (x > 339 && x < 441))
+				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
+			if ((x == 340 || x == 440) && (y > 89 && y < 191))
+				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
+			if ((y == 110 || y == 210) && (x > 359 && x < 461))
+				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
+			if ((x == 360 || x == 460) && (y > 109 && y < 211))
+				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
+		}
+	}
+	i = 0;
+	while (i <= 20)
+	{
+		i++;
+		my_mlx_pixel_put(vars->img, 340 + i, 90 + i, 0xFFFFFF);
+		my_mlx_pixel_put(vars->img, 440 + i, 90 + i, 0xFFFFFF);
+		my_mlx_pixel_put(vars->img, 340 + i, 190 + i, 0xFFFFFF);
+		my_mlx_pixel_put(vars->img, 440 + i, 190 + i, 0xFFFFFF);
+	}
 }
 
 void	button_start(t_vars* vars)
