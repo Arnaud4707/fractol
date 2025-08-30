@@ -19,7 +19,7 @@ int	loop_hook_buddhabrot_thread_2(void *arg)
 
     buddhabrot_colored_thread_animation_2(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-    // limiter la vitesse (optionnel) : ~30 FPS -> 33ms = 33000us
+	back(vars);
     usleep(1000);
     // usleep(330);
 

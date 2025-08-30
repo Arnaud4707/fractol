@@ -47,15 +47,19 @@ SRC = animation/animation_buddhabrot.c \
       src/color_b.c src/color_c.c src/color_d.c src/color.c \
       src/error.c src/fractal.c \
       src/set_up.c src/utils.c src/verification.c src/zoom.c \
-      spong_menger/spong_menger.c
+      spong_menger/spong_menger.c \
+	  text/start.c
 SRC_PATH = $(addprefix $(SRC_DIR), $(SRC))
 
+MENU_DIR = menu/
+MENU = menu.c intro.c option.c
+MENU_PATH = $(addprefix $(MENU_DIR), $(MENU))
 # -------------- Object files ----------
 
 OBJ_DIR = $(SRC_DIR)obj/
 OBJ      = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 OBJ_MAIN = $(OBJ_DIR)main.o 
-OBJ_MENU = $(OBJ_DIR)menu.o
+OBJ_MENU =  $(addprefix $(OBJ_DIR), $(MENU:.c=.o))
 
 # -------------- Rules ------------------
 
@@ -71,7 +75,7 @@ $(NAME): $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
 # ----- Linking libs -----------
 
 $(LIB_FRACTAL): $(OBJ) $(OBJ_MENU)
-	@ar rcs -o $(LIB_FRACTAL) $(OBJ) $(OBJ_MENU)
+	@ar rcs $(LIB_FRACTAL) $(OBJ) $(OBJ_MENU)
 
 $(LIBFT):
 	@echo $(BRUN) "Making Libft..." $(RESET)
@@ -95,7 +99,7 @@ $(OBJ_MAIN): main.c
 	@printf "$(GREEN)Compiling main 🏹: $(WHITE)$< $(RESET)\n"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_MENU): menu/menu.c
+$(OBJ_DIR)%.o: $(MENU_DIR)%.c
 	@mkdir -p $(dir $@)
 	@printf "$(GREEN)Compiling menu 🏹: $(WHITE)$< $(RESET)\n"
 	@$(CC) $(CFLAGS) -c $< -o $@

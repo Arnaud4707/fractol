@@ -35,6 +35,7 @@ void	palette_color(int keycode, t_vars *vars)
 		precalculate_colors(vars);
 	else if (keycode == 65437)
 		precalculate_colors_5(vars);
+	vars->need_drow = 1;
 }
 
 void	set_color(int keycode, t_vars *vars)
@@ -42,20 +43,7 @@ void	set_color(int keycode, t_vars *vars)
 	if (vars->f != 7 && vars->f != 9 && vars->f != 11)
 		palette_color(keycode, vars);
 	vars->color = keycode;
-	if (vars->f == 1)
-		fractal(vars, calcule_m);
-	else if (vars->f == 2 || vars->f == 3)
-		fractal(vars, calcule_j);
-	else if (vars->f == 4)
-		fractal(vars, calcule_b);
-	else if (vars->f == 7)
-		buddhabrot_thread(vars);
-	else if (vars->f == 9)
-		buddhabrot_colored_thread(vars);
-	else if (vars->f == 5)
-		calcule_dragon(vars);
-	if (vars->f != 8 && vars->f != 10)
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	vars->need_drow = 1;
 }
 
 int	vars_set_julia_move(t_vars *vars)
@@ -73,6 +61,7 @@ int	vars_set_julia_move(t_vars *vars)
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -95,6 +84,7 @@ int	vars_set_burning_ship(t_vars *vars)
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -117,6 +107,7 @@ int	vars_set_dragon(t_vars *vars)
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -136,9 +127,11 @@ int	vars_set_mandelbrot(t_vars *vars)
 	vars->ymax = 1.25;
 	vars->f = 1;
 	vars->color = 1;
+	vars->color_back = 0xFFFFFFFF;
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -161,6 +154,7 @@ int	vars_set_mandelbrot_zoom(t_vars *vars)
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -183,6 +177,7 @@ int	vars_set_buddhabrot_animation_2(t_vars *vars)
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -210,6 +205,7 @@ int	vars_set_spondMenger(t_vars *vars, char* i)
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -234,6 +230,7 @@ int	vars_set_Buddhabrot(t_vars *vars)
 	vars->current_key = 0;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -241,7 +238,7 @@ int	vars_set_Buddhabrot(t_vars *vars)
 	return (0);
 }
 
-int	vars_set_Menu(t_vars *vars)
+int	vars_set_Intro(t_vars *vars)
 {
 	vars->name = "Fractal Menu";
 	vars->max_iteration = 100;
@@ -252,7 +249,42 @@ int	vars_set_Menu(t_vars *vars)
 	vars->ymin = -2;
 	vars->ymax = 2;
 	vars->f = -1;
-	vars->color = 0xFFFFFFFF;
+	vars->color_start = 0xFFFFFFFF;
+	vars->play = 1;
+	vars->key = 32;
+	vars->current_key = 0;
+	vars->zoom_i = 0;
+	vars->need_drow = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (0);
+}
+int	vars_set_Menu(t_vars *vars)
+{
+	vars->name = "Fractal Menu";
+	vars->max_iteration = 100;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -2;
+	vars->xmax = 2;
+	vars->ymin = -2;
+	vars->ymax = 2;
+	vars->f = -2;
+	vars->color_back = 0xFFFFFFFF;
+	vars->selectM = 0x00FFFFFF;
+	vars->selectB = 0x00FFFFFF;
+	vars->selectS = 0x00FFFFFF;
+	vars->selectJM = 0x00FFFFFF;
+	vars->selectD = 0x00FFFFFF;
+	vars->selectBD = 0x00FFFFFF;
+	vars->selectBDC = 0x00FFFFFF;
+	vars->selectMP = 0x00FFFFFF;
+	vars->selectBA = 0x00FFFFFF;
+	vars->selectMZ = 0x00FFFFFF;
+	vars->need_drow = 0;
 	vars->play = 1;
 	vars->key = 32;
 	vars->current_key = 0;
@@ -280,6 +312,7 @@ int	vars_set_BuddhabrotA(t_vars *vars)
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -303,6 +336,7 @@ int	vars_set_Buddhabrot2(t_vars *vars)
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -334,6 +368,7 @@ int	vars_set_MandelbrotA(t_vars *vars, char *pmin, char* pmax)
 	vars->play = 1;
 	vars->zoom_i = 0;
 	vars->palette = NULL;
+	vars->need_drow = 1;
 	vars->cr = 0;
 	vars->ci = 0;
 	vars->zr = 0;
@@ -353,6 +388,7 @@ int	vars_set_julia(t_vars *vars)
 	vars->ymax = 1.5;
 	vars->f = 2;
 	vars->color = 1;
+	vars->need_drow = 1;
 	vars->play = 0;
 	vars->zoom_i = 0;
 	vars->palette = NULL;

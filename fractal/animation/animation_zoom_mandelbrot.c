@@ -37,9 +37,9 @@ int	loop_hook_zoom_mandelbrot(t_vars* vars)
 	if (vars->ymax > -0.02064457)
 		zoom_towards_point(vars, tx, ty, 1.02);
     fractal(vars, calcule_m);
+	back(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	usleep(33000);
-	printf("ymin : %.13f | ymax : %.13f\n", vars->ymin, vars->ymax);
 	vars->step++;
 	return (0);
 }

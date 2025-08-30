@@ -27,41 +27,76 @@ int	closey(t_vars *vars)
 	return (0);
 }
 
+void	display_fractal(t_vars* vars, double tmpx, double tmpy, t_point3D* p)
+{
+	if (vars->f == -1 && p->z == 1 && (p->x >= 280 && p->x <= 520) && (p->y >= 370 && p->y <= 430))
+		vars_set_Menu(vars);
+	else if (vars->f == -2 && p->z == 1 && (p->y >= vars->hauteur - 80 && p->y <= vars->hauteur - 50)
+		&& (p->x >= vars->largeur - 80 && p->x <= vars->largeur - 35))
+		vars_set_Intro(vars);
+	else if (vars->f != -1 && p->z == 1 && (p->y >= vars->hauteur - 80 && p->y <= vars->hauteur - 50)
+		&& (p->x >= vars->largeur - 80 && p->x <= vars->largeur - 35))
+	{
+		if (vars->palette)
+			free(vars->palette);
+		ft_memset(vars->img->addr, 0, vars->hauteur * vars->img->line_length);
+		vars_set_Menu(vars);
+	}
+	else if (vars->f == -2 && p->z == 1 && (p->y >= 90 && p->y <= 102))
+		vars_set_mandelbrot(vars);
+	else if (vars->f == -2 && p->z == 1 && (p->y >= 140 && p->y <= 152))
+		vars_set_julia_move(vars);
+	else if (vars->f == -2 && p->z == 1 && (p->y >= 190 && p->y <= 202))
+		vars_set_burning_ship(vars);
+	else if (vars->f == -2 && p->z == 1 && (p->y >= 240 && p->y <= 252))
+		vars_set_spondMenger(vars, "5");
+	else if (vars->f == -2 && p->z == 1 && (p->y >= 290 && p->y <= 302))
+		vars_set_dragon(vars);
+	else if (vars->f == -2 && p->z == 1 && (p->y >= 340 && p->y <= 352))
+		vars_set_Buddhabrot(vars);
+	else if (vars->f == -2 && p->z == 1 && (p->y >= 390 && p->y <= 402))
+		vars_set_Buddhabrot2(vars);
+	else if (vars->f == -2 && p->z == 1 && (p->y >= 440 && p->y <= 452))
+	{
+		ft_memset(vars->img->addr, 0, vars->hauteur * vars->img->line_length);
+		vars_set_MandelbrotA(vars, "2", "5");
+	}
+	else if (vars->f == -2 && p->z == 1 && (p->y >= 490 && p->y <= 502))
+		vars_set_BuddhabrotA(vars);
+	else if (vars->f == -2 && p->z == 1 && (p->y >= 540 && p->y <= 552))
+	{
+		ft_memset(vars->img->addr, 0, vars->hauteur * vars->img->line_length);
+		vars_set_mandelbrot_zoom(vars);
+	}
+	else if (vars->f == 5 && p->z == 4)
+		zoom_dragon(vars, 0.8);
+	else if (vars->f == 5 && p->z == 5)
+		zoom_dragon(vars, 1.2);
+	else if (vars->f != -2 && vars->f != -1 && (p->y < vars->hauteur - 80 || p->y > vars->hauteur - 50)
+		&& (p->x < vars->largeur - 80 || p->x > vars->largeur - 35) && (p->y < vars->hauteur && p->x < vars->largeur))
+	{
+		tmpx = (vars->xmax - vars->xmin) * ((double)(p->x) / vars->largeur);
+		tmpy = (vars->ymax - vars->ymin) * ((double)(p->y) / vars->hauteur);
+		action_zoom(p->z, tmpx, tmpy, vars);
+		vars->need_drow = 1;
+	}
+}
+
 int	zoom(int button, int x, int y, t_vars *vars)
 {
 	double	tmpx;
 	double	tmpy;
+	t_point3D p;
 
-	// printf("x : %d | y : %d\n", x, y);
-	if (vars->f == 5 && button == 4)
-		zoom_dragon(vars, 0.8);
-	else if (vars->f == 5 && button == 5)
-		zoom_dragon(vars, 1.2);
-	else
-	{
-		tmpx = (vars->xmax - vars->xmin) * ((double)(x) / vars->largeur);
-		tmpy = (vars->ymax - vars->ymin) * ((double)(y) / vars->hauteur);
-		action_zoom(button, tmpx, tmpy, vars);
-	}
-	mlx_clear_window(vars->mlx, vars->win);
-	if (vars->f == 1 || vars->f == 2 || vars->f == 3 || vars->f == 4)
-		set_color(vars->color, vars);
-	if (vars->f == 1)
-		fractal(vars, calcule_m);
-	else if (vars->f == 2 || vars->f == 3)
-		fractal(vars, calcule_j);
-	else if (vars->f == 4)
-		fractal(vars, calcule_b);
-	else if (vars->f == 7)
-		buddhabrot_thread(vars);
-	else if (vars->f == 9)
-		buddhabrot_colored_thread(vars);
-	else if (vars->f == 5)
-		calcule_dragon(vars);
-	if (vars->f != 10 && vars->f != 8)
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	tmpx = 0.0;
+	tmpy = 0.0;
+	p.x = x;
+	p.y = y;
+	p.z = button;
+	display_fractal(vars, tmpx, tmpy, &p);
 	return (0);
 }
+
 void	zoom_dragon(t_vars* vars, double i)
 {
 	double cx = (vars->xmin + vars->xmax) / 2.0;
@@ -80,11 +115,11 @@ void	zoom_dragon(t_vars* vars, double i)
 		vars->ymin = 600;
 		vars->ymax = 400;
 	}
+	vars->need_drow = 1;
 }
 
 int	arrow(int keycode, t_vars *vars)
 {
-	mlx_clear_window(vars->mlx, vars->win);
 	if (keycode == 65361)
 		horizontal(keycode, vars);
 	else if (keycode == 65363)
@@ -93,21 +128,6 @@ int	arrow(int keycode, t_vars *vars)
 		vertical(keycode, vars);
 	else if (keycode == 65364)
 		vertical(keycode, vars);
-	if (vars->f == 1)
-		fractal(vars, calcule_m);
-	else if (vars->f == 2 || vars->f == 3)
-		fractal(vars, calcule_j);
-	else if (vars->f == 4)
-		fractal(vars, calcule_b);
-	else if (vars->f == 7)
-		buddhabrot_thread(vars);
-	else if (vars->f == 9)
-		buddhabrot_colored_thread(vars);
-	else if (vars->f == 10)
-		buddhabrot_colored_thread(vars);
-	else if (vars->f == 5)
-		calcule_dragon(vars);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	return (0);
 }
 
@@ -124,23 +144,76 @@ int	julia_move(int x, int y, t_vars *vars)
 	{
 		vars->cr = x / vars->ix + vars->xmin;
 		vars->ci = y / vars->iy + vars->ymin;
-		mlx_clear_window(vars->mlx, vars->win);
-		fractal(vars, calcule_j);
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+		vars->need_drow = 1;
 	}
 	return (0);
+}
+
+void	selectt(int y, t_vars* vars)
+{
+	if (vars->f == -2 && (y >= 90 && y <= 102))
+		vars->selectM = 0x0000FF00;
+	else if (vars->f == -2)
+		vars->selectM = 0x00FFFFFF;
+	if (vars->f == -2 && (y >= 140 && y <= 152))
+		vars->selectJM = 0x0000FF00;
+	else if (vars->f == -2)
+		vars->selectJM = 0x00FFFFFF;
+	if (vars->f == -2 && (y >= 190 && y <= 202))
+		vars->selectB = 0x0000FF00;
+	else if (vars->f == -2)
+		vars->selectB = 0x00FFFFFF;
+	if (vars->f == -2 && (y >= 240 && y <= 252))
+		vars->selectS = 0x0000FF00;
+	else if (vars->f == -2)
+		vars->selectS = 0x00FFFFFF;
+	if (vars->f == -2 && (y >= 290 && y <= 302))
+		vars->selectD = 0x0000FF00;
+	else if (vars->f == -2)
+		vars->selectD = 0x00FFFFFF;
+	if (vars->f == -2 && (y >= 340 && y <= 352))
+		vars->selectBD = 0x0000FF00;
+	else if (vars->f == -2)
+		vars->selectBD = 0x00FFFFFF;
+	if (vars->f == -2 && (y >= 390 && y <= 402))
+		vars->selectBDC = 0x0000FF00;
+	else if (vars->f == -2)
+		vars->selectBDC = 0x00FFFFFF;
+	if (vars->f == -2 && (y >= 440 && y <= 452))
+		vars->selectMP = 0x0000FF00;
+	else if (vars->f == -2)
+		vars->selectMP = 0x00FFFFFF;
+	if (vars->f == -2 && (y >= 490 && y <= 502))
+		vars->selectBA = 0x0000FF00;
+	else if (vars->f == -2)
+		vars->selectBA = 0x00FFFFFF;
+	if (vars->f == -2 && (y >= 540 && y <= 552))
+		vars->selectMZ = 0x0000FF00;
+	else if (vars->f == -2)
+		vars->selectMZ = 0x00FFFFFF;
 }
 
 int	event_button(int x, int y, t_vars *vars)
 {
 	if (vars->f == -1 && x > 279 && x < 521 && y > 369 && y < 431)
+		vars->color_start = 0x00FF0000;
+	else if (vars->f == -1)
+		vars->color_start = 0xFFFFFFFF;
+	if (vars->f != -1 && (y >= vars->hauteur - 80 && y <= vars->hauteur - 50)
+		&& (x >= vars->largeur - 80 && x <= vars->largeur - 35))
 	{
-		vars->color = 0x00FF00FF;
-		button_start(vars);
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+		if ((unsigned int)vars->color_back == 0xFFFFFFFF)
+		{
+			vars->color_back = 0x00FF00FF;
+			vars->need_drow = 1;
+		}
 	}
-	else
-		vars->color = 0xFFFFFFFF;
+	else if (vars->f != -1 && (unsigned int)vars->color_back != 0xFFFFFFFF)
+	{
+		vars->color_back = 0xFFFFFFFF;
+		vars->need_drow = 1;
+	}
+	selectt(y, vars);
 	return (0);
 }
 

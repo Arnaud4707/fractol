@@ -18,6 +18,7 @@ int	loop_hook_buddhabrot_thread(void *arg)
     t_vars *vars = (t_vars *)arg;
 
     buddhabrot_colored_thread_animation(vars);
+	back(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
     usleep(1000);
 
@@ -160,19 +161,5 @@ void	buddhabrot_colored_thread_animation(t_vars *vars)
 		if (vars->hue_shift < -0.3)
 			dir = 0;
 	}
-	// if (dir_h == 0)
-	// {
-	// 	vars->zoomm *= -1.05;         // vars->zoomm progressif
-	// 	if (vars->zoomm > 7 || vars->zoomm < -7)
-	// 		dir_h = 1;
-	// }
-	// else
-	// {
-        // 	vars->zoomm *= -0.95;         // vars->zoomm progressif
-        // 	if (vars->zoomm < 0.01 && vars->zoomm > -0.01)
-        // 	{
-        // 		dir_h = 0;
-        // 	}
-	// }
     rotate_image_90_clockwise(vars);
 }

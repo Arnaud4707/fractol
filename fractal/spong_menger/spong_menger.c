@@ -38,7 +38,11 @@ void	drawMenger2D(t_vars *vars, int depth)
             ny *= pow(3, depth);
 
             if (inMenger2D(nx, ny, depth)) {
-                my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
+                int r = (depth * x * y) % 256;
+                int g = (depth * x * y) % 256;
+                int b = (depth * x * y) % 256;
+
+                my_mlx_pixel_put(vars->img, x, y, r << 16 | g << 8 | b);
             } else {
                 my_mlx_pixel_put(vars->img, x, y, 0x000000);
             }

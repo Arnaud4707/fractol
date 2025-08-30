@@ -50,11 +50,13 @@ void	horizontal(int keycode, t_vars *vars)
 	{
 		vars->xmin = tmp_min - (fabs((tmp_min - tmp_max) / 2) / 5);
 		vars->xmax = tmp_max - (fabs((tmp_min - tmp_max) / 2) / 5);
+		vars->need_drow = 1;
 	}
 	else if (keycode == 65363)
 	{
 		vars->xmin = tmp_min + (fabs((tmp_min - tmp_max) / 2) / 5);
 		vars->xmax = tmp_max + (fabs((tmp_min - tmp_max) / 2) / 5);
+		vars->need_drow = 1;
 	}
 }
 
@@ -74,6 +76,7 @@ void	vertical(int keycode, t_vars *vars)
 		{
 			vars->ymin = tmp_min - (fabs((tmp_min - tmp_max) / 2) / 5);
 			vars->ymax = tmp_max - (fabs((tmp_min - tmp_max) / 2) / 5);
+			vars->need_drow = 1;
 		}
 	}
 	else if (keycode == 65364)
@@ -84,6 +87,7 @@ void	vertical(int keycode, t_vars *vars)
 		{
 			vars->ymin = tmp_min + (fabs((tmp_min - tmp_max) / 2) / 5);
 			vars->ymax = tmp_max + (fabs((tmp_min - tmp_max) / 2) / 5);
+			vars->need_drow = 1;
 		}
 	}
 }

@@ -77,6 +77,7 @@ int loop_hook_mandelbrot_pussance_n(t_vars *vars)
         direction = 1;
 
     fractal_power(vars, power);
+	back(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
     return (0);
 }

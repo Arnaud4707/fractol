@@ -84,7 +84,7 @@ int	check_arg(int arg, char **argv, t_vars *vars)
 
 	if (arg < 2)
 	{
-		vars_set_Menu(vars);
+		vars_set_Intro(vars);
 		return (0);
 	}
 	if (ft_strncmp(argv[1], "Buddhabrot", 10) != 0

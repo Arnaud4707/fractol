@@ -20,51 +20,41 @@ void    letter_s(t_vars* vars)
         for (int x = 0; x < vars->largeur; x++)
         {
             if (((y >= 380 && y <= 384) || (y >= 396 && y <= 400)
-                || (y >= 412 && y <= 416)) && (x >= 295 && x <= 315))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
-            if ((y >= 380 && y <= 400) && (x >= 295 && x <= 299))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
-            if ((y >= 400 && y <= 416) && (x >= 311 && x <= 315))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
+                || (y >= 412 && y <= 416)) && (x >= 315 && x <= 335))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
+            if ((y >= 380 && y <= 400) && (x >= 315 && x <= 319))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
+            if ((y >= 400 && y <= 416) && (x >= 331 && x <= 335))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
             // s
-            if ((y >= 380 && y <= 384) && (x >= 330 && x <= 360))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
-            if ((y >= 380 && y <= 416) && (x >= 343 && x <= 347))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
+            if ((y >= 380 && y <= 384) && (x >= 350 && x <= 380))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
+            if ((y >= 380 && y <= 416) && (x >= 363 && x <= 367))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
             // t
             if (((y >= 380 && y <= 384) || (y >= 396 && y <= 400))
-                && (x >= 370 && x <= 390))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
-            if ((y >= 380 && y <= 416) && ((x >= 370 && x <= 374)
-                || (x >= 386 && x <= 390)))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
+                && (x >= 390 && x <= 410))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
+            if ((y >= 380 && y <= 416) && ((x >= 390 && x <= 394)
+                || (x >= 406 && x <= 410)))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
             // a
-            // R
-            // barre horizontale du haut
-            if ((y >= 380 && y <= 384) && (x >= 400 && x <= 420))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
+            if (((y >= 380 && y <= 384) || (y >= 396 && y <= 400)) && (x >= 420 && x <= 440))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
 
-            // barre verticale gauche
-            if ((y >= 380 && y <= 416) && (x >= 400 && x <= 404))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
+            if ((y >= 380 && y <= 416) && (x >= 420 && x <= 424))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
 
-            // barre horizontale du milieu
-            if ((y >= 396 && y <= 400) && (x >= 400 && x <= 420))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
+            if ((y >= 380 && y <= 400) && (x >= 436 && x <= 440))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
 
-            // barre verticale droite haute (pour fermer le "P")
-            if ((y >= 380 && y <= 400) && (x >= 416 && x <= 420))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
-
-            // diagonale de la jambe du R
-            if ((y >= 400 && y <= 416) && (x >= (y - 400) + 410 && x <= (y - 400) + 414))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
-
+            if ((y >= 400 && y <= 416) && (x >= (y - 400) + 430 && x <= (y - 400) + 434))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
             // r
-            if ((y >= 380 && y <= 384) && (x >= 430 && x <= 460))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
-            if ((y >= 380 && y <= 416) && (x >= 443 && x <= 447))
-                my_mlx_pixel_put(vars->img, x, y, vars->color);
+            if ((y >= 380 && y <= 384) && (x >= 450 && x <= 480))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
+            if ((y >= 380 && y <= 416) && (x >= 463 && x <= 467))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_start);
             // t   
         }
     }

@@ -13,21 +13,67 @@
 #include "mlx/mlx.h"
 #include "include/header.h"
 
-int	loop_hook_display_menu(void* arg)
+void	drow_fractal(t_vars* vars)
 {
-	t_vars *vars = (t_vars *)arg;
-	background(vars);
-	cube(vars);
-	button_start(vars);
-	letter_s(vars);
-    mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-	// mlx_string_put(vars->mlx, vars->win, 351, 401, 0x000000, "START");
-	// mlx_string_put(vars->mlx, vars->win, 350, 400, vars->color, "START");
-    usleep(50000);
-	return (0);
+	if (vars->f > 0 && vars->need_drow)
+	{
+		if (vars->f == 1)
+			fractal(vars, calcule_m);
+		else if (vars->f == 2 || vars->f == 3)
+			fractal(vars, calcule_j);
+		else if (vars->f == 4)
+			fractal(vars, calcule_b);
+		else if (vars->f == 7)
+			buddhabrot_thread(vars);
+		else if (vars->f == 9)
+			buddhabrot_colored_thread(vars);
+		else if (vars->f == 5)
+			calcule_dragon(vars);
+		else if (vars->f == 12)
+			drawMenger2D(vars, vars->max_iteration);
+	}
 }
 
-void	background(t_vars* vars)
+int	loop_hook_master(void* arg)
+{
+	t_vars *vars = (t_vars *)arg;
+
+    if (vars->f == -1)
+	{
+        intro(vars);
+	}
+    else if (vars->f == -2)
+	{
+        menu(vars);
+	}
+	drow_fractal(vars);
+	if (vars->f == 11)
+		loop_hook_buddhabrot_thread(vars);
+	else if (vars->f == 10)
+		loop_hook_mandelbrot_pussance_n(vars);
+	else if (vars->f == 8)
+		loop_hook_zoom_mandelbrot(vars);
+	else if (vars->f == 6)
+		loop_hook_buddhabrot_thread_2(vars);
+	if (vars->need_drow && vars->f != 8 && vars->f != 10 && vars->f != -1 && vars->f != -2)
+	{
+		back(vars);
+		vars->need_drow = 0;
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	}
+    return 0;
+}
+
+void	menu(t_vars *vars)
+{
+	background_menu(vars);
+	back(vars);
+    mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	option(vars);
+    usleep(30000);
+}
+
+void	background_menu(t_vars* vars)
 {
 	static double t = 0;
 
@@ -35,9 +81,9 @@ void	background(t_vars* vars)
 	{
 		for (int x = 0; x < vars->largeur; x++)
 		{
-			int r = 51;
+			int r = 255;
 			int g = 153;
-			int b = 255;
+			int b = 51;
 			int color = (r << 16) | (g << 8) | b;
 			my_mlx_pixel_put(vars->img, x, y, color);
 
@@ -49,78 +95,37 @@ void	background(t_vars* vars)
         for (int x = 0; x < vars->largeur; x += 10)
         {
             double wave =
-                8.0 * sin(0.05 * x + t) +
+                8.0 * sin(0.00 * x + t) +
                 5.0 * cos(0.04 * y + t * 0.8) +
                 4.0 * sin(0.03 * (x + y) + t * 1.2);
             int newY = (int)(y + wave);
             if (newY >= 0 && newY < vars->hauteur)
-                my_mlx_pixel_put(vars->img, x, newY, 0xFFFFFF);
+                my_mlx_pixel_put(vars->img, x, newY, 0xFFFFFFFF);
         }
     }
 	t += 0.1;
-	return ;
 }
 
-void	cube(t_vars* vars)
+void	back(t_vars* vars)
 {
 	int i;
-
-	for (int y = 0; y < vars->hauteur; y++)
-	{
-		for (int x = 0; x < vars->largeur; x++)
-		{
-			if ((y == 90 || y == 190) && (x > 339 && x < 441))
-				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
-			if ((x == 340 || x == 440) && (y > 89 && y < 191))
-				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
-			if ((y == 110 || y == 210) && (x > 359 && x < 461))
-				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
-			if ((x == 360 || x == 460) && (y > 109 && y < 211))
-				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
-		}
-	}
 	i = 0;
-	while (i <= 20)
-	{
-		i++;
-		my_mlx_pixel_put(vars->img, 340 + i, 90 + i, 0xFFFFFF);
-		my_mlx_pixel_put(vars->img, 440 + i, 90 + i, 0xFFFFFF);
-		my_mlx_pixel_put(vars->img, 340 + i, 190 + i, 0xFFFFFF);
-		my_mlx_pixel_put(vars->img, 440 + i, 190 + i, 0xFFFFFF);
-	}
-}
-
-void	button_start(t_vars* vars)
-{
-	int i;
-	int j;
-
-	i = 370;
-	j = 430;
 	for (int y = 0; y < vars->hauteur; y++)
 	{
 		for (int x = 0; x < vars->largeur; x++)
 		{
-			if (((y >= i && y <= (i + 4)) || (y >= (j - 4) && y <= j)) && (x > 279 && x < 521))
-				my_mlx_pixel_put(vars->img, x, y, vars->color);
+			if ((i >= 0) && (y >= vars->hauteur - 80 && y <= vars->largeur - 50)
+				&& (x >= vars->largeur - 65 - i && x <= vars->largeur - 65))
+                my_mlx_pixel_put(vars->img, x, y, vars->color_back);
+			else if ((i <= 0) && (y >= vars->hauteur - 80 && y <= vars->largeur - 50)
+				&& (x >= vars->largeur - 65 + i && x <= vars->largeur - 65))
+				my_mlx_pixel_put(vars->img, x, y, vars->color_back);
+			if ((y >= vars->hauteur - 69 && y <= vars->largeur - 61) && (x >= vars->largeur - 65 && x <= vars->largeur - 35))
+				my_mlx_pixel_put(vars->img, x, y, vars->color_back);
 		}
+		if (((y >= (vars->hauteur - 80)) && (y <= (vars->largeur - 50))) && (i <= 15))
+			i++;
+		else if (((y >= (vars->hauteur - 80)) && (y <= (vars->largeur - 50))) && (i > 15))
+			i -= 2 * i - 1;
 	}
-	for (int y = 0; y < vars->hauteur; y++)
-	{
-		for (int x = 280; x <= 284; x++)
-		{
-			if (y > i && y < j)
-				my_mlx_pixel_put(vars->img, x, y, vars->color);
-		}
-		for (int x = 516; x <= 520; x++)
-		{
-			if (y > i && y < j)
-				my_mlx_pixel_put(vars->img, x, y, vars->color);
-		}
-	}
-}
-
-void	menu(t_vars* vars)
-{
-	mlx_loop_hook(vars->mlx, loop_hook_display_menu, vars);
 }
