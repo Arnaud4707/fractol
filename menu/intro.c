@@ -16,7 +16,8 @@
 void	intro(t_vars* vars)
 {
 	background_intro(vars);
-	cube(vars);
+	loop_hook_cube(vars);
+	// cube(vars);
 	button_start(vars);
 	letter_s(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
@@ -41,49 +42,24 @@ void	background_intro(t_vars* vars)
 	}
 
 	for (int y = 0; y < vars->hauteur; y += 10)
-    {
-        for (int x = 0; x < vars->largeur; x += 10)
-        {
-            double wave =
-                8.0 * sin(0.05 * x + t) +
-                5.0 * cos(0.04 * y + t * 0.8) +
-                4.0 * sin(0.03 * (x + y) + t * 1.2);
-            int newY = (int)(y + wave);
-            if (newY >= 0 && newY < vars->hauteur)
-                my_mlx_pixel_put(vars->img, x, newY, 0xFFFFFF);
-        }
-    }
-	t += 0.1;
-	return ;
-}
-
-void	cube(t_vars* vars)
-{
-	int i;
-
-	for (int y = 0; y < vars->hauteur; y++)
 	{
-		for (int x = 0; x < vars->largeur; x++)
+		for (int x = 0; x < vars->largeur; x += 10)
 		{
-			if ((y == 90 || y == 190) && (x > 339 && x < 441))
-				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
-			if ((x == 340 || x == 440) && (y > 89 && y < 191))
-				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
-			if ((y == 110 || y == 210) && (x > 359 && x < 461))
-				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
-			if ((x == 360 || x == 460) && (y > 109 && y < 211))
-				my_mlx_pixel_put(vars->img, x, y, 0xFFFFFF);
+			double cx = vars->largeur / 2.0;
+			double cy = vars->hauteur / 2.0;
+			double dx = x - cx;
+			double dy = y - cy;
+			double dist = sqrt(dx*dx + dy*dy);
+
+			double wave = 10.0 * sin(0.05 * dist - t);
+
+			int newY = (int)(y + wave);
+			if (newY >= 0 && newY < vars->hauteur)
+				my_mlx_pixel_put(vars->img, x, newY, 0xFFFFFF);
 		}
 	}
-	i = 0;
-	while (i <= 20)
-	{
-		i++;
-		my_mlx_pixel_put(vars->img, 340 + i, 90 + i, 0xFFFFFF);
-		my_mlx_pixel_put(vars->img, 440 + i, 90 + i, 0xFFFFFF);
-		my_mlx_pixel_put(vars->img, 340 + i, 190 + i, 0xFFFFFF);
-		my_mlx_pixel_put(vars->img, 440 + i, 190 + i, 0xFFFFFF);
-	}
+	t += 0.1;
+	return ;
 }
 
 void	button_start(t_vars* vars)
@@ -116,3 +92,15 @@ void	button_start(t_vars* vars)
 	}
 }
 
+int loop_hook_cube(t_vars *vars)
+{
+    static double ax = 0, ay = 0, az = 0;
+
+    draw_cube(vars, ax, ay, az);
+
+    ax += 0.02;
+    ay += 0.03;
+    az += 0.01;
+
+    return 0;
+}

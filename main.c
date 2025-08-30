@@ -35,6 +35,17 @@ int init_img(t_vars* vars)
 	return (0);
 }
 
+void	init_audio(t_vars* vars)
+{
+	vars->play_audio = 0;
+	vars->audio_loop = 1;
+	vars->index_audio = 0;
+	vars->playlist[0] = "audio/Drake--The-Motto.wav";
+	vars->playlist[1] = "audio/Stainless.wav";
+	vars->playlist[2] = "audio/Asap-Rocky--Praise-The-Lord.wav";
+	vars->playlist[3] = NULL;
+}
+
 int	init(int arg, char **argv, t_vars *vars)
 {
 	int	error;
@@ -63,13 +74,14 @@ int	init(int arg, char **argv, t_vars *vars)
 	return (0);
 }
 
-int	main(int arg, char **argv)
+int	main(int arg, char **argv, char**env)
 {
 	t_vars	vars;
 
 	if (init(arg, argv, &vars) != 0)
 		return (0);
 	event(&vars);
+	vars.env = env;
 	mlx_loop_hook(vars.mlx, loop_hook_master, &vars);
 	mlx_loop(vars.mlx);
 	return (0);

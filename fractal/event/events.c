@@ -23,6 +23,7 @@ int	closey(t_vars *vars)
 	free(vars->mlx);
 	free(vars->img);
 	free(vars->palette);
+	audio_stop(vars);
 	exit(0);
 	return (0);
 }
@@ -45,7 +46,10 @@ void	display_fractal(t_vars* vars, double tmpx, double tmpy, t_point3D* p)
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 90 && p->y <= 102))
 		vars_set_mandelbrot(vars);
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 140 && p->y <= 152))
+	{
+		ft_memset(vars->img->addr, 0, vars->hauteur * vars->img->line_length);
 		vars_set_julia_move(vars);
+	}
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 190 && p->y <= 202))
 		vars_set_burning_ship(vars);
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 240 && p->y <= 252))

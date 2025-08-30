@@ -38,6 +38,11 @@ int	loop_hook_master(void* arg)
 {
 	t_vars *vars = (t_vars *)arg;
 
+	if (vars->play_audio == 0)
+	{
+		vars->play_audio = 1;
+		audio_play(vars);
+	}
     if (vars->f == -1)
 	{
         intro(vars);

@@ -13,35 +13,34 @@
 #include "mlx/mlx.h"
 #include "include/header.h"
 
-// void	window(t_vars* vars)
-// {
-// 	int i;
-// 	int j;
+void	audio_play(t_vars* vars)
+{
+	pid_t	pid;
+	int		status;
+    char cmd[256];
 
-// 	i = 30;
-// 	j = vars->hauteur - 30;
-// 	for (int y = 0; y < vars->hauteur; y++)
-// 	{
-// 		for (int x = 0; x < vars->largeur; x++)
-// 		{
-// 			if (((y >= i && y <= (i + 4)) || (y >= (j - 4) && y <= j)) && (x >= 30 && x <= 300))
-// 				my_mlx_pixel_put(vars->img, x, y, vars->color_start);
-// 		}
-// 	}
-// 	for (int y = 0; y < vars->hauteur; y++)
-// 	{
-// 		for (int x = 30; x <= 34; x++)
-// 		{
-// 			if (y > i && y < j)
-// 				my_mlx_pixel_put(vars->img, x, y, vars->color_start);
-// 		}
-// 		for (int x = 296; x <= 300; x++)
-// 		{
-// 			if (y > i && y < j)
-// 				my_mlx_pixel_put(vars->img, x, y, vars->color_start);
-// 		}
-// 	}
-// }
+	status = 0;
+	pid = fork();
+	if (pid < 0)
+	{
+		write(2, "Error: fork\n", ft_strlen("Error: fork\n"));
+		exit(1);
+	}
+	else if (pid == 0)
+	{
+		while (1)
+        {
+            if (!vars->playlist[vars->index_audio])
+                vars->index_audio = 0;
+            snprintf(cmd, sizeof(cmd), "paplay '%s'", vars->playlist[vars->index_audio]);
+            system(cmd);
+            vars->index_audio += 1;
+        }
+        exit(0);
+	}
+	else
+		vars->audio_pid = pid;
+}
 
 void	option(t_vars* vars)
 {
@@ -65,4 +64,17 @@ void	option(t_vars* vars)
 	mlx_string_put(vars->mlx, vars->win, 380, 500, vars->selectBA, "Buddhabrot Animation");
 	mlx_string_put(vars->mlx, vars->win, 382, 552, 0x000000, "Mandelbrot Zoom");
 	mlx_string_put(vars->mlx, vars->win, 380, 550, vars->selectMZ, "Mandelbrot Zoom");
+}
+
+void	audio_stop(t_vars *vars)
+{
+	char cmd[265];
+
+    if (vars->audio_pid > 0)
+    {
+        kill(vars->audio_pid, SIGKILL);
+        snprintf(cmd, sizeof(cmd), "pkill -f 'paplay %s'", vars->playlist[vars->index_audio]);
+		system(cmd);
+        vars->audio_pid = 0;
+    }
 }

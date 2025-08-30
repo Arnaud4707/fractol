@@ -28,6 +28,9 @@
 # include <math.h>
 # include <string.h>
 # include <unistd.h>
+# include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 #include "../libft/libft.h"
 
 #define THREADS 20
@@ -46,6 +49,7 @@ typedef struct s_vars {
 	void	*win;
 	t_data	*img;
     t_data  *img_animation_mandelbrot[2];
+	char**	env;
 	int     current;
 	double	max_iteration;
 	double	largeur;
@@ -73,6 +77,11 @@ typedef struct s_vars {
 	int		zoom_i;
 	int		step;
 	int		need_drow;
+	int		play_audio;
+	char 	*playlist[4];
+	int		index_audio;
+	int		audio_loop;
+	pid_t   audio_pid;
 	int 	selectM;
 	int 	selectB;
 	int 	selectJM;
@@ -125,7 +134,11 @@ typedef struct {
 	int y;
 } t_point2D;
 
+
+
 void	action_zoom(int button, double tmpx, double tmpy, t_vars *vars);
+void	audio_play(t_vars* vars);
+void	audio_stop(t_vars *vars);
 void	background_intro(t_vars* vars);
 void	background_menu(t_vars* vars);
 void	back(t_vars* vars);
@@ -154,7 +167,7 @@ void	colord_Buddhabrot_y(t_vars* vars, int x, int y);
 void	colord_Buddhabrot_c(t_vars* vars, int x, int y);
 void	colord_Buddhabrot_p(t_vars* vars, int x, int y);
 void	color_buddhabrot_colored_p(t_vars* vars, int *accumR_global, int *accumG_global, int *accumB_global);
-void	cube(t_vars* vars);
+void	draw_cube(t_vars *vars, double ax, double ay, double az);
 void	drawMenger2D(t_vars *vars, int depth);
 void	errors(int error, t_vars *vars);
 void	event(t_vars *vars);
@@ -173,6 +186,7 @@ int		len(char *str);
 void    letter_s(t_vars* vars);
 int		loop_hook_buddhabrot_thread(void *arg);
 int		loop_hook_buddhabrot_thread_2(void *arg);
+int 	loop_hook_cube(t_vars *vars);
 void	intro(t_vars *vars);
 void	menu(t_vars *vars);
 int 	loop_hook_mandelbrot_pussance_n(t_vars *vars);
