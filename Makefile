@@ -41,7 +41,7 @@ SRC = animation/animation_buddhabrot.c \
       buddhabrot/buddhabrot.c buddhabrot/buddhabrot_thread.c \
 	  burningship/burningship.c \
       dragon_curve/dragon.c \
-      event/events.c \
+      event/events.c event/event_bis.c \
 	  mandelbrot/mandelbrot.c \
 	  julia/julia.c \
       src/color_b.c src/color_c.c src/color_d.c src/color.c \
@@ -52,7 +52,7 @@ SRC = animation/animation_buddhabrot.c \
 SRC_PATH = $(addprefix $(SRC_DIR), $(SRC))
 
 MENU_DIR = menu/
-MENU = menu.c intro.c option.c cube.c
+MENU = menu.c intro.c option.c cube.c audio.c
 MENU_PATH = $(addprefix $(MENU_DIR), $(MENU))
 # -------------- Object files ----------
 

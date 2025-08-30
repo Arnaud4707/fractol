@@ -43,6 +43,7 @@ int	loop_hook_master(void* arg)
 		vars->play_audio = 1;
 		audio_play(vars);
 	}
+	vars->audio_amp = get_audio_amp();
     if (vars->f == -1)
 	{
         intro(vars);

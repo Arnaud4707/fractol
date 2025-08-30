@@ -82,6 +82,7 @@ int	main(int arg, char **argv, char**env)
 		return (0);
 	event(&vars);
 	vars.env = env;
+	init_audio(&vars);
 	mlx_loop_hook(vars.mlx, loop_hook_master, &vars);
 	mlx_loop(vars.mlx);
 	return (0);

@@ -89,7 +89,7 @@ void	draw_cube(t_vars *vars, double ax, double ay, double az)
     {
         int a = edges[i][0];
         int b = edges[i][1];
-        draw_line(vars, proj[a].x, proj[a].y, proj[b].x, proj[b].y, 0xFFFFFF);
+        draw_line(vars, proj[a].x, proj[a].y, proj[b].x, proj[b].y, (vars->color_start + vars->color_back) % 256);
     }
 }
 

@@ -17,11 +17,10 @@ void	intro(t_vars* vars)
 {
 	background_intro(vars);
 	loop_hook_cube(vars);
-	// cube(vars);
 	button_start(vars);
 	letter_s(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-    usleep(30000);
+    usleep(20000);
 }
 
 void	background_intro(t_vars* vars)
@@ -50,8 +49,8 @@ void	background_intro(t_vars* vars)
 			double dx = x - cx;
 			double dy = y - cy;
 			double dist = sqrt(dx*dx + dy*dy);
-
-			double wave = 10.0 * sin(0.05 * dist - t);
+			double wave = (10.0 + 50.0 * vars->audio_amp) * sin(0.05 * dist - t);
+			// double wave = 10.0  * sin(0.05 * dist - t);
 
 			int newY = (int)(y + wave);
 			if (newY >= 0 && newY < vars->hauteur)

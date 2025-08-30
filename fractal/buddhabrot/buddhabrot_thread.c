@@ -163,7 +163,6 @@ void	buddhabrot_thread(t_vars *vars)
     pthread_t threads[THREADS];
     ThreadData data[THREADS];
 
-    // lancer les threads
     for (int t = 0; t < THREADS; t++) {
         data[t].vars = vars;
         data[t].accum_local = calloc(WIDTH * HEIGHT, sizeof(int));
@@ -172,7 +171,6 @@ void	buddhabrot_thread(t_vars *vars)
         pthread_create(&threads[t], NULL, buddhabrot_worker, &data[t]);
     }
 
-    // attendre les threads et fusionner
     for (int t = 0; t < THREADS; t++) {
         pthread_join(threads[t], NULL);
 
@@ -182,13 +180,11 @@ void	buddhabrot_thread(t_vars *vars)
         free(data[t].accum_local);
     }
 
-    // normalisation
     int max_val = 0;
     for (int i = 0; i < WIDTH * HEIGHT; i++)
         if (accum_global[i] > max_val)
             max_val = accum_global[i];
 
-    // rendu
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
            int val = accum_global[y * WIDTH + x];

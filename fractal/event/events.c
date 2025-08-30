@@ -53,7 +53,7 @@ void	display_fractal(t_vars* vars, double tmpx, double tmpy, t_point3D* p)
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 190 && p->y <= 202))
 		vars_set_burning_ship(vars);
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 240 && p->y <= 252))
-		vars_set_spondMenger(vars, "5");
+		vars_set_spondMenger(vars, "1");
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 290 && p->y <= 302))
 		vars_set_dragon(vars);
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 340 && p->y <= 352))
@@ -76,8 +76,11 @@ void	display_fractal(t_vars* vars, double tmpx, double tmpy, t_point3D* p)
 		zoom_dragon(vars, 0.8);
 	else if (vars->f == 5 && p->z == 5)
 		zoom_dragon(vars, 1.2);
-	else if (vars->f != -2 && vars->f != -1 && (p->y < vars->hauteur - 80 || p->y > vars->hauteur - 50)
-		&& (p->x < vars->largeur - 80 || p->x > vars->largeur - 35) && (p->y < vars->hauteur && p->x < vars->largeur))
+	else if (vars->f != -2 && vars->f != -1 && vars->f != 9 && vars-> f != 8
+		&& vars->f != 7 && vars->f != 10 && vars->f != 11 && vars->f != 6
+		&& (p->y < vars->hauteur - 80 || p->y > vars->hauteur - 50)
+		&& (p->x < vars->largeur - 80 || p->x > vars->largeur - 35)
+		&& (p->y < vars->hauteur && p->x < vars->largeur))
 	{
 		tmpx = (vars->xmax - vars->xmin) * ((double)(p->x) / vars->largeur);
 		tmpy = (vars->ymax - vars->ymin) * ((double)(p->y) / vars->hauteur);
@@ -218,46 +221,5 @@ int	event_button(int x, int y, t_vars *vars)
 		vars->need_drow = 1;
 	}
 	selectt(y, vars);
-	return (0);
-}
-
-int	key(int keycode, t_vars *vars)
-{
-	(void)vars;
-	if (keycode == 65307)
-		closey(vars);
-	vars->key = keycode;
-	if (vars->f == 1 || vars->f == 2 || vars->f == 3 || vars->f == 4 || vars->f == 5)
-	{
-		if (keycode == 65361 || keycode == 65363
-			|| keycode == 65362 || keycode == 65364)
-			arrow(keycode, vars);
-		else if (keycode == 115)
-			vars->play = 0;
-		else if (keycode == 112)
-			vars->play = 1;
-		else if (keycode == 114 || keycode == 121 || keycode == 103
-			|| keycode == 98 || keycode == 65436
-			|| keycode == 65433 || keycode == 65435
-			|| keycode == 32 || keycode == 65430
-			|| keycode == 65437)
-			set_color(keycode, vars);
-	}
-	else
-	{
-		if (vars->current_key != keycode && (keycode == 114 || keycode == 99 || keycode == 103
-			|| keycode == 98 || keycode == 112 || keycode == 121 || keycode == 32
-			|| keycode == 65436 || keycode == 65433 || keycode == 65435 || keycode == 65430) && vars->f == 7)
-			set_color(keycode, vars);
-		else if (vars->current_key != keycode && (keycode == 32 || keycode == 65436) && vars->f == 9)
-			set_color(keycode, vars);
-		else if ((keycode == 114 || keycode == 121 || keycode == 103
-			|| keycode == 98 || keycode == 65436
-			|| keycode == 65433 || keycode == 65435
-			|| keycode == 32 || keycode == 65430
-			|| keycode == 65437) && (vars->f == 10 || vars->f == 8))
-			palette_color(keycode, vars);
-	}
-	printf("%d\n", keycode);
 	return (0);
 }

@@ -97,7 +97,6 @@ void	rotate_image_90_clockwise(t_vars *vars)
     int w = vars->largeur;
     int h = vars->hauteur;
 
-    // Créer une nouvelle image avec largeur et hauteur inversées
     t_data *new_img = malloc(sizeof(t_data));
     new_img->img = mlx_new_image(vars->mlx, h, w);
     new_img->addr = mlx_get_data_addr(new_img->img, &new_img->bits_per_pixel, &new_img->line_length, &new_img->endian);
@@ -109,24 +108,19 @@ void	rotate_image_90_clockwise(t_vars *vars)
     {
         for (int x = 0; x < w; x++)
         {
-            // Lire la couleur du pixel original
             int src_pixel = *(int *)(src + y * vars->img->line_length + x * (vars->img->bits_per_pixel / 8));
 
-            // Nouvelle position (x', y') pour rotation horaire
             int new_x = h - 1 - y;
             int new_y = x;
 
-            // Écrire dans la nouvelle image
             *(int *)(dst + new_y * new_img->line_length + new_x * (new_img->bits_per_pixel / 8)) = src_pixel;
         }
     }
 
-    // Supprimer l'ancienne image et remplacer par la nouvelle
     mlx_destroy_image(vars->mlx, vars->img->img);
     free(vars->img);
     vars->img = new_img;
 
-    // Échanger largeur et hauteur
     vars->largeur = h;
     vars->hauteur = w;
 }

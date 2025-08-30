@@ -28,9 +28,9 @@
 # include <math.h>
 # include <string.h>
 # include <unistd.h>
+# include <X11/Xlib.h>
 # include <signal.h>
 # include <sys/types.h>
-# include <sys/wait.h>
 #include "../libft/libft.h"
 
 #define THREADS 20
@@ -81,6 +81,7 @@ typedef struct s_vars {
 	char 	*playlist[4];
 	int		index_audio;
 	int		audio_loop;
+	double	audio_amp;
 	pid_t   audio_pid;
 	int 	selectM;
 	int 	selectB;
@@ -137,6 +138,8 @@ typedef struct {
 
 
 void	action_zoom(int button, double tmpx, double tmpy, t_vars *vars);
+void	analyse_audio(t_vars* vars);
+int		arrow(int keycode, t_vars *vars);
 void	audio_play(t_vars* vars);
 void	audio_stop(t_vars *vars);
 void	background_intro(t_vars* vars);
@@ -155,6 +158,7 @@ void	calcule_dragon(t_vars *vars);
 void	calcule_b(t_vars *vars, int x, int y);
 void	calcule_m(t_vars *vars, int x, int y);
 void	calcule_j(t_vars *vars, int x, int y);
+void	center_window(t_vars *vars);
 int		check_arg(int arg, char **argv, t_vars *vars);
 int		check_arg_julia(char *src, int c, t_vars *vars);
 int		ckeck(char *s, int l);
@@ -176,6 +180,7 @@ void	fractal(t_vars *vars, void (*calcule)(t_vars *, int, int));
 void	function_asymptote(int button, double x, double y, t_vars *vars);
 void	function_asymptote_click(int button, double x, double y, t_vars *vars);
 double	gamma_correct(double value);
+double	get_audio_amp();
 void	horizontal(int keycode, t_vars *vars);
 void    hsv_to_rgb(double h, double s, double v, int *r, int *g, int *b);
 int 	init_img(t_vars* vars);
