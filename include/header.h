@@ -22,11 +22,14 @@
 # define MAX_ITER 1000
 
 # include <stddef.h>
+#include <sndfile.h>
+#include <fftw3.h>
 # include <pthread.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
 # include <string.h>
+# include <sys/wait.h>
 # include <unistd.h>
 # include <X11/Xlib.h>
 # include <signal.h>
@@ -78,10 +81,18 @@ typedef struct s_vars {
 	int		step;
 	int		need_drow;
 	int		play_audio;
-	char 	*playlist[4];
+	char 	*playlist[6];
 	int		index_audio;
 	int		audio_loop;
-	double	audio_amp;
+	SNDFILE *snd;
+    SF_INFO sfinfo;
+    short *audio_buf;
+    double *fft_in;
+    fftw_complex *fft_out;
+    fftw_plan fft_plan;
+    int buffer_size;
+    double audio_amp;
+    double bass, mid, treble;
 	pid_t   audio_pid;
 	int 	selectM;
 	int 	selectB;
@@ -107,6 +118,12 @@ typedef struct {
     int 	samples;
     unsigned int seed;
 } ThreadData;
+
+typedef struct s_rgb {
+    int	r;
+	int g;
+	int	b;
+}   t_rgb;
 
 typedef struct {
     t_vars 	*vars;
@@ -158,7 +175,6 @@ void	calcule_dragon(t_vars *vars);
 void	calcule_b(t_vars *vars, int x, int y);
 void	calcule_m(t_vars *vars, int x, int y);
 void	calcule_j(t_vars *vars, int x, int y);
-void	center_window(t_vars *vars);
 int		check_arg(int arg, char **argv, t_vars *vars);
 int		check_arg_julia(char *src, int c, t_vars *vars);
 int		ckeck(char *s, int l);

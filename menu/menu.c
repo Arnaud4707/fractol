@@ -43,7 +43,7 @@ int	loop_hook_master(void* arg)
 		vars->play_audio = 1;
 		audio_play(vars);
 	}
-	vars->audio_amp = get_audio_amp();
+	analyse_audio(vars);
     if (vars->f == -1)
 	{
         intro(vars);
@@ -73,43 +73,48 @@ int	loop_hook_master(void* arg)
 void	menu(t_vars *vars)
 {
 	background_menu(vars);
+	loop_hook_cube(vars);
 	back(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	option(vars);
-    usleep(30000);
+    usleep(20000);
 }
 
 void	background_menu(t_vars* vars)
 {
 	static double t = 0;
 
+	int r = (int)(255 * vars->mid);
+	int g = (int)(153 * vars->treble);
+	int b = 51;
+	int bg_color = (r << 16) | (g << 8) | b;
+
 	for (int y = 0; y < vars->hauteur; y++)
 	{
 		for (int x = 0; x < vars->largeur; x++)
 		{
-			int r = 255;
-			int g = 153;
-			int b = 51;
-			int color = (r << 16) | (g << 8) | b;
-			my_mlx_pixel_put(vars->img, x, y, color);
-
+			my_mlx_pixel_put(vars->img, x, y, bg_color);
 		}
 	}
 
 	for (int y = 0; y < vars->hauteur; y += 10)
-    {
-        for (int x = 0; x < vars->largeur; x += 10)
-        {
-            double wave =
-                8.0 * sin(0.00 * x + t) +
-                5.0 * cos(0.04 * y + t * 0.8) +
-                4.0 * sin(0.03 * (x + y) + t * 1.2);
-            int newY = (int)(y + wave);
-            if (newY >= 0 && newY < vars->hauteur)
-                my_mlx_pixel_put(vars->img, x, newY, 0xFFFFFFFF);
-        }
-    }
+	{
+		for (int x = 0; x < vars->largeur; x += 10)
+		{
+			double cx = vars->largeur / 2.0;
+			double cy = vars->hauteur / 2.0;
+			double dx = x - cx;
+			double dy = y - cy;
+			double dist = sqrt(dx*dx + dy*dy);
+			double wave = (10.0 + 80.0 * vars->audio_amp) * sin(0.05 * dist - t);
+
+			int newY = (int)(y + wave);
+			if (newY >= 0 && newY < vars->hauteur)
+				my_mlx_pixel_put(vars->img, x, newY, 0xFFFFFF);
+		}
+	}
 	t += 0.1;
+	return ;
 }
 
 void	back(t_vars* vars)

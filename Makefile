@@ -29,7 +29,8 @@ MLX      = $(MLX_PATH)$(LIB_MLX)
 # -------------- Flags of compilation---
 
 CC     = cc
-CFLAGS = -Wall -Wextra -Werror -I./ -g3 -O3 -ffast-math -march=native -funroll-loops 
+CFLAGS  = -Wall -Wextra -Werror -I./ -I$(HOME)/.local/include -g3 -O3 -ffast-math -march=native -funroll-loops
+LDFLAGS = -L$(HOME)/.local/lib -lsndfile -lfftw3
 
 # -------------- Sources files ---------
 
@@ -52,13 +53,14 @@ SRC = animation/animation_buddhabrot.c \
 SRC_PATH = $(addprefix $(SRC_DIR), $(SRC))
 
 MENU_DIR = menu/
-MENU = menu.c intro.c option.c cube.c audio.c
+MENU = menu.c intro.c option.c cube.c
 MENU_PATH = $(addprefix $(MENU_DIR), $(MENU))
 # -------------- Object files ----------
 
 OBJ_DIR = $(SRC_DIR)obj/
 OBJ      = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 OBJ_MAIN = $(OBJ_DIR)main.o 
+OBJ_AUDIO = $(OBJ_DIR)audio.o 
 OBJ_MENU =  $(addprefix $(OBJ_DIR), $(MENU:.c=.o))
 
 # -------------- Rules ------------------
@@ -69,13 +71,13 @@ all: $(NAME)
 
 $(NAME): $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
 	@echo $(BRUN) "Compiling fractol..."
-	@$(CC) $(CFLAGS) $(OBJ_MAIN) $(LIB_FRACTAL) $(LIBFT) -Lmlx -lmlx -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm -lz -o $(NAME)
+	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ_MAIN) $(LIB_FRACTAL) $(LIBFT) -Lmlx -lmlx -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm -lz -o $(NAME)
 	@echo $(GREEN) "OK : Compile fractol" $(RESET)
 
 # ----- Linking libs -----------
 
-$(LIB_FRACTAL): $(OBJ) $(OBJ_MENU)
-	@ar rcs $(LIB_FRACTAL) $(OBJ) $(OBJ_MENU)
+$(LIB_FRACTAL): $(OBJ) $(OBJ_MENU) $(OBJ_AUDIO)
+	@ar rcs $(LIB_FRACTAL) $(OBJ) $(OBJ_MENU) $(OBJ_AUDIO)
 
 $(LIBFT):
 	@echo $(BRUN) "Making Libft..." $(RESET)
@@ -92,7 +94,7 @@ $(MLX):
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(dir $@)
 	@printf "$(GREEN)Compiling fractol 🏹: $(WHITE)$< $(RESET)\n"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS)  -c $< -o $@
 
 $(OBJ_MAIN): main.c
 	@mkdir -p $(dir $@)
@@ -103,6 +105,10 @@ $(OBJ_DIR)%.o: $(MENU_DIR)%.c
 	@mkdir -p $(dir $@)
 	@printf "$(GREEN)Compiling menu 🏹: $(WHITE)$< $(RESET)\n"
 	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)%.o: menu/audio.c
+	@printf "$(GREEN)Compiling menu 🏹: $(WHITE)$< $(RESET)\n"
+	@$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@	
 
 # ----- Bonus ------------------
 

@@ -22,13 +22,37 @@ double	get_audio_amp()
 
 void	analyse_audio(t_vars* vars)
 {
-	static int p = 0;
+    int read = sf_read_short(vars->snd, vars->audio_buf, vars->buffer_size * vars->sfinfo.channels);
+    if (read <= 0) {
+        sf_seek(vars->snd, 0, SEEK_SET);
+        read = sf_read_short(vars->snd, vars->audio_buf, vars->buffer_size * vars->sfinfo.channels);
+    }
 
-	if (vars->index_audio != p)
-	{
-		p = vars->index_audio;
-		vars->audio_amp = get_audio_amp();
-	}
+    for (int i = 0; i < vars->buffer_size; i++)
+        vars->fft_in[i] = (double)vars->audio_buf[i*vars->sfinfo.channels] / 32768.0;
+
+    fftw_execute(vars->fft_plan);
+
+    double bass = 0, mid = 0, treble = 0;
+    for (int i = 0; i < vars->buffer_size/2+1; i++) {
+        double mag = sqrt(vars->fft_out[i][0]*vars->fft_out[i][0] + vars->fft_out[i][1]*vars->fft_out[i][1]);
+        double freq = (double)i * vars->sfinfo.samplerate / vars->buffer_size;
+
+        if (freq < 200) bass += mag;
+        else if (freq < 2000) mid += mag;
+        else treble += mag;
+    }
+
+    double norm = (bass + mid + treble) + 1e-9;
+    bass   /= norm;
+    mid    /= norm;
+    treble /= norm;
+
+    vars->bass   = 0.8 * vars->bass   + 0.2 * bass;
+    vars->mid    = 0.8 * vars->mid    + 0.2 * mid;
+    vars->treble = 0.8 * vars->treble + 0.2 * treble;
+
+	vars->audio_amp = vars->bass;
 }
 
 void	audio_play(t_vars* vars)
@@ -46,15 +70,16 @@ void	audio_play(t_vars* vars)
 	}
 	else if (pid == 0)
 	{
+		setpgid(0, 0);
 		while (1)
-        {
-            if (!vars->playlist[vars->index_audio])
-                vars->index_audio = 0;
-            snprintf(cmd, sizeof(cmd), "paplay '%s'", vars->playlist[vars->index_audio]);
-            system(cmd);
-            vars->index_audio += 1;
-        }
-        exit(0);
+		{
+			if (!vars->playlist[vars->index_audio])
+				vars->index_audio = 0;
+			snprintf(cmd, sizeof(cmd), "paplay '%s'", vars->playlist[vars->index_audio]);
+			system(cmd);
+			vars->index_audio += 1;
+		}
+		exit(0);
 	}
 	else
 		vars->audio_pid = pid;
@@ -62,13 +87,10 @@ void	audio_play(t_vars* vars)
 
 void	audio_stop(t_vars *vars)
 {
-	char cmd[265];
-
     if (vars->audio_pid > 0)
-    {
-        kill(vars->audio_pid, SIGKILL);
-        snprintf(cmd, sizeof(cmd), "pkill -f 'paplay %s'", vars->playlist[vars->index_audio]);
-		system(cmd);
+	{
+        kill(-vars->audio_pid, SIGKILL);
+        waitpid(vars->audio_pid, NULL, 0);
         vars->audio_pid = 0;
     }
 }

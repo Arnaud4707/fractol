@@ -37,13 +37,28 @@ int init_img(t_vars* vars)
 
 void	init_audio(t_vars* vars)
 {
-	vars->play_audio = 0;
-	vars->audio_loop = 1;
-	vars->index_audio = 0;
-	vars->playlist[0] = "audio/Drake--The-Motto.wav";
-	vars->playlist[1] = "audio/Stainless.wav";
-	vars->playlist[2] = "audio/Asap-Rocky--Praise-The-Lord.wav";
-	vars->playlist[3] = NULL;
+	vars->buffer_size = 1024;
+
+    vars->play_audio = 0;
+    vars->audio_loop = 1;
+    vars->index_audio = 0;
+    vars->playlist[0] = "audio/Stainless.wav";
+    vars->playlist[1] = "audio/cardib.wav";
+    vars->playlist[2] = "audio/Asap-Rocky--Praise-The-Lord.wav";
+    vars->playlist[3] = "audio/Drake--The-Motto.wav";
+    vars->playlist[4] = "audio/mazel.wav";
+	vars->playlist[5] = NULL;
+
+    vars->snd = sf_open(vars->playlist[vars->index_audio], SFM_READ, &vars->sfinfo);
+    if (!vars->snd) {
+        perror("sf_open");
+        exit(0);
+    }
+
+    vars->audio_buf = malloc(vars->buffer_size * vars->sfinfo.channels * sizeof(short));
+    vars->fft_in = fftw_malloc(sizeof(double) * vars->buffer_size);
+    vars->fft_out = fftw_malloc(sizeof(fftw_complex) * (vars->buffer_size/2+1));
+    vars->fft_plan = fftw_plan_dft_r2c_1d(vars->buffer_size, vars->fft_in, vars->fft_out, FFTW_ESTIMATE);
 }
 
 int	init(int arg, char **argv, t_vars *vars)
