@@ -42,12 +42,14 @@ void	init_audio(t_vars* vars)
     vars->play_audio = 0;
     vars->audio_loop = 1;
     vars->index_audio = 0;
-    vars->playlist[0] = "audio/Stainless.wav";
-    vars->playlist[1] = "audio/cardib.wav";
-    vars->playlist[2] = "audio/Asap-Rocky--Praise-The-Lord.wav";
-    vars->playlist[3] = "audio/Drake--The-Motto.wav";
-    vars->playlist[4] = "audio/mazel.wav";
-	vars->playlist[5] = NULL;
+    vars->playlist[0] = "audio/Meek-Mill--Rico.wav";
+    vars->playlist[1] = "audio/Eminem-Houdini.wav";
+    vars->playlist[2] = "audio/Drake--The-Motto.wav";
+    vars->playlist[3] = "audio/Stainless.wav";
+    vars->playlist[4] = "audio/Asap-Rocky--Praise-The-Lord.wav";
+    vars->playlist[5] = "audio/cardib.wav";
+    vars->playlist[6] = "audio/mazel.wav";
+	vars->playlist[7] = NULL;
 
     vars->snd = sf_open(vars->playlist[vars->index_audio], SFM_READ, &vars->sfinfo);
     if (!vars->snd) {

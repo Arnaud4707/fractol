@@ -13,13 +13,6 @@
 #include "mlx/mlx.h"
 #include "include/header.h"
 
-double	get_audio_amp()
-{
-    static double t = 0;
-    t += 0.1;
-    return (sin(t) + 1.0) / 2.0;
-}
-
 void	analyse_audio(t_vars* vars)
 {
     int read = sf_read_short(vars->snd, vars->audio_buf, vars->buffer_size * vars->sfinfo.channels);

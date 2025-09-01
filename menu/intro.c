@@ -13,7 +13,7 @@
 #include "mlx/mlx.h"
 #include "include/header.h"
 
-static t_rgb hsl_to_rgb2(double h, double s, double l)
+t_rgb hsl_to_rgb2(double h, double s, double l)
 {
     double c = (1 - fabs(2*l - 1)) * s;
     double x = c * (1 - fabs(fmod(h / 60.0, 2) - 1));
@@ -42,6 +42,7 @@ static t_rgb hsl_to_rgb2(double h, double s, double l)
 void	intro(t_vars* vars)
 {
 	background_intro(vars);
+	draw_wave(vars);
 	loop_hook_cube(vars);
 	button_start(vars);
 	letter_s(vars);
@@ -51,13 +52,17 @@ void	intro(t_vars* vars)
 
 void	background_intro(t_vars* vars)
 {
-	static double t = 0;
-
-	double hue = fmod(vars->mid * 720.0, 360.0);
-	double sat = 0.5 + 0.5 * vars->treble;
+	double hue   = fmod(vars->mid * 520.0, 460.0);
+	double sat   = 0.4 + 0.35 * vars->treble;
 	double light = 0.4 + 0.2 * vars->bass;
 
-	t_rgb col = hsl_to_rgb2(hue, sat, light);
+	static double sh = 0, ss = 0, sl = 0;
+	double alpha = 0.1;
+	sh = (1-alpha) * sh + alpha * hue;
+	ss = (1-alpha) * ss + alpha * sat;
+	sl = (1-alpha) * sl + alpha * light;
+
+	t_rgb col = hsl_to_rgb2(sh, ss, sl);
 	int bg_color = (col.r << 16) | (col.g << 8) | col.b;
 
 	for (int y = 0; y < vars->hauteur; y++)
@@ -67,24 +72,6 @@ void	background_intro(t_vars* vars)
 			my_mlx_pixel_put(vars->img, x, y, bg_color);
 		}
 	}
-
-	for (int y = 0; y < vars->hauteur; y += 10)
-	{
-		for (int x = 0; x < vars->largeur; x += 10)
-		{
-			double cx = vars->largeur / 2.0;
-			double cy = vars->hauteur / 2.0;
-			double dx = x - cx;
-			double dy = y - cy;
-			double dist = sqrt(dx*dx + dy*dy);
-			double wave = (10.0 + 80.0 * vars->audio_amp) * sin(0.05 * dist - t);
-
-			int newY = (int)(y + wave);
-			if (newY >= 0 && newY < vars->hauteur)
-				my_mlx_pixel_put(vars->img, x, newY, 0xFFFFFF);
-		}
-	}
-	t += 0.1;
 	return ;
 }
 

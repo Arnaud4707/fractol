@@ -53,6 +53,12 @@ int	loop_hook_master(void* arg)
         menu(vars);
 	}
 	drow_fractal(vars);
+	// if (vars->f != -1 && vars->f != -2)
+	// {
+	// 	draw_wave(vars);
+	// 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	// 	usleep(20000);
+	// }
 	if (vars->f == 11)
 		loop_hook_buddhabrot_thread(vars);
 	else if (vars->f == 10)
@@ -73,6 +79,7 @@ int	loop_hook_master(void* arg)
 void	menu(t_vars *vars)
 {
 	background_menu(vars);
+	draw_wave(vars);
 	loop_hook_cube(vars);
 	back(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
@@ -82,8 +89,6 @@ void	menu(t_vars *vars)
 
 void	background_menu(t_vars* vars)
 {
-	static double t = 0;
-
 	int r = (int)(255 * vars->mid);
 	int g = (int)(153 * vars->treble);
 	int b = 51;
@@ -97,23 +102,6 @@ void	background_menu(t_vars* vars)
 		}
 	}
 
-	for (int y = 0; y < vars->hauteur; y += 10)
-	{
-		for (int x = 0; x < vars->largeur; x += 10)
-		{
-			double cx = vars->largeur / 2.0;
-			double cy = vars->hauteur / 2.0;
-			double dx = x - cx;
-			double dy = y - cy;
-			double dist = sqrt(dx*dx + dy*dy);
-			double wave = (10.0 + 80.0 * vars->audio_amp) * sin(0.05 * dist - t);
-
-			int newY = (int)(y + wave);
-			if (newY >= 0 && newY < vars->hauteur)
-				my_mlx_pixel_put(vars->img, x, newY, 0xFFFFFF);
-		}
-	}
-	t += 0.1;
 	return ;
 }
 

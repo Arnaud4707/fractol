@@ -79,6 +79,7 @@ void	draw_line(t_vars *vars, int x0, int y0, int x1, int y1, int color)
 void	draw_cube(t_vars *vars, double ax, double ay, double az)
 {
     t_point2D proj[8];
+
     for (int i = 0; i < 8; i++)
     {
         t_point3D p = rotate_point(cube_vertices[i], ax, ay, az);
@@ -89,7 +90,7 @@ void	draw_cube(t_vars *vars, double ax, double ay, double az)
     {
         int a = edges[i][0];
         int b = edges[i][1];
-        draw_line(vars, proj[a].x, proj[a].y, proj[b].x, proj[b].y, (vars->color_start + vars->color_back) % 256);
+        draw_line(vars, proj[a].x, proj[a].y, proj[b].x, proj[b].y, (vars->color_start) % 256);
     }
 }
 

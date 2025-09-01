@@ -76,8 +76,9 @@ void	display_fractal(t_vars* vars, double tmpx, double tmpy, t_point3D* p)
 		zoom_dragon(vars, 0.8);
 	else if (vars->f == 5 && p->z == 5)
 		zoom_dragon(vars, 1.2);
-	else if (vars->f != -2 && vars->f != -1 && vars->f != 9 && vars-> f != 8
-		&& vars->f != 7 && vars->f != 10 && vars->f != 11 && vars->f != 6
+	else if (vars->f != -2 && vars->f != -1 && vars->f != 9 
+		&& vars-> f != 8 && vars->f != 7 && vars->f != 10 
+		&& vars->f != 11 && vars->f != 6 && vars->f != 5
 		&& (p->y < vars->hauteur - 80 || p->y > vars->hauteur - 50)
 		&& (p->x < vars->largeur - 80 || p->x > vars->largeur - 35)
 		&& (p->y < vars->hauteur && p->x < vars->largeur))
