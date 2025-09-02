@@ -250,6 +250,8 @@ int	vars_set_Intro(t_vars *vars)
 	vars->ymax = 2;
 	vars->f = -1;
 	vars->color_start = 0xFFFFFFFF;
+	vars->selectAB = 0xFFFFFFFF;
+	vars->selectAP = 0xFFFFFFFF;
 	vars->play = 1;
 	vars->key = 32;
 	vars->current_key = 0;
@@ -284,6 +286,8 @@ int	vars_set_Menu(t_vars *vars)
 	vars->selectMP = 0x00FFFFFF;
 	vars->selectBA = 0x00FFFFFF;
 	vars->selectMZ = 0x00FFFFFF;
+	vars->selectAB = 0xFFFFFFFF;
+	vars->selectAP = 0xFFFFFFFF;
 	vars->need_drow = 0;
 	vars->play = 1;
 	vars->key = 32;

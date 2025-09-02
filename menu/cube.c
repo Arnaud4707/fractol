@@ -26,6 +26,36 @@ int edges[12][2] = {
     {0,4},{1,5},{2,6},{3,7}
 };
 
+// int loop_hook_cube2(t_vars *vars)
+// {
+//     static double ax = 0, ay = 0, az = 0;
+
+//     draw_cube(vars, ax, ay, az);
+
+//     ax += 0.02;
+//     ay += 0.03;
+//     az += 0.01;
+//     return 0;
+// }
+
+int loop_hook_cube(t_vars *vars)
+{
+    static double ax = 0, ay = 0, az = 0;
+    double speed_base = 0.02;
+
+    double speed_x = speed_base + vars->bass   * 0.02;
+    double speed_y = speed_base + vars->mid    * 0.03;
+    double speed_z = speed_base + vars->treble * 0.01;
+
+    ax += speed_x;
+    ay += speed_y;
+    az += speed_z;
+
+    draw_cube(vars, ax, ay, az);
+    return 0;
+}
+
+
 t_point3D	rotate_point(t_point3D p, double ax, double ay, double az)
 {
     double cy = cos(ax), sy = sin(ax);
@@ -80,17 +110,28 @@ void	draw_cube(t_vars *vars, double ax, double ay, double az)
 {
     t_point2D proj[8];
 
+    double scale = 0.80 + 0.70 * vars->bass;
+
     for (int i = 0; i < 8; i++)
     {
         t_point3D p = rotate_point(cube_vertices[i], ax, ay, az);
+
+        p.x *= scale;
+        p.y *= scale;
+        p.z *= scale;
         proj[i] = project_point(p, vars->largeur, vars->hauteur, 300);
     }
 
+    double hue   = fmod(vars->mid * 220.0, 60.0);
+    double sat   = 0.5 + 0.5 * vars->treble;
+    double light = 0.5 + 0.5 * vars->bass;
+
+    t_rgb col = hsl_to_rgb2(hue, sat, light);
+    int line_color = (col.r << 16) | (col.g << 8) | col.b;
     for (int i = 0; i < 12; i++)
     {
         int a = edges[i][0];
         int b = edges[i][1];
-        draw_line(vars, proj[a].x, proj[a].y, proj[b].x, proj[b].y, (vars->color_start) % 256);
+        draw_line(vars, proj[a].x, proj[a].y, proj[b].x, proj[b].y, line_color);
     }
 }
-

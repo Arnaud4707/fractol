@@ -53,7 +53,8 @@ SRC = animation/animation_buddhabrot.c \
 SRC_PATH = $(addprefix $(SRC_DIR), $(SRC))
 
 MENU_DIR = menu/
-MENU = menu.c intro.c option.c cube.c wave.c
+MENU = menu.c intro.c option.c cube.c wave.c master.c \
+	   analyse_spectrale.c
 MENU_PATH = $(addprefix $(MENU_DIR), $(MENU))
 # -------------- Object files ----------
 

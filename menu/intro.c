@@ -47,12 +47,13 @@ void	intro(t_vars* vars)
 	button_start(vars);
 	letter_s(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	draw_next_back_audio(vars);
     usleep(20000);
 }
 
 void	background_intro(t_vars* vars)
 {
-	double hue   = fmod(vars->mid * 520.0, 460.0);
+	double hue   = fmod(vars->mid * 520.0, 340.0);
 	double sat   = 0.4 + 0.35 * vars->treble;
 	double light = 0.4 + 0.2 * vars->bass;
 
@@ -103,17 +104,4 @@ void	button_start(t_vars* vars)
 				my_mlx_pixel_put(vars->img, x, y, vars->color_start);
 		}
 	}
-}
-
-int loop_hook_cube(t_vars *vars)
-{
-    static double ax = 0, ay = 0, az = 0;
-
-    draw_cube(vars, ax, ay, az);
-
-    ax += 0.02;
-    ay += 0.03;
-    az += 0.01;
-
-    return 0;
 }

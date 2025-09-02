@@ -13,6 +13,44 @@
 #include "mlx/mlx.h"
 #include "../../include/header.h"
 
+void	button_next_back_audio(int x, int y, t_vars* vars)
+{
+	if ((y >= 70 && y <= 82) && (x >= 80 && x <= 100))
+	{
+		if ((unsigned int)vars->selectAB == 0xFFFFFFFF)
+		{
+			vars->selectAB = 0x0000FF00;
+			vars->need_drow = 1;
+		}
+	}
+	else if ((unsigned int)vars->selectAB != 0xFFFFFFFF)
+	{
+		vars->selectAB = 0xFFFFFFFF;
+		vars->need_drow = 1;
+	}
+	if ((y >= 70 && y <= 82) && (x >= 130 && x <= 150))
+	{
+		if ((unsigned int)vars->selectAP == 0xFFFFFFFF)
+		{
+			vars->selectAP = 0x0000FF00;
+			vars->need_drow = 1;
+		}
+	}
+	else if ((unsigned int)vars->selectAP != 0xFFFFFFFF)
+	{
+		vars->selectAP = 0xFFFFFFFF;
+		vars->need_drow = 1;
+	}
+}
+
+void	click_next_back_audio(t_vars* vars, t_point3D* p)
+{
+	if (p->z == 1 && (p->y >= 70 && p->y <= 82) && (p->x >= 80 && p->x <= 100))
+		audio_back(vars);
+	else if (p->z == 1 && (p->y >= 70 && p->y <= 82) && (p->x >= 130 && p->x <= 150))
+		audio_next(vars);
+}
+
 void	fractal_simple(int keycode, t_vars *vars)
 {
 	if (keycode == 65361 || keycode == 65363

@@ -13,46 +13,11 @@
 #include "mlx/mlx.h"
 #include "include/header.h"
 
-void	analyse_audio(t_vars* vars)
+void	audio_play(t_vars *vars)
 {
-    int read = sf_read_short(vars->snd, vars->audio_buf, vars->buffer_size * vars->sfinfo.channels);
-    if (read <= 0) {
-        sf_seek(vars->snd, 0, SEEK_SET);
-        read = sf_read_short(vars->snd, vars->audio_buf, vars->buffer_size * vars->sfinfo.channels);
-    }
-
-    for (int i = 0; i < vars->buffer_size; i++)
-        vars->fft_in[i] = (double)vars->audio_buf[i*vars->sfinfo.channels] / 32768.0;
-
-    fftw_execute(vars->fft_plan);
-
-    double bass = 0, mid = 0, treble = 0;
-    for (int i = 0; i < vars->buffer_size/2+1; i++) {
-        double mag = sqrt(vars->fft_out[i][0]*vars->fft_out[i][0] + vars->fft_out[i][1]*vars->fft_out[i][1]);
-        double freq = (double)i * vars->sfinfo.samplerate / vars->buffer_size;
-
-        if (freq < 200) bass += mag;
-        else if (freq < 2000) mid += mag;
-        else treble += mag;
-    }
-
-    double norm = (bass + mid + treble) + 1e-9;
-    bass   /= norm;
-    mid    /= norm;
-    treble /= norm;
-
-    vars->bass   = 0.8 * vars->bass   + 0.2 * bass;
-    vars->mid    = 0.8 * vars->mid    + 0.2 * mid;
-    vars->treble = 0.8 * vars->treble + 0.2 * treble;
-
-	vars->audio_amp = vars->bass;
-}
-
-void	audio_play(t_vars* vars)
-{
-	pid_t	pid;
-	int		status;
-    char cmd[256];
+	pid_t pid;
+	int status;
+	char cmd[256];
 
 	status = 0;
 	pid = fork();
@@ -80,10 +45,61 @@ void	audio_play(t_vars* vars)
 
 void	audio_stop(t_vars *vars)
 {
-    if (vars->audio_pid > 0)
+	if (vars->audio_pid > 0)
 	{
-        kill(-vars->audio_pid, SIGKILL);
-        waitpid(vars->audio_pid, NULL, 0);
-        vars->audio_pid = 0;
+		kill(-vars->audio_pid, SIGKILL);
+		waitpid(vars->audio_pid, NULL, 0);
+		vars->audio_pid = 0;
+	}
+}
+
+void	draw_next_back_audio(t_vars *vars)
+{
+	mlx_string_put(vars->mlx, vars->win, 82, 82, 0x000000, "Back");
+	mlx_string_put(vars->mlx, vars->win, 80, 80, vars->selectAB, "Back");
+	mlx_string_put(vars->mlx, vars->win, 132, 82, 0x000000, "Next");
+	mlx_string_put(vars->mlx, vars->win, 130, 80, vars->selectAP, "Next");
+}
+
+void switch_track(t_vars *vars, int new_index)
+{
+    audio_stop(vars);
+
+    if (vars->snd)
+    {
+        sf_close(vars->snd);
+        vars->snd = NULL;
     }
+
+    int count = 0;
+    while (vars->playlist[count])
+        count++;
+    if (count == 0) return;
+
+    if (new_index < 0)
+        new_index = count - 1;
+    else if (new_index >= count)
+        new_index = 0;
+
+    vars->index_audio = new_index;
+
+    audio_play(vars);
+	if (vars->fft_plan)
+		fftw_destroy_plan(vars->fft_plan);
+	if (vars->fft_in)
+		fftw_free(vars->fft_in);
+	if (vars->fft_out)
+		fftw_free(vars->fft_out);
+	// fftw_cleanup();
+    init_analyse_audio(vars);
+}
+
+void	audio_next(t_vars *vars)
+{
+    switch_track(vars, vars->index_audio + 1);
+}
+
+void	audio_back(t_vars *vars)
+{
+    switch_track(vars, vars->index_audio - 1);
 }

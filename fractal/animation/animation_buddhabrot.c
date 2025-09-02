@@ -20,6 +20,7 @@ int	loop_hook_buddhabrot_thread(void *arg)
     buddhabrot_colored_thread_animation(vars);
 	back(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+    draw_next_back_audio(vars);
     usleep(1000);
 
     return 0;

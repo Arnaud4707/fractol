@@ -101,6 +101,7 @@ int	zoom(int button, int x, int y, t_vars *vars)
 	p.x = x;
 	p.y = y;
 	p.z = button;
+	click_next_back_audio(vars, &p);
 	display_fractal(vars, tmpx, tmpy, &p);
 	return (0);
 }
@@ -207,6 +208,7 @@ int	event_button(int x, int y, t_vars *vars)
 		vars->color_start = 0x00FF0000;
 	else if (vars->f == -1)
 		vars->color_start = 0xFFFFFFFF;
+	button_next_back_audio(x, y, vars);
 	if (vars->f != -1 && (y >= vars->hauteur - 80 && y <= vars->hauteur - 50)
 		&& (x >= vars->largeur - 80 && x <= vars->largeur - 35))
 	{

@@ -13,69 +13,6 @@
 #include "mlx/mlx.h"
 #include "include/header.h"
 
-void	drow_fractal(t_vars* vars)
-{
-	if (vars->f > 0 && vars->need_drow)
-	{
-		if (vars->f == 1)
-			fractal(vars, calcule_m);
-		else if (vars->f == 2 || vars->f == 3)
-			fractal(vars, calcule_j);
-		else if (vars->f == 4)
-			fractal(vars, calcule_b);
-		else if (vars->f == 7)
-			buddhabrot_thread(vars);
-		else if (vars->f == 9)
-			buddhabrot_colored_thread(vars);
-		else if (vars->f == 5)
-			calcule_dragon(vars);
-		else if (vars->f == 12)
-			drawMenger2D(vars, vars->max_iteration);
-	}
-}
-
-int	loop_hook_master(void* arg)
-{
-	t_vars *vars = (t_vars *)arg;
-
-	if (vars->play_audio == 0)
-	{
-		vars->play_audio = 1;
-		audio_play(vars);
-	}
-	analyse_audio(vars);
-    if (vars->f == -1)
-	{
-        intro(vars);
-	}
-    else if (vars->f == -2)
-	{
-        menu(vars);
-	}
-	drow_fractal(vars);
-	// if (vars->f != -1 && vars->f != -2)
-	// {
-	// 	draw_wave(vars);
-	// 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-	// 	usleep(20000);
-	// }
-	if (vars->f == 11)
-		loop_hook_buddhabrot_thread(vars);
-	else if (vars->f == 10)
-		loop_hook_mandelbrot_pussance_n(vars);
-	else if (vars->f == 8)
-		loop_hook_zoom_mandelbrot(vars);
-	else if (vars->f == 6)
-		loop_hook_buddhabrot_thread_2(vars);
-	if (vars->need_drow && vars->f != 8 && vars->f != 10 && vars->f != -1 && vars->f != -2)
-	{
-		back(vars);
-		vars->need_drow = 0;
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-	}
-    return 0;
-}
-
 void	menu(t_vars *vars)
 {
 	background_menu(vars);
@@ -83,6 +20,7 @@ void	menu(t_vars *vars)
 	loop_hook_cube(vars);
 	back(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	draw_next_back_audio(vars);
 	option(vars);
     usleep(20000);
 }
@@ -101,7 +39,6 @@ void	background_menu(t_vars* vars)
 			my_mlx_pixel_put(vars->img, x, y, bg_color);
 		}
 	}
-
 	return ;
 }
 

@@ -39,6 +39,7 @@ int	loop_hook_zoom_mandelbrot(t_vars* vars)
     fractal(vars, calcule_m);
 	back(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+    draw_next_back_audio(vars);
 	usleep(33000);
 	vars->step++;
 	return (0);

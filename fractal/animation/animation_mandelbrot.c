@@ -79,5 +79,6 @@ int loop_hook_mandelbrot_pussance_n(t_vars *vars)
     fractal_power(vars, power);
 	back(vars);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+    draw_next_back_audio(vars);
     return (0);
 }
