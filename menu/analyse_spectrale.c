@@ -63,6 +63,6 @@ void	init_analyse_audio(t_vars* vars)
 
     vars->audio_buf = malloc(vars->buffer_size * vars->sfinfo.channels * sizeof(short));
     vars->fft_in = fftw_malloc(sizeof(double) * vars->buffer_size);
-    vars->fft_out = fftw_malloc(sizeof(fftw_complex) * (vars->buffer_size/2+1));
+    vars->fft_out = fftw_malloc(sizeof(fftw_complex) * (vars->buffer_size/(1 + 1) + 1));
     vars->fft_plan = fftw_plan_dft_r2c_1d(vars->buffer_size, vars->fft_in, vars->fft_out, FFTW_ESTIMATE);
 }

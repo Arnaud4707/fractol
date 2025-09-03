@@ -41,7 +41,7 @@ int edges[12][2] = {
 int loop_hook_cube(t_vars *vars)
 {
     static double ax = 0, ay = 0, az = 0;
-    double speed_base = 0.02;
+    double speed_base = 0.0175;
 
     double speed_x = speed_base + vars->bass   * 0.02;
     double speed_y = speed_base + vars->mid    * 0.03;
@@ -110,7 +110,7 @@ void	draw_cube(t_vars *vars, double ax, double ay, double az)
 {
     t_point2D proj[8];
 
-    double scale = 0.80 + 0.70 * vars->bass;
+    double scale = 0.75 + 0.75 * vars->bass;
 
     for (int i = 0; i < 8; i++)
     {
@@ -122,9 +122,9 @@ void	draw_cube(t_vars *vars, double ax, double ay, double az)
         proj[i] = project_point(p, vars->largeur, vars->hauteur, 300);
     }
 
-    double hue   = fmod(vars->mid * 220.0, 60.0);
-    double sat   = 0.5 + 0.5 * vars->treble;
-    double light = 0.5 + 0.5 * vars->bass;
+    double hue   = fmod(vars->mid * 520.0, 360.0);
+    double sat   = 0.4 + 0.35 * vars->treble;
+	double light = 0.4 + 0.2 * vars->bass;
 
     t_rgb col = hsl_to_rgb2(hue, sat, light);
     int line_color = (col.r << 16) | (col.g << 8) | col.b;
@@ -132,6 +132,6 @@ void	draw_cube(t_vars *vars, double ax, double ay, double az)
     {
         int a = edges[i][0];
         int b = edges[i][1];
-        draw_line(vars, proj[a].x, proj[a].y, proj[b].x, proj[b].y, line_color);
+        draw_line(vars, proj[a].x, proj[a].y, proj[b].x, proj[b].y, (2147483647 - line_color));
     }
 }

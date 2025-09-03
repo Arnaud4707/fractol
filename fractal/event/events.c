@@ -17,11 +17,14 @@ int	closey(t_vars *vars)
 {
 	if (vars->img && vars->img->img)
 		mlx_destroy_image(vars->mlx, vars->img->img);
+	if (vars->img_police && vars->img_police->img)
+		mlx_destroy_image(vars->mlx, vars->img_police->img);
 	if (vars->win)
 		mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	free(vars->img);
+	free(vars->img_police);
 	free(vars->palette);
 	audio_stop(vars);
 	exit(0);
@@ -53,7 +56,7 @@ void	display_fractal(t_vars* vars, double tmpx, double tmpy, t_point3D* p)
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 190 && p->y <= 202))
 		vars_set_burning_ship(vars);
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 240 && p->y <= 252))
-		vars_set_spondMenger(vars, "1");
+		vars_set_spondMenger(vars, "3");
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 290 && p->y <= 302))
 		vars_set_dragon(vars);
 	else if (vars->f == -2 && p->z == 1 && (p->y >= 340 && p->y <= 352))
@@ -205,9 +208,10 @@ void	selectt(int y, t_vars* vars)
 int	event_button(int x, int y, t_vars *vars)
 {
 	if (vars->f == -1 && x > 279 && x < 521 && y > 369 && y < 431)
-		vars->color_start = 0x00FF0000;
+		// vars->color_start = 0xBEF2F7;
+		vars->color_start = 0xD646FA;
 	else if (vars->f == -1)
-		vars->color_start = 0xFFFFFFFF;
+		vars->color_start = 0xFA9B46;
 	button_next_back_audio(x, y, vars);
 	if (vars->f != -1 && (y >= vars->hauteur - 80 && y <= vars->hauteur - 50)
 		&& (x >= vars->largeur - 80 && x <= vars->largeur - 35))

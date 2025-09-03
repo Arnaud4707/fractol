@@ -68,6 +68,10 @@ OBJ_MENU =  $(addprefix $(OBJ_DIR), $(MENU:.c=.o))
 
 all: $(NAME)
 
+# lib:
+# 	cd fftW-3.3.4
+# 	./conf
+
 # ----- Compiling Programme ----
 
 $(NAME): $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)

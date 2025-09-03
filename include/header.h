@@ -107,6 +107,9 @@ typedef struct s_vars {
 	int		selectMZ;
 	int		selectAB;
 	int		selectAP;
+	t_data*	img_police;
+	int		img_police_w;
+	int		img_police_h;
 	double 	zoomm;
 	double	offsetX;
 	double 	offsetY;
@@ -226,6 +229,7 @@ void	intro(t_vars* vars);
 int		move(int x, int y, t_vars *vars);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	option(t_vars* vars);
+void	overlay_image(t_vars *vars, t_data *dst, t_data *src, int pos_x, int pos_y);
 void	palette_color(int keycode, t_vars *vars);
 int 	palette_fire(double t);
 int 	palette_linear(double norm);
@@ -246,7 +250,6 @@ void	prepare_color_buddhabrot_thread(t_vars* vars, int *accumR_global, int *accu
 void	prepare_color_buddhabrot(t_vars* vars, int x, int y, double norm);
 void	rotate_image_90_clockwise(t_vars *vars);
 void	set_color(int keycode, t_vars *vars);
-void	update_cube_rotation(t_vars *vars);
 int		vars_set_burning_ship(t_vars *vars);
 int		vars_set_Buddhabrot(t_vars *vars);
 int		vars_set_BuddhabrotA(t_vars *vars);

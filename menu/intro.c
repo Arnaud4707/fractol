@@ -44,8 +44,9 @@ void	intro(t_vars* vars)
 	background_intro(vars);
 	draw_wave(vars);
 	loop_hook_cube(vars);
-	button_start(vars);
-	letter_s(vars);
+	// button_start(vars);
+	// letter_s(vars);
+	overlay_image(vars, vars->img, vars->img_police, 280, 355);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	draw_next_back_audio(vars);
     usleep(20000);
@@ -105,3 +106,34 @@ void	button_start(t_vars* vars)
 		}
 	}
 }
+
+void	overlay_image(t_vars *vars, t_data *dst, t_data *src, int pos_x, int pos_y)
+{
+    int x, y;
+    int src_color;
+	int	test = 5000;
+    for (y = 0; y < vars->img_police_h; y++)
+    {
+        for (x = 0; x < vars->img_police_w; x++)
+        {
+            char *src_pixel = src->addr + (y * src->line_length + x * (src->bits_per_pixel / 8));
+            src_color = *(int *)src_pixel;
+
+            if (src_color != 0xFFFFFF)
+            {
+                int dst_x = pos_x + x;
+                int dst_y = pos_y + y;
+
+                if (dst_x >= 0 && dst_x < vars->largeur &&
+                    dst_y >= 0 && dst_y < vars->hauteur)
+                {
+                    char *dst_pixel = dst->addr + (dst_y * dst->line_length + dst_x * (dst->bits_per_pixel / 8));
+                    *(int *)dst_pixel = vars->color_start + test;
+					test += 10;
+                }
+            }
+        }
+    }
+	// printf("%d\n", test);
+}
+

@@ -249,7 +249,7 @@ int	vars_set_Intro(t_vars *vars)
 	vars->ymin = -2;
 	vars->ymax = 2;
 	vars->f = -1;
-	vars->color_start = 0xFFFFFFFF;
+	vars->color_start = 0xFA9B46;
 	vars->selectAB = 0xFFFFFFFF;
 	vars->selectAP = 0xFFFFFFFF;
 	vars->play = 1;

@@ -32,6 +32,19 @@ int init_img(t_vars* vars)
 	vars->img->addr = mlx_get_data_addr(vars->img->img,
 			&vars->img->bits_per_pixel, &vars->img->line_length,
 			&vars->img->endian);
+	
+	vars->img_police = malloc(sizeof(t_data));
+	if (!vars->img_police)
+		return (-1);
+	vars->img_police->img = mlx_xpm_file_to_image(vars->mlx, "police/start_classe.xpm", &vars->img_police_w, &vars->img_police_h);
+	if (!vars->img_police->img)
+	{
+		fprintf(stderr, "Erreur : impossible de charger start_rouge.xpm\n");
+		return(-1);
+	}
+	vars->img_police->addr = mlx_get_data_addr(vars->img_police->img,
+			&vars->img_police->bits_per_pixel, &vars->img_police->line_length,
+			&vars->img_police->endian);
 	return (0);
 }
 
@@ -42,13 +55,13 @@ void	init_audio(t_vars* vars)
     vars->play_audio = 0;
     vars->audio_loop = 1;
     vars->index_audio = 0;
-    vars->playlist[0] = "audio/Designer--Timmy-Turner.wav";
-    vars->playlist[1] = "audio/Designer--Timmy-Turner2.wav";
-    vars->playlist[2] = "audio/T-I--About-The-Money.wav";
+    vars->playlist[0] = "audio/Meek-Mill--Rico.wav";
+    vars->playlist[1] = "audio/cardib.wav";
+    vars->playlist[2] = "audio/Drake--The-Motto.wav";
     vars->playlist[3] = "audio/Stainless.wav";
-    vars->playlist[4] = "audio/Drake--The-Motto.wav";
-    vars->playlist[5] = "audio/cardib.wav";
-    vars->playlist[6] = "audio/Meek-Mill--Rico.wav";
+    vars->playlist[4] = "audio/Designer--Timmy-Turner.wav";
+    vars->playlist[5] = "audio/T-I--About-The-Money.wav";
+    vars->playlist[6] = "audio/Designer--Timmy-Turner2.wav";
     vars->playlist[7] = "audio/Fetty-Wap--679.wav";
     vars->playlist[8] = "audio/Bryson-Tiller--Dont.wav";
     vars->playlist[9] = "audio/Jay-Z--Kanye-West--No-Church-In-The-Wild.wav";
@@ -95,6 +108,8 @@ int	main(int arg, char **argv, char**env)
 	event(&vars);
 	vars.env = env;
 	init_audio(&vars);
+
+	// mlx_put_image_to_window(vars.mlx, vars.win, vars.img_police->img, 100, 100);
 	mlx_loop_hook(vars.mlx, loop_hook_master, &vars);
 	mlx_loop(vars.mlx);
 	return (0);

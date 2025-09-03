@@ -53,12 +53,23 @@ void	audio_stop(t_vars *vars)
 	}
 }
 
+void 	vire_point(char* s)
+{
+
+}
+
 void	draw_next_back_audio(t_vars *vars)
 {
+	char *audio;
 	mlx_string_put(vars->mlx, vars->win, 82, 82, 0x000000, "Back");
 	mlx_string_put(vars->mlx, vars->win, 80, 80, vars->selectAB, "Back");
 	mlx_string_put(vars->mlx, vars->win, 132, 82, 0x000000, "Next");
 	mlx_string_put(vars->mlx, vars->win, 130, 80, vars->selectAP, "Next");
+	audio = ft_strchr(vars->playlist[vars->index_audio], '/');
+	audio++;
+	ft_
+	mlx_string_put(vars->mlx, vars->win, 102, 57, 0x000000, audio);
+	mlx_string_put(vars->mlx, vars->win, 100, 55, vars->selectAP, audio);
 }
 
 void switch_track(t_vars *vars, int new_index)
