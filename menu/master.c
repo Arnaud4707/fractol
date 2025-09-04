@@ -34,10 +34,9 @@ void	drow_fractal(t_vars* vars)
 	}
 }
 
-int	loop_hook_master(void* arg)
-{
-	t_vars *vars = (t_vars *)arg;
 
+void	app(t_vars* vars)
+{
 	if (vars->play_audio == 0)
 	{
 		vars->play_audio = 1;
@@ -68,5 +67,31 @@ int	loop_hook_master(void* arg)
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 		draw_next_back_audio(vars);
 	}
+}
+
+void	on(t_vars* vars)
+{
+	for (int y = 0; y <= vars->hauteur; y++)
+	{
+		for (int x = 0; x <= vars->largeur; x++)
+		{
+			if ((y >= 265 && y <= 535) && (x >= 310 && x <= 575))
+				my_mlx_pixel_put(vars->img, x, y, vars->color_on);
+		}
+	}
+	overlay_image_on(vars, vars->img, vars->img_on, 280, 255);
+    mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+    usleep(60000);
+}
+
+int	loop_hook_master(void* arg)
+{
+	t_vars *vars = (t_vars *)arg;
+
+	if (vars->f == -3)
+		on(vars);
+	else
+		app(vars);
     return 0;
 }
+

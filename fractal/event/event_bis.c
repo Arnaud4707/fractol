@@ -51,6 +51,20 @@ void	click_next_back_audio(t_vars* vars, t_point3D* p)
 		audio_next(vars);
 }
 
+void	click_on(t_vars* vars, t_point3D* p)
+{
+	if (vars->f == -3 && p->z == 1 && ((p->y >= 265 && p->y <= 535) && (p->x >= 310 && p->x <= 575)))
+		vars_set_Intro(vars);
+}
+
+void	button_on(int x, int y, t_vars *vars)
+{
+	if (vars->f == -3 && x  >= 310 && x <= 575 && y >= 265 && y <= 535)
+		vars->color_on = 0x9C27F5;
+	else if (vars->f == -3)
+		vars->color_on = 0x000000;
+}
+
 void	fractal_simple(int keycode, t_vars *vars)
 {
 	if (keycode == 65361 || keycode == 65363

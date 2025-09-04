@@ -238,9 +238,9 @@ int	vars_set_Buddhabrot(t_vars *vars)
 	return (0);
 }
 
-int	vars_set_Intro(t_vars *vars)
+int	vars_set_On(t_vars *vars)
 {
-	vars->name = "Fractal Menu";
+	vars->name = "Fractal";
 	vars->max_iteration = 100;
 	vars->largeur = 800;
 	vars->hauteur = 800;
@@ -248,9 +248,11 @@ int	vars_set_Intro(t_vars *vars)
 	vars->xmax = 2;
 	vars->ymin = -2;
 	vars->ymax = 2;
-	vars->f = -1;
+	vars->f = -3;
+	vars->color_on = 0x000000;
 	vars->color_start = 0xFA9B46;
 	vars->selectAB = 0xFFFFFFFF;
+	vars->selectAP = 0xFFFFFFFF;
 	vars->selectAP = 0xFFFFFFFF;
 	vars->play = 1;
 	vars->key = 32;
@@ -264,6 +266,36 @@ int	vars_set_Intro(t_vars *vars)
 	vars->zi = 0;
 	return (0);
 }
+
+int	vars_set_Intro(t_vars *vars)
+{
+	vars->name = "Fractal Menu";
+	vars->max_iteration = 100;
+	vars->largeur = 800;
+	vars->hauteur = 800;
+	vars->xmin = -2;
+	vars->xmax = 2;
+	vars->ymin = -2;
+	vars->ymax = 2;
+	vars->f = -1;
+	vars->paused = 0;
+	vars->color_start = 0xFA9B46;
+	vars->selectAB = 0xFFFFFFFF;
+	vars->selectAP = 0xFFFFFFFF;
+	vars->selectAPP = 0xFFFFFFFF;
+	vars->play = 1;
+	vars->key = 32;
+	vars->current_key = 0;
+	vars->zoom_i = 0;
+	vars->need_drow = 0;
+	vars->palette = NULL;
+	vars->cr = 0;
+	vars->ci = 0;
+	vars->zr = 0;
+	vars->zi = 0;
+	return (0);
+}
+
 int	vars_set_Menu(t_vars *vars)
 {
 	vars->name = "Fractal Menu";

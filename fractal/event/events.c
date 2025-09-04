@@ -19,14 +19,28 @@ int	closey(t_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->img->img);
 	if (vars->img_police && vars->img_police->img)
 		mlx_destroy_image(vars->mlx, vars->img_police->img);
+	if (vars->img_on && vars->img_on->img)
+		mlx_destroy_image(vars->mlx, vars->img_on->img);
 	if (vars->win)
 		mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	free(vars->img);
 	free(vars->img_police);
+	free(vars->img_on);
 	free(vars->palette);
 	audio_stop(vars);
+	if (vars->snd)
+		sf_close(vars->snd);
+	if (vars->fft_plan)
+		fftw_destroy_plan(vars->fft_plan);
+	if (vars->fft_in)
+		fftw_free(vars->fft_in);
+	if (vars->fft_out) 
+		fftw_free(vars->fft_out);
+	if (vars->audio_buf)
+		free(vars->audio_buf);
+	fftw_cleanup();
 	exit(0);
 	return (0);
 }
@@ -106,6 +120,7 @@ int	zoom(int button, int x, int y, t_vars *vars)
 	p.z = button;
 	click_next_back_audio(vars, &p);
 	display_fractal(vars, tmpx, tmpy, &p);
+	click_on(vars, &p);
 	return (0);
 }
 
@@ -212,6 +227,7 @@ int	event_button(int x, int y, t_vars *vars)
 		vars->color_start = 0xD646FA;
 	else if (vars->f == -1)
 		vars->color_start = 0xFA9B46;
+	button_on(x, y, vars);
 	button_next_back_audio(x, y, vars);
 	if (vars->f != -1 && (y >= vars->hauteur - 80 && y <= vars->hauteur - 50)
 		&& (x >= vars->largeur - 80 && x <= vars->largeur - 35))

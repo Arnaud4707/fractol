@@ -53,23 +53,34 @@ void	audio_stop(t_vars *vars)
 	}
 }
 
-void 	vire_point(char* s)
+void 	vire_point(char* m, char* s)
 {
+	int i;
 
+	i = 0;
+	while (s[i] && s[i] != '.')
+	{
+		m[i] = s[i];
+		i++;
+	}
+	m[i] = '\0';
 }
 
 void	draw_next_back_audio(t_vars *vars)
 {
 	char *audio;
+	char muic[126];
 	mlx_string_put(vars->mlx, vars->win, 82, 82, 0x000000, "Back");
 	mlx_string_put(vars->mlx, vars->win, 80, 80, vars->selectAB, "Back");
 	mlx_string_put(vars->mlx, vars->win, 132, 82, 0x000000, "Next");
 	mlx_string_put(vars->mlx, vars->win, 130, 80, vars->selectAP, "Next");
+	mlx_string_put(vars->mlx, vars->win, 82, 107, 0x000000, "Paused");
+	mlx_string_put(vars->mlx, vars->win, 80, 105, vars->selectAPP, "Paused");
 	audio = ft_strchr(vars->playlist[vars->index_audio], '/');
 	audio++;
-	ft_
-	mlx_string_put(vars->mlx, vars->win, 102, 57, 0x000000, audio);
-	mlx_string_put(vars->mlx, vars->win, 100, 55, vars->selectAP, audio);
+	vire_point(muic, audio);
+	mlx_string_put(vars->mlx, vars->win, 82, 57, 0x000000, muic);
+	mlx_string_put(vars->mlx, vars->win, 80, 55, 0xFFFFFF, muic);
 }
 
 void switch_track(t_vars *vars, int new_index)
@@ -114,3 +125,21 @@ void	audio_back(t_vars *vars)
 {
     switch_track(vars, vars->index_audio - 1);
 }
+
+void	audio_pause(t_vars *vars)
+{
+    if (vars->audio_pid > 0)
+    {
+        if (vars->paused == 0)
+        {
+            kill(-vars->audio_pid, SIGSTOP);
+            vars->paused = 1;
+        }
+        else
+        {
+            kill(-vars->audio_pid, SIGCONT);
+            vars->paused = 0;
+        }
+    }
+}
+

@@ -37,6 +37,7 @@
 #include "../libft/libft.h"
 
 #define THREADS 20
+#define EPS 1e-12
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 typedef struct s_data {
@@ -81,6 +82,7 @@ typedef struct s_vars {
 	int		step;
 	int		need_drow;
 	int		play_audio;
+	int		paused;
 	char 	*playlist[1024];
 	int		index_audio;
 	int		audio_loop;
@@ -107,9 +109,14 @@ typedef struct s_vars {
 	int		selectMZ;
 	int		selectAB;
 	int		selectAP;
+	int		selectAPP;
 	t_data*	img_police;
 	int		img_police_w;
 	int		img_police_h;
+	t_data* img_on;
+	int		img_on_w;
+	int		img_on_h;
+	int		color_on;
 	double 	zoomm;
 	double	offsetX;
 	double 	offsetY;
@@ -178,6 +185,7 @@ void	buddhabrot_colored_thread_animation_2(t_vars *vars);
 void	buddhabrot_colored_p(t_vars *vars);
 void	*buddhabrot_colored_worker_animation(void *arg);
 void	button_next_back_audio(int x, int y, t_vars* vars);
+void	button_on(int x, int y, t_vars *vars);
 void	button_start(t_vars* vars);
 void	calcule_dragon(t_vars *vars);
 void	calcule_b(t_vars *vars, int x, int y);
@@ -186,6 +194,7 @@ void	calcule_j(t_vars *vars, int x, int y);
 int		check_arg(int arg, char **argv, t_vars *vars);
 int		check_arg_julia(char *src, int c, t_vars *vars);
 int		ckeck(char *s, int l);
+void	click_on(t_vars* vars, t_point3D* p);
 void	click_next_back_audio(t_vars* vars, t_point3D* p);
 int		closey(t_vars *vars);
 void	colord_Buddhabrot(t_vars* vars, int x, int y);
@@ -229,7 +238,8 @@ void	intro(t_vars* vars);
 int		move(int x, int y, t_vars *vars);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	option(t_vars* vars);
-void	overlay_image(t_vars *vars, t_data *dst, t_data *src, int pos_x, int pos_y);
+void	overlay_image_on(t_vars *vars, t_data *dst, t_data *src, int pos_x, int pos_y);
+void	overlay_image_start(t_vars *vars, t_data *dst, t_data *src, int pos_x, int pos_y);
 void	palette_color(int keycode, t_vars *vars);
 int 	palette_fire(double t);
 int 	palette_linear(double norm);
@@ -254,6 +264,7 @@ int		vars_set_burning_ship(t_vars *vars);
 int		vars_set_Buddhabrot(t_vars *vars);
 int		vars_set_BuddhabrotA(t_vars *vars);
 int		vars_set_Buddhabrot2(t_vars *vars);
+int		vars_set_buddhabrot_animation_2(t_vars *vars);
 int		vars_set_dragon(t_vars *vars);
 int		vars_set_Intro(t_vars *vars);
 int		vars_set_julia(t_vars *vars);
@@ -261,8 +272,8 @@ int		vars_set_julia_move(t_vars *vars);
 int		vars_set_mandelbrot_zoom(t_vars *vars);
 int		vars_set_mandelbrot(t_vars *vars);
 int		vars_set_Menu(t_vars *vars);
-int		vars_set_buddhabrot_animation_2(t_vars *vars);
 int		vars_set_MandelbrotA(t_vars *vars, char *pmin, char* pmax);
+int		vars_set_On(t_vars *vars);
 int		vars_set_spondMenger(t_vars *vars, char *i);
 void	vertical(int keycode, t_vars *vars);
 int		zoom(int button, int x, int y, t_vars *vars);
