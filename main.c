@@ -58,6 +58,19 @@ int init_img(t_vars* vars)
 	vars->img_on->addr = mlx_get_data_addr(vars->img_on->img,
 			&vars->img_on->bits_per_pixel, &vars->img_on->line_length,
 			&vars->img_on->endian);
+
+	vars->img_cadre = malloc(sizeof(t_data));
+	if (!vars->img_cadre)
+		return (-1);
+	vars->img_cadre->img = mlx_xpm_file_to_image(vars->mlx, "police/cadre_red_3.xpm", &vars->img_cadre_w, &vars->img_cadre_h);
+	if (!vars->img_cadre->img)
+	{
+		fprintf(stderr, "Erreur : impossible de charger cadre_red.xpm\n");
+		return(-1);
+	}
+	vars->img_cadre->addr = mlx_get_data_addr(vars->img_cadre->img,
+			&vars->img_cadre->bits_per_pixel, &vars->img_cadre->line_length,
+			&vars->img_cadre->endian);
 	return (0);
 }
 
@@ -68,8 +81,8 @@ void	init_audio(t_vars* vars)
     vars->play_audio = 0;
     vars->audio_loop = 1;
     vars->index_audio = 0;
-    vars->playlist[0] = "audio/cardib.wav";
-    vars->playlist[1] = "audio/Meek-Mill--Rico.wav";
+    vars->playlist[0] = "audio/Meek-Mill--Rico.wav";
+    vars->playlist[1] = "audio/Cardib.wav";
     vars->playlist[2] = "audio/Drake--The-Motto.wav";
     vars->playlist[3] = "audio/Stainless.wav";
     vars->playlist[4] = "audio/Designer--Timmy-Turner.wav";

@@ -21,6 +21,8 @@ int	closey(t_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->img_police->img);
 	if (vars->img_on && vars->img_on->img)
 		mlx_destroy_image(vars->mlx, vars->img_on->img);
+	if (vars->img_cadre && vars->img_cadre->img)
+		mlx_destroy_image(vars->mlx, vars->img_cadre->img);
 	if (vars->win)
 		mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
@@ -28,6 +30,7 @@ int	closey(t_vars *vars)
 	free(vars->img);
 	free(vars->img_police);
 	free(vars->img_on);
+	free(vars->img_cadre);
 	free(vars->palette);
 	audio_stop(vars);
 	if (vars->snd)

@@ -66,22 +66,27 @@ void 	vire_point(char* m, char* s)
 	m[i] = '\0';
 }
 
-void	draw_next_back_audio(t_vars *vars)
+void draw_next_back_audio(t_vars *vars)
 {
-	char *audio;
-	char muic[126];
-	mlx_string_put(vars->mlx, vars->win, 82, 82, 0x000000, "Back");
-	mlx_string_put(vars->mlx, vars->win, 80, 80, vars->selectAB, "Back");
-	mlx_string_put(vars->mlx, vars->win, 132, 82, 0x000000, "Next");
-	mlx_string_put(vars->mlx, vars->win, 130, 80, vars->selectAP, "Next");
-	mlx_string_put(vars->mlx, vars->win, 82, 107, 0x000000, "Paused");
-	mlx_string_put(vars->mlx, vars->win, 80, 105, vars->selectAPP, "Paused");
-	audio = ft_strchr(vars->playlist[vars->index_audio], '/');
-	audio++;
-	vire_point(muic, audio);
-	mlx_string_put(vars->mlx, vars->win, 82, 57, 0x000000, muic);
-	mlx_string_put(vars->mlx, vars->win, 80, 55, 0xFFFFFF, muic);
+    char*	audio;
+    char	muic[126];
+    char	display[16];
+
+    mlx_string_put(vars->mlx, vars->win, 82, 82, 0x000000, "Back");
+    mlx_string_put(vars->mlx, vars->win, 80, 80, vars->selectAB, "Back");
+    mlx_string_put(vars->mlx, vars->win, 132, 82, 0x000000, "Next");
+    mlx_string_put(vars->mlx, vars->win, 130, 80, vars->selectAP, "Next");
+    mlx_string_put(vars->mlx, vars->win, 82, 107, 0x000000, "Paused");
+    mlx_string_put(vars->mlx, vars->win, 80, 105, vars->selectAPP, "Paused");
+
+    audio = ft_strchr(vars->playlist[vars->index_audio], '/');
+    audio++;
+    vire_point(muic, audio);
+    get_scrolling_title(vars, display, muic);
+    mlx_string_put(vars->mlx, vars->win, 82, 57, 0x000000, display);
+    mlx_string_put(vars->mlx, vars->win, 80, 55, 0xFFFFFF, display);
 }
+
 
 void switch_track(t_vars *vars, int new_index)
 {
@@ -141,5 +146,36 @@ void	audio_pause(t_vars *vars)
             vars->paused = 0;
         }
     }
+}
+
+void	get_scrolling_title(t_vars *vars, char *dst, const char *src)
+{
+    int len = strlen(src);
+
+    if (len <= 15)
+    {
+        strncpy(dst, src, 15);
+        dst[len] = '\0';
+        return;
+    }
+
+    vars->title_tick++;
+    if (vars->title_tick > 10)
+    {
+        vars->title_tick = 0;
+        vars->title_offset++;
+        // if (vars->title_offset > len + 1)
+        //     vars->title_offset = 0;
+    }
+
+    for (int i = 0; i < 15; i++)
+    {
+        int pos = (vars->title_offset + i) % (len + 5); 
+        if (pos < len)
+            dst[i] = src[pos];
+        else
+            dst[i] = ' ';
+    }
+    dst[15] = '\0';
 }
 

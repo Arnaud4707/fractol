@@ -19,6 +19,15 @@ void	menu(t_vars *vars)
 	draw_wave(vars);
 	loop_hook_cube(vars);
 	back(vars);
+    for (int y = 0; y < vars->hauteur; y++)
+    {
+        for (int x = 0; x < vars->largeur; x++)
+        {
+            if (y >= 35 && y <= 125 && x >= 63 && x <= 188)
+                my_mlx_pixel_put(vars->img, x, y, 0x703005);
+        }
+    }
+    overlay_image_cadre(vars, vars->img, vars->img_cadre, 50, 20);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	draw_next_back_audio(vars);
 	option(vars);
