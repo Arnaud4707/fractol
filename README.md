@@ -58,12 +58,16 @@ sudo apt-get install build-essential libfftw3-dev libsndfile1-dev
 ## 🎮 Utilisation
 
 ### Lancer le programme
+```
   - ./prog <fractale> [paramètres]
+```
 
 ### Exemples
+```
   - ./prog Mandelbrot
   - ./prog Julia 0.285 0.01
   - ./prog Buddhabrot
+```
 
 ## 🎹 Contrôles
 
@@ -91,5 +95,5 @@ sudo apt-get install build-essential libfftw3-dev libsndfile1-dev
 
 ## 👤 Auteur
 
-Projet développé par [Arnaud Mugisha / Arnaud4707].
-Basé sur le projet fractol de l’école 42, enrichi avec audio, animations et menus.
+Projet développé par [**Arnaud Mugisha** / **Arnaud4707**].
+Basé sur le projet fractol de **l’école 42**, enrichi avec audio, animations et menus.
