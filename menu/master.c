@@ -49,7 +49,7 @@ void	app(t_vars* vars)
 	}
     else if (vars->f == -2)
 	{
-        menu(vars);
+		menu(vars);
 	}
 	drow_fractal(vars);
 	if (vars->f == 11)
@@ -94,4 +94,3 @@ int	loop_hook_master(void* arg)
 		app(vars);
     return 0;
 }
-

@@ -134,10 +134,6 @@ int	main(int arg, char **argv, char**env)
 	event(&vars);
 	vars.env = env;
 	init_audio(&vars);
-
-	// overlay_image(&vars, vars.img, vars.img_on, 280, 255);
-    // mlx_put_image_to_window(vars.mlx, vars.win, vars.img->img, 0, 0);
-	// mlx_put_image_to_window(vars.mlx, vars.win, vars.img_on->img, 0, 0);
 	mlx_loop_hook(vars.mlx, loop_hook_master, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
