@@ -33,6 +33,7 @@ Le tout est affiché avec **MiniLibX** (MLX).
 ## Apercu:
 
 ![Demo du projet](assets/mandelbrotAnimationZ.gif)
+![Demo du projet](assets/buddhabrot_red.gif)
 
 ---
 
