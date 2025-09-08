@@ -32,8 +32,13 @@ Le tout est affiché avec **MiniLibX** (MLX).
 ---
 ## Apercu:
 
+Mandelbrot Z puissance (n) + c
+
 ![Demo du projet](assets/mandelbrotAnimationZ.gif)
-![Demo du projet](assets/buddhabrot_red.gif)
+
+Buddhabrot Red
+
+![Demo du projet](assets/buddhabrot_red.png)
 
 ---
 
