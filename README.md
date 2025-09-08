@@ -30,6 +30,11 @@ Le tout est affiché avec **MiniLibX** (MLX).
 - 🖼️ **Menu visuel** : introduction, overlays et effets graphiques
 
 ---
+## Apercu:
+
+![Demo du projet](assets/mandelbrotAnimationZ.gif)
+
+---
 
 ## 🛠️ Installation
 
@@ -49,11 +54,15 @@ sudo apt-get install build-essential libfftw3-dev libsndfile1-dev
 ```
 
 ## Compilation
-- make
-- Nettoyer :
-    - make clean    # Supprimer les objets
-    - make fclean   # Nettoyer + supprimer binaire
-    - make re       # Recompiler proprement
+```
+make
+```
+## Nettoyer :
+```
+make clean    # Supprimer les objets
+make fclean   # Nettoyer + supprimer binaire
+make re       # Recompiler proprement
+```
 
 ## 🎮 Utilisation
 
@@ -71,15 +80,15 @@ sudo apt-get install build-essential libfftw3-dev libsndfile1-dev
 
 ## 🎹 Contrôles
 
-- Flèches : déplacer la fractale
+  - **Flèches** : déplacer la fractale
 
-- Molette souris : zoom avant/arrière
+  - **Molette souris** : zoom avant/arrière
 
-- R, G, B, Y, C, Espace : changer de palette
+  - **R, G, B, Y, C, Espace** : changer de palette
 
-- S / P : pause / reprise animation Julia
+  - **S / P** : pause / reprise animation Julia
 
-- Échap : quitter
+  - **Échap** : quitter
 
 ## 📂 Organisation du projet
 
@@ -97,3 +106,103 @@ sudo apt-get install build-essential libfftw3-dev libsndfile1-dev
 
 Projet développé par [**Arnaud Mugisha** / **Arnaud4707**].
 Basé sur le projet fractol de **l’école 42**, enrichi avec audio, animations et menus.
+
+
+## 🇬🇧 English Version
+## 🌌 Overview
+
+Fract'ol is an interactive application that combines:
+
+- **Fractals** (Mandelbrot, Julia, Buddhabrot, Burning Ship, Dragon, Menger Sponge, etc.)
+
+- **Dynamic animations**
+
+- **Audio visualization** synced with music
+
+It uses real-time multithreaded rendering and FFTW for audio spectral analysis.
+Graphics are rendered with MiniLibX (MLX).
+
+## ✨ Features
+
+  - 🔮 **Multiple fractals**: Mandelbrot, Julia, Burning Ship, Dragon, Menger Sponge, Buddhabrot…
+
+  - 🎶 **Audio analysis** (FFT): transforms sound into visual waves
+
+  - 🎨 **Dynamic colors**: switch palettes in real time
+
+  - 🖱️ **Real-time interaction**: zoom, move, rotate
+
+  - 🖼️ **Visual menu**: intro, overlays, wave animations
+
+
+## 🛠️ Installation
+### **Requirements**
+
+  - Linux (Ubuntu/Debian recommended)
+
+  - gcc, make
+
+### **Libraries**:
+
+  - MiniLibX (included in repo)
+
+  - libft (included in repo)
+
+  - FFTW3
+
+  - libsndfile
+
+### **Install dependencies**:
+```
+sudo apt-get install build-essential libfftw3-dev libsndfile1-dev
+```
+### **Build**
+```
+make
+```
+### Clean:
+```
+make clean    # Remove objects
+make fclean   # Clean + remove binary
+make re       # Rebuild
+```
+
+## 🎮 Usage
+### Run
+```
+./prog <fractal> [parameters]
+```
+### Examples
+```./prog Mandelbrot
+./prog Julia 0.285 0.01
+./prog Buddhabrot
+```
+
+## 🎹 Controls
+
+  - **Arrows**: move fractal
+
+  - **Mouse wheel**: zoom in/out
+
+  - **R, G, B, Y, C, Space**: change color palette
+
+  - **S / P**: pause / resume Julia animation
+
+  - **Escape**: quit
+
+## 📂 Project Structure
+
+  - fractal/ → fractals & animations
+
+  - menu/ → menu, intro, visual effects
+
+  - mlx/ → MiniLibX
+
+  - libft/ → utility functions
+
+  - Makefile → build system
+
+## 👤 Author
+
+Developed by [**Arnaud Mugisha** / **Arnaud4707**].
+Inspired by the fractol project from **42 school**, extended with audio, animations and interactive menus.
