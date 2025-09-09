@@ -23,7 +23,7 @@ void	menu(t_vars *vars)
     {
         for (int x = 0; x < vars->largeur; x++)
         {
-            if (y >= 35 && y <= 125 && x >= 63 && x <= 188)
+            if (y >= 25 && y <= 135 && x >= 50 && x <= 195)
                 my_mlx_pixel_put(vars->img, x, y, 0x703005);
         }
     }

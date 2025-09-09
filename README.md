@@ -32,14 +32,13 @@ Le tout est affiché avec **MiniLibX** (MLX).
 ---
 ## Apercu:
 
-Mandelbrot Z puissance (n) + c
+Button Start
 
-![Demo du projet](assets/mandelbrotAnimationZ.gif)
+![Demo button start](assets/presentation-courte_FuL6KYlu.gif)
 
-Buddhabrot Red
+Animation Mandelbrot Z puissance (n) + c
 
-![Demo du projet](assets/buddhabrot_red.png)
-
+![Demo animation](assets/mandelbrotAnimationZ.gif)
 ---
 
 ## 🛠️ Installation
@@ -140,7 +139,18 @@ Graphics are rendered with MiniLibX (MLX).
 
   - 🖼️ **Visual menu**: intro, overlays, wave animations
 
+---
+## Preview:
 
+Animation Julia with mouse
+
+![Demo Julia](assets/juliaMove.gif)
+
+Buddhabrot Red
+
+![Demo buddhabrot](assets/buddhabrot_red.png)
+
+---
 ## 🛠️ Installation
 ### **Requirements**
 

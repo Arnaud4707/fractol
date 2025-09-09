@@ -59,7 +59,7 @@ void	click_on(t_vars* vars, t_point3D* p)
 
 void	button_on(int x, int y, t_vars *vars)
 {
-	if (vars->f == -3 && x  >= 310 && x <= 575 && y >= 265 && y <= 535)
+	if (vars->f == -3 && x  >= 270 && x <= 535 && y >= 265 && y <= 535)
 		vars->color_on = 0x9C27F5;
 	else if (vars->f == -3)
 		vars->color_on = 0x000000;

@@ -75,11 +75,11 @@ void	on(t_vars* vars)
 	{
 		for (int x = 0; x <= vars->largeur; x++)
 		{
-			if ((y >= 265 && y <= 535) && (x >= 310 && x <= 575))
+			if ((y >= 265 && y <= 535) && (x >= 270 && x <= 535))
 				my_mlx_pixel_put(vars->img, x, y, vars->color_on);
 		}
 	}
-	overlay_image_on(vars, vars->img, vars->img_on, 280, 255);
+	overlay_image_on(vars, vars->img, vars->img_on, 240, 255);
     mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
     usleep(60000);
 }
