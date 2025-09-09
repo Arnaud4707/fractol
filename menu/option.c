@@ -35,4 +35,6 @@ void	option(t_vars* vars)
 	mlx_string_put(vars->mlx, vars->win, 380, 500, vars->selectBA, "Buddhabrot Animation");
 	mlx_string_put(vars->mlx, vars->win, 382, 552, 0x000000, "Mandelbrot Zoom");
 	mlx_string_put(vars->mlx, vars->win, 380, 550, vars->selectMZ, "Mandelbrot Zoom");
+	mlx_string_put(vars->mlx, vars->win, 382, 552, 0x000000, "Buddhabrot Animation 2");
+	mlx_string_put(vars->mlx, vars->win, 380, 550, vars->selectMZ, "Buddhabrot Animation 2");
 }

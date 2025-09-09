@@ -32,11 +32,11 @@ Le tout est affiché avec **MiniLibX** (MLX).
 ---
 ## Apercu:
 
-Button Start
+Bouton Start
 
-![Demo button start](assets/presentation-courte_FuL6KYlu.gif)
+![Demo bouton start](assets/presentation-courte_FuL6KYlu.gif)
 
-Animation Mandelbrot Z puissance (n) + c
+Animation de Mandelbrot suivant la formule: **Z puissance (n) + c**
 
 ![Demo animation](assets/mandelbrotAnimationZ.gif)
 ---
@@ -49,8 +49,8 @@ Animation Mandelbrot Z puissance (n) + c
 - Bibliothèques :
   - **MiniLibX** (inclus dans le dépôt)
   - **libft** (inclus dans le dépôt)
-  - **FFTW3**
-  - **libsndfile**
+  - **FFTW3** (inclus dans le dépôt)
+  - **libsndfile** (inclus dans le dépôt)
 
 ### Installer les dépendances :
 ```
@@ -142,11 +142,11 @@ Graphics are rendered with MiniLibX (MLX).
 ---
 ## Preview:
 
-Animation Julia with mouse
+Julia animated with mouse
 
 ![Demo Julia](assets/juliaMove.gif)
 
-Buddhabrot Red
+Red Buddhabrot
 
 ![Demo buddhabrot](assets/buddhabrot_red.png)
 
@@ -164,9 +164,9 @@ Buddhabrot Red
 
   - libft (included in repo)
 
-  - FFTW3
+  - FFTW3 (included in repo)
 
-  - libsndfile
+  - libsndfile (included in repo)
 
 ### **Install dependencies**:
 ```
