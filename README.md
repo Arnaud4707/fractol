@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build](https://img.shields.io/badge/build-Makefile-red)](#-installation)
 
-> 🇫🇷 Version française ci-dessous — [🇬🇧 English version below.](#-english-version)
+> [🇫🇷 Version française ci-dessous](#-presentation) — [🇬🇧 English version below.](#-english-version)
 
 ---
 
@@ -151,7 +151,7 @@ Red Buddhabrot
 ![Demo buddhabrot](assets/buddhabrot_red.png)
 
 ---
-## 🛠️ Installation
+## 🛠️ Installations
 ### **Requirements**
 
   - Linux (Ubuntu/Debian recommended)
