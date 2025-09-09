@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build](https://img.shields.io/badge/build-Makefile-red)](#-installation)
 
-> 🇫🇷 Version française ci-dessous — 🇬🇧 English version below.
+> 🇫🇷 Version française ci-dessous — [🇬🇧 English version below.](#-english-version)
 
 ---
 
