@@ -3,7 +3,7 @@
 [![Made with C](https://img.shields.io/badge/Made%20with-C-blue.svg?style=flat&logo=c)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![MiniLibX](https://img.shields.io/badge/Graphics-MiniLibX-orange)](https://harm-smits.github.io/42docs/libs/minilibx)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Build](https://img.shields.io/badge/build-Makefile-red)](#installation-1)
+[![Build](https://img.shields.io/badge/build-Makefile-red)](#install-fr)
 
 > [🇫🇷 Version française ci-dessous](#-presentation) — [🇬🇧 English version below.](#-english-version)
 
@@ -41,7 +41,9 @@ Animation de Mandelbrot suivant la formule: **Z puissance (n) + c**
 ![Demo animation](assets/mandelbrotAnimationZ.gif)
 ---
 
+<a id="install-fr"></a>
 ## 🛠️ Installation
+
 
 ### Prérequis
 - Linux (Ubuntu/Debian conseillé)
@@ -151,6 +153,7 @@ Red Buddhabrot
 ![Demo buddhabrot](assets/buddhabrot_red.png)
 
 ---
+<a id="install-en"></a>
 ## 🛠️ Installation
 ### **Requirements**
 
