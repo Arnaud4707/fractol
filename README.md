@@ -80,6 +80,7 @@ make re       # Recompiler proprement
 
 ### Exemples
 ```
+  - ./prog
   - ./prog Mandelbrot
   - ./prog Julia 0.285 0.01
   - ./prog Buddhabrot
