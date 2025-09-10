@@ -54,13 +54,7 @@ Animation de Mandelbrot suivant la formule: **Z puissance (n) + c**
   - **FFTW3**
   - **libsndfile**
 
-### Installer les dépendances :
-```
-bash
-sudo apt-get install build-essential libfftw3-dev libsndfile1-dev
-```
-
-## Compilation
+### Installer les dépendances et Compilation :
 ```
 make
 ```
