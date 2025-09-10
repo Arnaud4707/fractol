@@ -54,7 +54,13 @@ Animation de Mandelbrot suivant la formule: **Z puissance (n) + c**
   - **FFTW3**
   - **libsndfile**
 
-### Installer les dépendances et Compilation :
+### Installer le projet :
+```
+bash
+git clone --recurse-submodules git@github.com:Arnaud4707/fractol.git
+```
+
+## Compilation
 ```
 make
 ```
@@ -166,9 +172,9 @@ Red Buddhabrot
 
   - libsndfile (included in repo)
 
-### **Install dependencies**:
+### **Install project**:
 ```
-sudo apt-get install build-essential libfftw3-dev libsndfile1-dev
+git clone --recurse-submodules git@github.com:Arnaud4707/fractol.git
 ```
 ### **Build**
 ```
