@@ -81,7 +81,7 @@ $(NAME): $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
 
 # ----- Linking libs -----------
 
-$(LIB_FRACTAL): $(OBJ) $(OBJ_MENU) $(OBJ_AUDIO)
+$(LIB_FRACTAL): make_fftw make_libsndfile $(OBJ) $(OBJ_MENU) $(OBJ_AUDIO)
 	@ar rcs $(LIB_FRACTAL) $(OBJ) $(OBJ_MENU) $(OBJ_AUDIO)
 
 $(LIBFT):
@@ -93,6 +93,22 @@ $(MLX):
 	@echo $(BRUN) "Making MiniLibX..." $(RESET)
 	@make -sC $(MLX_PATH)
 	@echo $(GREEN) "OK $(WHITE): Make MiniLibX" $(RESET)
+
+make_fftw:
+	@echo $(BRUN) "Configure FFTW3" $(RESET)
+	git clone git@github.com:FFTW/fftw3.git fftw3
+	fftW3/./configure --prefix=$HOME/.local --enable-shared
+	make -sC fftW3/
+	@echo $(GREEN) "OK $(WHITE): Make FFTW3" $(RESET)
+
+make_libsndfile:
+	@echo $(BRUN) "Making Libsndfile" $(RESET)
+	git clone git@github.com:libsndfile/libsndfile.git libsndfile
+	libsndfile/./configure --prefix=$HOME/.local
+	make -sC libsndfile/
+	export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
+	@echo $(GREEN) "OK $(WHITE): Make Libsndfile" $(RESET)
+	
 
 # ----- Create Object Files ----
 
