@@ -74,7 +74,7 @@ all: $(NAME)
 
 # ----- Compiling Programme ----
 
-$(NAME): $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
+$(NAME): lib_audio $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
 	@echo $(BRUN) "Compiling fractol..."
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ_MAIN) $(LIB_FRACTAL) $(LIBFT) -Lmlx -lmlx -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm -lz -o $(NAME)
 	@echo $(GREEN) "OK : Compile fractol" $(RESET)
@@ -115,6 +115,9 @@ $(OBJ_DIR)%.o: $(MENU_DIR)%.c
 $(OBJ_DIR)%.o: menu/audio.c
 	@printf "$(GREEN)Compiling menu 🏹: $(WHITE)$< $(RESET)\n"
 	@$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@	
+
+lib_audio:
+	./scrypt.sh
 
 # ----- Bonus ------------------
 
