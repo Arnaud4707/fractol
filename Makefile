@@ -74,7 +74,7 @@ all: $(NAME)
 
 # ----- Compiling Programme ----
 
-$(NAME): make_fftw make_libsndfile $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
+$(NAME): $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
 	@echo $(BRUN) "Compiling fractol..."
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ_MAIN) $(LIB_FRACTAL) $(LIBFT) -Lmlx -lmlx -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm -lz -o $(NAME)
 	@echo $(GREEN) "OK : Compile fractol" $(RESET)
@@ -82,6 +82,7 @@ $(NAME): make_fftw make_libsndfile $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
 # ----- Linking libs -----------
 
 $(LIB_FRACTAL): $(OBJ) $(OBJ_MENU) $(OBJ_AUDIO)
+	@mkdir -p $(dir $(LIB_FRACTAL_DIR))
 	@ar rcs $(LIB_FRACTAL) $(OBJ) $(OBJ_MENU) $(OBJ_AUDIO)
 
 $(LIBFT):
@@ -93,24 +94,6 @@ $(MLX):
 	@echo $(BRUN) "Making MiniLibX..." $(RESET)
 	@make -sC $(MLX_PATH)
 	@echo $(GREEN) "OK $(WHITE): Make MiniLibX" $(RESET)
-
-make_fftw:
-	@echo $(BRUN) "Configure FFTW3" $(RESET)
-	cd fftw3
-	./configure --prefix=$HOME/.local --enable-shared
-	make
-	cd ..
-	@echo $(GREEN) "OK $(WHITE): Make FFTW3" $(RESET)
-
-make_libsndfile:
-	@echo $(BRUN) "Making Libsndfile" $(RESET)
-	cd libsndfile
-	./configure --prefix=$HOME/.local
-	make
-	cd ..
-	export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
-	@echo $(GREEN) "OK $(WHITE): Make Libsndfile" $(RESET)
-	
 
 # ----- Create Object Files ----
 

@@ -1,0 +1,5 @@
+src/libcommon_la-windows.lo: src/windows.c /usr/include/stdc-predef.h \
+ src/sfconfig.h src/config.h
+/usr/include/stdc-predef.h:
+src/sfconfig.h:
+src/config.h:
