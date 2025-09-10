@@ -4,9 +4,3 @@
 [submodule "mlx"]
 	path = mlx
 	url = git@github.com:42paris/minilibx-linux.git
-[submodule "libsndfile"]
-	path = libsndfile
-	url = git@github.com:libsndfile/libsndfile.git
-[submodule "fftw3"]
-	path = fftw3
-	url = git@github.com:FFTW/fftw3.git

@@ -51,8 +51,8 @@ Animation de Mandelbrot suivant la formule: **Z puissance (n) + c**
 - Bibliothèques :
   - **MiniLibX** (inclus dans le dépôt)
   - **libft** (inclus dans le dépôt)
-  - **FFTW3** (inclus dans le dépôt)
-  - **libsndfile** (inclus dans le dépôt)
+  - **FFTW3**
+  - **libsndfile**
 
 ### Installer les dépendances :
 ```

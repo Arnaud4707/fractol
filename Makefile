@@ -74,14 +74,14 @@ all: $(NAME)
 
 # ----- Compiling Programme ----
 
-$(NAME): $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
+$(NAME): make_fftw make_libsndfile $(MLX) $(LIBFT) $(LIB_FRACTAL) $(OBJ_MAIN)
 	@echo $(BRUN) "Compiling fractol..."
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ_MAIN) $(LIB_FRACTAL) $(LIBFT) -Lmlx -lmlx -L/usr/lib/x86_64-linux-gnu -lXext -lX11 -lm -lz -o $(NAME)
 	@echo $(GREEN) "OK : Compile fractol" $(RESET)
 
 # ----- Linking libs -----------
 
-$(LIB_FRACTAL): make_fftw make_libsndfile $(OBJ) $(OBJ_MENU) $(OBJ_AUDIO)
+$(LIB_FRACTAL): $(OBJ) $(OBJ_MENU) $(OBJ_AUDIO)
 	@ar rcs $(LIB_FRACTAL) $(OBJ) $(OBJ_MENU) $(OBJ_AUDIO)
 
 $(LIBFT):
@@ -96,16 +96,18 @@ $(MLX):
 
 make_fftw:
 	@echo $(BRUN) "Configure FFTW3" $(RESET)
-	git clone git@github.com:FFTW/fftw3.git fftw3
-	fftW3/./configure --prefix=$HOME/.local --enable-shared
-	make -sC fftW3/
+	cd fftw3
+	./configure --prefix=$HOME/.local --enable-shared
+	make
+	cd ..
 	@echo $(GREEN) "OK $(WHITE): Make FFTW3" $(RESET)
 
 make_libsndfile:
 	@echo $(BRUN) "Making Libsndfile" $(RESET)
-	git clone git@github.com:libsndfile/libsndfile.git libsndfile
-	libsndfile/./configure --prefix=$HOME/.local
-	make -sC libsndfile/
+	cd libsndfile
+	./configure --prefix=$HOME/.local
+	make
+	cd ..
 	export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
 	@echo $(GREEN) "OK $(WHITE): Make Libsndfile" $(RESET)
 	
