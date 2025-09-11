@@ -56,11 +56,15 @@ Animation de Mandelbrot suivant la formule: **Z puissance (n) + c**
 
 ### Installer le projet :
 ```
-bash
 git clone --recurse-submodules git@github.com:Arnaud4707/fractol.git
 ```
 
-## Compilation
+## Installer les dépendances :
+```
+./scrypt.sh
+```
+
+## Compilation :
 ```
 make
 ```
@@ -162,7 +166,7 @@ Red Buddhabrot
 
   - gcc, make
 
-### **Libraries**:
+### Libraries:
 
   - MiniLibX (included in repo)
 
@@ -172,15 +176,20 @@ Red Buddhabrot
 
   - libsndfile (included in repo)
 
-### **Install project**:
+### Install project:
 ```
 git clone --recurse-submodules git@github.com:Arnaud4707/fractol.git
 ```
-### **Build**
+
+## Install dependances :
+```
+./scrypt.sh
+```
+### Build :
 ```
 make
 ```
-### Clean:
+### Clean :
 ```
 make clean    # Remove objects
 make fclean   # Clean + remove binary
@@ -193,7 +202,8 @@ make re       # Rebuild
 ./prog <fractal> [parameters]
 ```
 ### Examples
-```./prog Mandelbrot
+```
+./prog Mandelbrot
 ./prog Julia 0.285 0.01
 ./prog Buddhabrot
 ```
